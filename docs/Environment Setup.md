@@ -7,5 +7,6 @@ This document defines how to setup the initial environment for developing and do
 2. Install VSCode, and then install the following extensions in VSCode:
     - "Markdown All in One" By Yu Zhang
     - "Java" by Oracle Corporation
+    - "Maven for Java" by Microsoft
 3. Clone the project
    - git clone https://github.com/TeamBeeThere/BeeThere
