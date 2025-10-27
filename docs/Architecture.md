@@ -2,7 +2,6 @@
 ## Packages
 | Package | Dependencies|
 | - | - |
-| Main (Global) | None |
 | Model | None |
 | Controller | SpringBoot, Tomcat |
 | Service | None |
@@ -32,3 +31,6 @@
 | /reservation | POST | Create reservation from JSON, returns ID | 
 | /reservation/{ID} | PUT | Update reservation by ID |
 | /reservation/{ID} | DELETE | Delete reservation by ID | 
+
+## Config
+TODO
