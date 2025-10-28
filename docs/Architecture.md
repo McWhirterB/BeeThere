@@ -24,7 +24,7 @@
 | /rooms | GET | Returns a list of rooms |
 | /room/{ID} | GET | Get room details by ID |
 | /room | POST | Create a room from JSON, returns ID |
-| /room{ID} | PUT | Update room by ID |
+| /room/{ID} | PUT | Update room by ID |
 | /room/{ID} | DELETE | Delete room by ID |
 | /reservations | GET | Returns a list of reservations |
 | /reservation{ID} | GET | Get reservation details by ID |
