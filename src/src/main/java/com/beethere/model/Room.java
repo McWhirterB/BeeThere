@@ -23,8 +23,6 @@ package com.beethere.model;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.example.websecurity.XssSanitizer;
-import org.example.websecurity.XssSanitizerImpl;
 
 public class Room {
 
@@ -37,9 +35,6 @@ public class Room {
     private String roomNumber;
     private String type;
     private int seatCount;
-
-    private XssSanitizer mySanitizer;
-    
 
     public Room(int ID, String country, String city, String address, String roomNumber, String type, int seatCount) {
         setID(ID);
