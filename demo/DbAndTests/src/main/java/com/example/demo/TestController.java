@@ -11,15 +11,25 @@ import java.net.URI;
 @RestController
 @RequestMapping("/test")
 public class TestController {
-	@Autowired
 	private PersonRepository personRepository;
-	@Autowired
 	private RoomRepository roomRepository;
-	@Autowired
 	private ReservationRepository reservationRepository;
+	private AuthProxy authProxy;
+
+	public TestController(PersonRepository personRepository,
+												RoomRepository roomRepository,
+												ReservationRepository reservationRepository,
+												AuthProxy authProxy) {
+		this.personRepository = personRepository;
+		this.roomRepository = roomRepository;
+		this.reservationRepository = reservationRepository;	
+		this.authProxy = authProxy;
+	}
 	
 	@GetMapping("/")
-	public @ResponseBody Iterable<Person> getPeople() {
+	public @ResponseBody Iterable<Person> getPeople(@RequestHeader("Bearer") String token) {
+		System.out.println(token);
+		authProxy.verifyEmployee(new TokenRequest(token));
 		return personRepository.findAll();
 	}
 
@@ -27,6 +37,7 @@ public class TestController {
   //
 	@GetMapping("/room")
 	public @ResponseBody Iterable<Room> getRooms() {
+		
 		return roomRepository.findAll();
 	}
 
