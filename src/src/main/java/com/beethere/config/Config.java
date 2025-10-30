@@ -18,8 +18,10 @@ public class Config {
         } catch (Exception e) {
             throw new IllegalArgumentException("Invalid parameter found in config");
         }
-
-        // We need to ensure no config properties are null when they shouldn't be
+        
+        // snakeyaml won't throw an error if a class attribute isn't defined in the config file,
+        //   it will simply leave it null. So we need to ensure no config properties are
+        //   null when they shouldn't be
         List<Object> params = Arrays.asList(config.debugLevel);
         for (Object param : params){
             if (param == null){
