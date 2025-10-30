@@ -91,6 +91,12 @@ public class Reservation {
     
     
     public void setOwner(String owner) {
+        final int min = 2;
+        final int max = 40;
+        
+        if (owner.length() < min || owner.length() > max) {
+            throw new IllegalArgumentException("Owner name must be between " + min + " and " + max + " characters");
+        }
         if (owner == null || owner.isEmpty()){
             throw new IllegalArgumentException("Owner cannot be null or empty");
         }
