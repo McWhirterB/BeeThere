@@ -8,20 +8,25 @@ public class Employee {
 
 private static final Logger LOG = LogManager.getLogger();
 
+    enum Roles{
+        EMPLOYEE,
+        MANAGER
+    }
+
     private int ID;
     private String location;
     private String firstName;
     private String lastName;
     private String department;
-    private String title;
+    private Roles role;
 
-    public Employee(int ID, String location, String firstName, String lastName, String department, String title) {
+    public Employee(int ID, String location, String firstName, String lastName, String department, Roles role) {
         setID(ID);
         setLocation(location);
         setFirstName(firstName);
         setLastName(lastName);
         setDepartment(department);
-        setTitle(title);
+        setRole(role);
     }
     
     //TODO: Implement data validation for setters
@@ -143,14 +148,11 @@ private static final Logger LOG = LogManager.getLogger();
         LOG.debug("Setting department to " + department);
         this.department = department;
     }
-
-
-    public String getTitle() {
-        return title;
+    public Roles getRole() {
+        return role;
     }
-    
-    public void setTitle(String title) {
-        this.title = title;
+    public void setRole(Roles role) {
+        this.role = role;
     }
 
 }
