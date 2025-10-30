@@ -1,6 +1,13 @@
 package com.beethere.model;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+
 public class Employee {
+
+private static final Logger LOG = LogManager.getLogger();
+
     private int ID;
     private String location;
     private String firstName;
@@ -19,14 +26,21 @@ public class Employee {
     
     //TODO: Implement data validation for setters
     public int getID() {
+        LOG.debug("Getting the employee id");
         return ID;
     }
     
     
     public void setID(int ID) {
+        LOG.debug("Setting the employee id");
+
         if (ID < 0){
+
+            LOG.error("Employee ID cannot be less than 0");
             throw new IllegalArgumentException("Employee ID cannot be less than 0");
         }
+
+        LOG.debug("Employee ID set to " + ID);
         this.ID = ID;
     }
 
