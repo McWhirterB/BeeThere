@@ -22,15 +22,15 @@
 | URI | Protocol | Description |
 | - | - | - |
 | /rooms | GET | Returns a list of rooms |
-| /room/{ID} | GET | Get room details by ID |
-| /room | POST | Create a room from JSON, returns ID |
-| /room/{ID} | PUT | Update room by ID |
-| /room/{ID} | DELETE | Delete room by ID |
+| /rooms/{ID} | GET | Get room details by ID |
+| /rooms | POST | Create a room from JSON, returns ID |
+| /rooms/{ID} | PUT | Update room by ID |
+| /rooms/{ID} | DELETE | Delete room by ID |
 | /reservations | GET | Returns a list of reservations |
-| /reservation{ID} | GET | Get reservation details by ID |
-| /reservation | POST | Create reservation from JSON, returns ID | 
-| /reservation/{ID} | PUT | Update reservation by ID |
-| /reservation/{ID} | DELETE | Delete reservation by ID | 
+| /reservations/{ID} | GET | Get reservation details by ID |
+| /reservations | POST | Create reservation from JSON, returns ID | 
+| /reservations/{ID} | PUT | Update reservation by ID |
+| /reservations/{ID} | DELETE | Delete reservation by ID | 
 
 ## Config
 TODO
