@@ -23,12 +23,15 @@ package com.beethere.model;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import jakarta.persistence.*;
 
+
+@Entity
 public class Room {
 
     private static final Logger LOG = LogManager.getLogger();
-
-    private int ID;
+		@Id
+    private Integer ID;
     private String country;
     private String city;
     private String address;
@@ -36,7 +39,11 @@ public class Room {
     private String type;
     private int seatCount;
 
-    public Room(int ID, String country, String city, String address, String roomNumber, String type, int seatCount) {
+		public Room() {
+			
+		}
+
+    public Room(Integer ID, String country, String city, String address, String roomNumber, String type, int seatCount) {
         setID(ID);
         setCountry(country);
         setCity(city);
