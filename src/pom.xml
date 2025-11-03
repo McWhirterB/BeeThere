@@ -57,6 +57,12 @@
     	<artifactId>mysql-connector-j</artifactId>
     	<version>8.4.0</version> <!-- or the latest stable version -->
 		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-openfeign</artifactId>		
+			<version>4.3.0</version>
+		</dependency>
 	</dependencies>
 
 	<build>
