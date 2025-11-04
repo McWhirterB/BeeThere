@@ -17,7 +17,23 @@ public class ReservationService {
 		return reservationRepository.findAll();
 	}
 
+	public Optional<Reservation> getRsvp(Integer id) {
+		return reservationRepository.findById(id);
+	}
+
 	public Reservation createRsvp(Reservation rsvp) {
 		return reservationRepository.save(rsvp);
+	}
+
+	public Reservation updateRsvp(Reservation rsvp) {
+		if (reservationRepository.existsById(rsvp.reservationId)) {
+			return reservationRepository.save(rsvp);
+		}
+
+		return null;
+	}
+
+	public void deleteRsvp(Reservation rsvp) {
+		reservationRepository.delete(rsvp);	
 	}
 }

@@ -35,8 +35,6 @@ public class RoomController {
 		}
 		Iterable<Room> rooms = roomService.getRooms();
 		return new ResponseEntity<Iterable<Room>>(rooms, HttpStatus.ACCEPTED);
-		//Employee e = authProxy.verifyEmployee(new TokenRequest(token));
-		//return new ResponseEntity<Employee>(e, HttpStatus.ACCEPTED);
 	}
 
 	@GetMapping("/{id}")

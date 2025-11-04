@@ -38,7 +38,7 @@ public class ReservationController {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<?> getReservations(@RequestHeader(value = "Bearer", required = false) String token) {
+	public ResponseEntity<?> getReservations(@RequestHeader(value = "Bearer", required = false) String token, @PathVariable("id") Integer id) {
 		if (token == null || token.isEmpty()) {
 			return new ResponseEntity<String>("Token Required", HttpStatus.BAD_REQUEST);
 		}
@@ -49,8 +49,8 @@ public class ReservationController {
 		} catch (Exception ex) {
 			return new ResponseEntity<String>("Failed to validate token", HttpStatus.UNAUTHORIZED);
 		}
-		Iterable<Reservation> rsvps = reservationService.getRsvps();
-		return new ResponseEntity<Iterable<Reservation>>(rsvps, HttpStatus.ACCEPTED);
+		Optional<Reservation> rsvp = reservationService.getRsvp(id);
+		return new ResponseEntity<Optional<Reservation>>(rsvp, HttpStatus.ACCEPTED);
 	}
 
 	@PostMapping("/")
@@ -67,5 +67,37 @@ public class ReservationController {
 		}
 		Reservation newRsvp = reservationService.createRsvp(rsvp);
 		return new ResponseEntity<Reservation>(newRsvp, HttpStatus.ACCEPTED);
+	}
+
+	@PutMapping("/")
+	public ResponseEntity<?> updateReservation(@RequestHeader(value = "Bearer", required = false) String token, @RequestBody Reservation rsvp) {
+		if (token == null || token.isEmpty()) {
+			return new ResponseEntity<String>("Token Required", HttpStatus.BAD_REQUEST);
+		}
+		Employee e = null;
+		
+		try { 
+			e = authProxy.verifyEmployee(new TokenRequest(token));	
+		} catch (Exception ex) {
+			return new ResponseEntity<String>("Failed to validate token", HttpStatus.UNAUTHORIZED);
+		}
+		Reservation newRsvp = reservationService.updateRsvp(rsvp);
+		return new ResponseEntity<Reservation>(newRsvp, HttpStatus.ACCEPTED);
+	}
+
+	@DeleteMapping("/")
+	public ResponseEntity<?> deleteReservation(@RequestHeader(value = "Bearer", required = false) String token, @RequestBody Reservation rsvp) {
+		if (token == null || token.isEmpty()) {
+			return new ResponseEntity<String>("Token Required", HttpStatus.BAD_REQUEST);
+		}
+		Employee e = null;
+		
+		try { 
+			e = authProxy.verifyEmployee(new TokenRequest(token));	
+		} catch (Exception ex) {
+			return new ResponseEntity<String>("Failed to validate token", HttpStatus.UNAUTHORIZED);
+		}
+		reservationService.deleteRsvp(rsvp);
+		return new ResponseEntity< >(HttpStatus.ACCEPTED);
 	}
 }
