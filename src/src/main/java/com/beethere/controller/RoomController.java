@@ -40,7 +40,7 @@ public class RoomController {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<?> getRoomById(@RequestHeader(value = "Bearer", required = false) String token, @PathVariable("id") Integer id) {
+	public ResponseEntity<?> getRoomById(@RequestHeader(value = "Bearer", required = false) String token, @PathVariable("id") String id) {
 		if (token == null || token.isEmpty()) {
 			return new ResponseEntity<String>("Token Required", HttpStatus.BAD_REQUEST);
 		}
@@ -51,9 +51,8 @@ public class RoomController {
 		} catch (Exception ex) {
 			return new ResponseEntity<String>("Failed to validate token", HttpStatus.UNAUTHORIZED);
 		}
-		//Optional<Room> room = roomService.getRoomById(id);
-		//return new ResponseEntity<Optional<Room>>(room, HttpStatus.ACCEPTED);
-		return new ResponseEntity<Employee>(e, HttpStatus.ACCEPTED);
+		Optional<Room> room = roomService.getRoomById(id);
+		return new ResponseEntity<Optional<Room>>(room, HttpStatus.ACCEPTED);
 	}
 
 	@PostMapping("/")
@@ -68,8 +67,39 @@ public class RoomController {
 		} catch (Exception ex) {
 			return new ResponseEntity<String>("Failed to validate token", HttpStatus.UNAUTHORIZED);
 		}
-		//Optional<Room> newRoom = roomService.createRoom(room);
-		//return new ResponseEntity<Optional<Room>>(newRoom, HttpStatus.ACCEPTED);
-		return new ResponseEntity<Employee>(e, HttpStatus.ACCEPTED);
+		Room newRoom = roomService.createRoom(room);
+		return new ResponseEntity<Room>(newRoom, HttpStatus.ACCEPTED);
+	}
+
+	@PutMapping("/")
+	public ResponseEntity<?> updateRoom(@RequestHeader(value = "Bearer", required = false) String token, @RequestBody Room room) {
+		if (token == null || token.isEmpty()) {
+			return new ResponseEntity<String>("Token Required", HttpStatus.BAD_REQUEST);
+		}
+		Employee e = null;
+
+		try { 
+			e = authProxy.verifyEmployee(new TokenRequest(token));	
+		} catch (Exception ex) {
+			return new ResponseEntity<String>("Failed to validate token", HttpStatus.UNAUTHORIZED);
+		}
+		Room newRoom = roomService.updateRoom(room);
+		return new ResponseEntity<Room>(newRoom, HttpStatus.ACCEPTED);
+	}
+
+	@DeleteMapping("/")
+	public ResponseEntity<?> deleteRoom(@RequestHeader(value = "Bearer", required = false) String token, @RequestBody Room room) {
+		if (token == null || token.isEmpty()) {
+			return new ResponseEntity<String>("Token Required", HttpStatus.BAD_REQUEST);
+		}
+		Employee e = null;
+
+		try { 
+			e = authProxy.verifyEmployee(new TokenRequest(token));	
+		} catch (Exception ex) {
+			return new ResponseEntity<String>("Failed to validate token", HttpStatus.UNAUTHORIZED);
+		}
+		roomService.deleteRoom(room);
+		return new ResponseEntity< >(HttpStatus.ACCEPTED);
 	}
 }
