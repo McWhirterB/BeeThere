@@ -8,28 +8,28 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.beethere.model.Employee;
-import com.beethere.model.Reservation;
-import com.beethere.model.Room;
+import com.beethere.model.*;
+import com.beethere.service.*;
 
-import java.util.*;
+//import java.util.*;
 
 @RestController
 @RequestMapping("/rsvp")
-public class RsvpController {
+public class ReservationContoller {
 
 
 
 private AuthProxy authProxy;
 // This action return a list of reservations for users/client
 
-private  RsvpService rsvpService;
+private  ReservationService reservationService;
 
 
-	public RsvpController(
-		RsvpService rsvpService,
+	public ReservationContoller(
+		ReservationService rsvpService,
 		AuthProxy authProxy) {
 		this.authProxy = authProxy;
-		this.rsvpService = rsvpService;
+		this.reservationService = rsvpService;
 	}
 
     @GetMapping("/")
@@ -49,8 +49,8 @@ private  RsvpService rsvpService;
         (e == null) {
 			return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED);
 		}
-		Iterable<Rsvp> responseBody = rsvpService.findAll();
-		return new ResponseEntity<Iterable<Rsvp>>(responseBody, HttpStatus.ACCEPTED);
+		Iterable<Reservation> responseBody = reservationService.findAll();
+		return new ResponseEntity<Iterable<Reservation>>(responseBody, HttpStatus.ACCEPTED);
 	}
         
 
