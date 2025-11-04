@@ -9,15 +9,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.ResponseEntity;
 import com.beethere.model.Employee;
 import com.beethere.model.Room;
+import com.beethere.service.RoomService;
 
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.util.*;
-
-@RestController
-public class RmController {
-
-private RoomRepository roomRepository;
+//import java.util.*;
 
 @RestController
 @RequestMapping("/room")
@@ -33,9 +29,9 @@ public class RoomController {
 		this.roomService = roomService;
 	}
 
-private AuthProxy authProxy;
+	private AuthProxy authProxy;
 
-// This action return a list of rooms to the users/client
+	// This action return a list of rooms to the users/client
     @GetMapping("/")
     public ResponseEntity<?> GetRooms(@RequestHeader(value = "Bearer" ) String token) {
 
@@ -58,11 +54,7 @@ private AuthProxy authProxy;
         // System.out.println("200");
         // return new ArrayList<Room>();
         
-    }
-
-    /*@GetMapping("/")
-    public String base() {
-        return "Root element";
-    }*/
 }
+
+    
 
