@@ -20,27 +20,23 @@ public class RmController {
 private RoomRepository roomRepository;
 
 @RestController
-@RequestMapping("/test")
-public class TestController {
-	private PersonRepository personRepository;
-	private RoomRepository roomRepository;
-	private ReservationRepository reservationRepository;
+@RequestMapping("/room")
+public class RoomController {
+	
+	private RoomService roomService;
 
 
-public TestController(PersonRepository personRepository,
-		RoomRepository roomRepository,
-		ReservationRepository reservationRepository,
+	public RoomController(
+		RoomService roomService,
 		AuthProxy authProxy) {
-		this.personRepository = personRepository;
-		this.roomRepository = roomRepository;
-		this.reservationRepository = reservationRepository;	
 		this.authProxy = authProxy;
+		this.roomService = roomService;
 	}
 
 private AuthProxy authProxy;
 
 // This action return a list of rooms to the users/client
-    @GetMapping("/room")
+    @GetMapping("/")
     public ResponseEntity<?> GetRooms(@RequestHeader(value = "Bearer" ) String token) {
 
         Employee e = null;
@@ -56,7 +52,7 @@ private AuthProxy authProxy;
         (e == null) {
 			return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED);
 		}
-		Iterable<Room> responseBody = roomRepository.findAll();
+		Iterable<Room> responseBody = roomService.findAll();
 		return new ResponseEntity<Iterable<Room>>(responseBody, HttpStatus.ACCEPTED);
 	}
         // System.out.println("200");
