@@ -46,7 +46,6 @@ public class Room {
         setSeatCount(seatCount);
     }
 
-    //TODO: Implement data validation for setters
     public int getID() {
            LOG.debug("returning the ID: " + ID);
         return ID;
