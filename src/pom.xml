@@ -46,6 +46,13 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		
+		<dependency>
+    		<groupId>io.rest-assured</groupId>
+    		<artifactId>rest-assured</artifactId>
+    		<version>5.5.6</version> <!-- Use the latest stable version -->
+    		<scope>test</scope>
+		</dependency>
 
 		<dependency>
 			<groupId>org.yaml</groupId>
