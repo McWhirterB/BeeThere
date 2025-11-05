@@ -1,47 +1,58 @@
 package com.beethere.model;
 
-import java.util.ArrayList;
-import java.util.Date;
+import java.util.*;
+import jakarta.persistence.*;
 
+@Entity
 public class Reservation {
-    private int ID;
-    private Date startTime;
-    private Date endTime;
-    private String owner;
-    private int ownerID;
-    private ArrayList<Room> rooms;
+	@Id
+	public Integer reservationId;
+	public Integer employeeId;
+	public String employeeName;
+	public Date startTime;
+	public Date endTime;
 
-    public Reservation(int ID, Date startTime, Date endTime, String owner, int ownerID, ArrayList<Room> rooms){
-        setID(ID);
+    public Reservation() {}
+
+    public Reservation(Integer reservationId, Integer employeId, String employeeName, Date startTime, Date endTime) {
+        setReservationId(reservationId);
+        setEmployeeId(employeId);
+        setEmployeeName(employeeName);
         setStartTime(startTime);
         setEndTime(endTime);
-        setOwner(owner);
-        setOwnerID(ownerID);
-        setRooms(rooms);
     }
 
-    
-    //TODO: Implement data validation for setters
-    public int getID() {
-        return ID;
+    public Integer getReservationId() {
+        return reservationId;
     }
 
-
-    public void setID(int ID) {
-        //LOG.debug("Setting the reservation id");
-        if (ID < 0){
+    public void setReservationId(Integer reservationId) {
+        if (reservationId < 0){
             //LOG.error("Reservation ID cannot be less than 0");
             throw new IllegalArgumentException("Reservation ID cannot be less than 0");
         }
-
-        this.ID = ID;
+        this.reservationId = reservationId;
     }
 
-    
+    public Integer getEmployeeId() {
+        return employeeId;
+    }
+
+    public void setEmployeeId(Integer employeeId) {
+        this.employeeId = employeeId;
+    }
+
+    public String getEmployeeName() {
+        return employeeName;
+    }
+
+    public void setEmployeeName(String employeeName) {
+        this.employeeName = employeeName;
+    }
+
     public Date getStartTime() {
         return startTime;
     }
-
 
     public void setStartTime(Date startTime) {
         Date now = new Date();
@@ -60,11 +71,9 @@ public class Reservation {
         this.startTime = startTime;
     }
 
-
     public Date getEndTime() {
         return endTime;
     }
-
 
     public void setEndTime(Date endTime) {
         Date now = new Date();
@@ -83,52 +92,4 @@ public class Reservation {
         }
         this.endTime = endTime;
     }
-
-
-    public String getOwner() {
-        return owner;
-    }
-    
-    
-    public void setOwner(String owner) {
-        final int min = 2;
-        final int max = 40;
-
-        if (owner == null || owner.isEmpty()){
-            throw new IllegalArgumentException("Owner cannot be null or empty");
-        }
-        if (owner.length() < min || owner.length() > max) {
-            throw new IllegalArgumentException("Owner name must be between " + min + " and " + max + " characters");
-        }
-        
-        this.owner = owner;
-    }
-
-
-    public int getOwnerID() {
-        return ownerID;
-    }
-    
-    
-    public void setOwnerID(int ownerID) {
-        if (ownerID < 0){
-            throw new IllegalArgumentException("Owner ID cannot be less than 0");
-        }
-        this.ownerID = ownerID;
-    }
-
-
-    public ArrayList<Room> getRooms() {
-        return rooms;
-    }
-
-
-    public void setRooms(ArrayList<Room> rooms) {
-        if (rooms == null || rooms.isEmpty()){
-            throw new IllegalArgumentException("Rooms cannot be null or empty");
-        }
-        this.rooms = rooms;
-    }
-
-    
 }
