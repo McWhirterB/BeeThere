@@ -43,7 +43,7 @@ public class Room {
         this.roomId = id;
     }
 	public String getLocation() {
-         LOG.debug("returning the Address: " + location);
+         LOG.debug("returning the Location: " + location);
         return location;
     }
     public void setLocation(String location) {
