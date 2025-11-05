@@ -4,8 +4,14 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Id;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 @Entity
 public class Employee {
+
+       private static final Logger LOG = LogManager.getLogger();
+
 	@Id
 	private Integer id;
 	private String fName;	
@@ -15,7 +21,7 @@ public class Employee {
 	private String title;
 
 
-    public Employee(int id, String location, String firstName, String lastName, String department, Roles role) {
+    public Employee(int id, String location, String firstName, String lastName, String department, String role) {
         setId(id);
         setLocation(location);
         setFirstName(firstName);
@@ -24,7 +30,7 @@ public class Employee {
         setTitle(role);
     }
 
-	//TODO: Implement data validation for setters
+
     public int getId() {
         LOG.debug("Getting the employee id");
         return id;
@@ -34,7 +40,7 @@ public class Employee {
     public void setId(int id) {
         LOG.debug("Setting the employee id");
 
-        if (ID < 0){
+        if (id < 0){
 
             LOG.error("Employee ID cannot be less than 0");
             throw new IllegalArgumentException("Employee ID cannot be less than 0");
@@ -92,7 +98,7 @@ public class Employee {
         }
         
         LOG.debug("Setting first name to " + firstName);
-        this.firstName = firstName;
+        this.fName = firstName;
     }
 
 

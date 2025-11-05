@@ -5,8 +5,14 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Id;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 @Entity
 public class Room {
+
+    private static final Logger LOG = LogManager.getLogger();
+    
 	@Id
 	private Integer roomId;
 	private String location;
