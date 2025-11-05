@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.beethere.model.Employee;
@@ -21,7 +22,7 @@ import com.beethere.model.TokenRequest;
 import com.beethere.service.RoomService;
 
 @RestController
-@RequestMapping("/room")
+@RequestMapping("/rooms")
 public class RoomController {
 
     private final AuthProxy authProxy;
@@ -50,13 +51,18 @@ public class RoomController {
         }
     }
 
-    @GetMapping("/")
-    public ResponseEntity<?> getAllRooms(@RequestHeader(value = "Bearer", required = false) String token) {
+   @GetMapping({"", "/"})
+    public ResponseEntity<?> getAllRooms(
+            @RequestHeader(value = "Bearer", required = false) String token,
+            @RequestParam(required = false) String location,
+            @RequestParam(required = false) String type
+    ) {
         return withAuth(token, () -> {
-            Iterable<Room> rooms = roomService.getRooms();
+            Iterable<Room> rooms = roomService.getRooms(location, type);
             return new ResponseEntity<>(rooms, HttpStatus.OK);
         });
     }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getRoomById(

@@ -12,7 +12,7 @@
 | Attribute | Type | Defined By | Constraints |
 |---|---:|---|---|
 | roomId | integer | Developer | > 0 |
-| city | string | User | 1-50, includes: letters |
+| location | string | User | 1-50, includes: letters |
 | address | string | User | 1-50, includes: a-z, ', -, 0-9 |
 | roomNumber | string | User | 1-20, a-z, -, 0-9 |
 | type | string | User | 1-20, a-z |

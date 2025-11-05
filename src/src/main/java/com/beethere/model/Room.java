@@ -43,29 +43,21 @@ public class Room {
         this.roomId = id;
     }
 	public String getLocation() {
-         LOG.debug("returning the Address: " + location);
+         LOG.debug("returning the Location: " + location);
         return location;
     }
     public void setLocation(String location) {
            LOG.debug("setting the building");
-        final int max = 50;
-        final int min = 5;
 
-        if (location == null)
-        {
-            LOG.error("building must not be null");
-            throw new IllegalArgumentException("building must not be null");
-        }
-
-        if (location.isEmpty())
+        if (location == null || location.isEmpty())
         {
             LOG.error("building must not be empty");
             throw new IllegalArgumentException("building must not be empty");
         }
-        if (location.length() > max || location.length() < min)
+        if (location.length() > 50 || location.length() < 1)
         {
-            LOG.error("building must be between 5 and 50 chars in length");
-            throw new IllegalArgumentException("building must be between 5 and 50 chars in length");
+            LOG.error("building must be between 1 and 50 chars in length");
+            throw new IllegalArgumentException("building must be between 1 and 50 chars in length");
         }
         LOG.debug("setting the building to: " + location);
         this.location = location;
@@ -76,8 +68,6 @@ public class Room {
     }
     public void setBuilding(String building) {
            LOG.debug("setting the building");
-        final int max = 50;
-        final int min = 5;
 
         if (building == null)
         {
@@ -90,10 +80,10 @@ public class Room {
             LOG.error("building must not be empty");
             throw new IllegalArgumentException("building must not be empty");
         }
-        if (building.length() > max || building.length() < min)
+        if (building.length() > 50 || building.length() < 1)
         {
-            LOG.error("building must be between 5 and 50 chars in length");
-            throw new IllegalArgumentException("building must be between 5 and 50 chars in length");
+            LOG.error("building must be between 1 and 50 chars in length");
+            throw new IllegalArgumentException("building must be between 1 and 50 chars in length");
         }
         LOG.debug("setting the building to: " + building);
         this.building = building;
@@ -104,8 +94,6 @@ public class Room {
 	}
     public void setRoomNumber(String roomNumber) {
          LOG.debug("setting the room number");
-        final int max = 5;
-        final int min = 3;
 
         if (roomNumber == null)
         {
@@ -118,7 +106,7 @@ public class Room {
             LOG.error("room number must not be empty");
             throw new IllegalArgumentException("room number must not be empty");
         }
-        if (roomNumber.length() > max || roomNumber.length() < min)
+        if (roomNumber.length() > 50 || roomNumber.length() < 1)
         {
             LOG.error("room number must be between 3 and 5 chars in length");
             throw new IllegalArgumentException("room number must be between 3 and 5 chars in length");
@@ -132,8 +120,6 @@ public class Room {
     }
     public void setType(String type) {
          LOG.debug("setting the type of the room");
-        final int max = 20;
-        final int min = 5;
 
         if (type == null)
         {
@@ -146,10 +132,10 @@ public class Room {
             LOG.error("Type must not be empty");
             throw new IllegalArgumentException("Type must not be empty");
         }
-        if (type.length() > max || type.length() < min)
+        if (type.length() > 50 || type.length() < 1)
         {
-            LOG.error("Type must be between 2 and 40 chars in length");
-            throw new IllegalArgumentException("Type must be between 2 and 40 chars in length");
+            LOG.error("Type must be between 1 and 50 characters in length");
+            throw new IllegalArgumentException("Type must be between 1 and 50 characters in length");
         }
         LOG.debug("setting the Type to: " + type);
         this.type = type;
@@ -160,10 +146,9 @@ public class Room {
     }
     public void setSeatCount(int seatCount) {
         LOG.debug("setting the Seat Count");
-        final int max = 250;
-        final int min = 1;
 
-        if (seatCount > max || seatCount < min)
+
+        if (seatCount > 250 || seatCount < 1)
         {
             LOG.error("Seat Count must be between 1 and 250");
             throw new IllegalArgumentException("Seat Count must be between 1 and 250");
