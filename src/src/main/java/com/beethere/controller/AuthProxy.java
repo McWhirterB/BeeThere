@@ -1,4 +1,4 @@
-package com.beethere.Controllers;
+package com.beethere.controller;
 
 import com.beethere.model.*;
 import org.springframework.cloud.openfeign.FeignClient;

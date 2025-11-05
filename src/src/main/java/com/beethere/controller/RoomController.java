@@ -1,60 +1,75 @@
-package com.beethere.Controllers;
+package com.beethere.controller;
 
+import com.beethere.service.*;
+import com.beethere.model.*;
+
+import java.util.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.http.ResponseEntity;
-import com.beethere.model.Employee;
-import com.beethere.model.Room;
-import com.beethere.service.RoomService;
-
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
-//import java.util.*;
 
 @RestController
 @RequestMapping("/room")
 public class RoomController {
-	
+	private AuthProxy authProxy;
 	private RoomService roomService;
 
-
-	public RoomController(
-		RoomService roomService,
-		AuthProxy authProxy) {
+	public RoomController(AuthProxy authProxy, RoomService roomService) {
 		this.authProxy = authProxy;
 		this.roomService = roomService;
 	}
 
-	private AuthProxy authProxy;
-
-	// This action return a list of rooms to the users/client
-    @GetMapping("/")
-    public ResponseEntity<?> GetRooms(@RequestHeader(value = "Bearer" ) String token) {
-
-        Employee e = null;
-		if (token == null || token.isEmpty()) return new ResponseEntity<String>("Token required", HttpStatus.BAD_REQUEST);
-		try {
-			 e = authProxy.verifyEmployee(new TokenRequest(token));
-        } 
-        catch 
-        (Exception ex) { 
-			return new ResponseEntity<String>("Bad token", HttpStatus.BAD_REQUEST);
+	@GetMapping("/")
+	public ResponseEntity<?> getRooms(@RequestHeader(value = "Bearer", required = false) String token) {
+		if (token == null || token.isEmpty()) {
+			return new ResponseEntity<String>("Token Required", HttpStatus.BAD_REQUEST);
 		}
-		if 
-        (e == null) {
-			return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED);
+		Employee e = null;
+		
+		try { 
+			e = authProxy.verifyEmployee(new TokenRequest(token));	
+		} catch (Exception ex) {
+			return new ResponseEntity<String>("Failed to validate token", HttpStatus.UNAUTHORIZED);
 		}
-		Iterable<Room> responseBody = roomService.findAll();
-		return new ResponseEntity<Iterable<Room>>(responseBody, HttpStatus.ACCEPTED);
+		Iterable<Room> rooms = roomService.getRooms();
+		return new ResponseEntity<Iterable<Room>>(rooms, HttpStatus.ACCEPTED);
+		//Employee e = authProxy.verifyEmployee(new TokenRequest(token));
+		//return new ResponseEntity<Employee>(e, HttpStatus.ACCEPTED);
 	}
-        // System.out.println("200");
-        // return new ArrayList<Room>();
-        
+
+	@GetMapping("/{id}")
+	public ResponseEntity<?> getRoomById(@RequestHeader(value = "Bearer", required = false) String token, @PathVariable("id") Integer id) {
+		if (token == null || token.isEmpty()) {
+			return new ResponseEntity<String>("Token Required", HttpStatus.BAD_REQUEST);
+		}
+		Employee e = null;
+
+		try { 
+			e = authProxy.verifyEmployee(new TokenRequest(token));	
+		} catch (Exception ex) {
+			return new ResponseEntity<String>("Failed to validate token", HttpStatus.UNAUTHORIZED);
+		}
+		//Optional<Room> room = roomService.getRoomById(id);
+		//return new ResponseEntity<Optional<Room>>(room, HttpStatus.ACCEPTED);
+		return new ResponseEntity<Employee>(e, HttpStatus.ACCEPTED);
+	}
+
+	@PostMapping("/")
+	public ResponseEntity<?> createRoom(@RequestHeader(value = "Bearer", required = false) String token, @RequestBody Room room) {
+		if (token == null || token.isEmpty()) {
+			return new ResponseEntity<String>("Token Required", HttpStatus.BAD_REQUEST);
+		}
+		Employee e = null;
+
+		try { 
+			e = authProxy.verifyEmployee(new TokenRequest(token));	
+		} catch (Exception ex) {
+			return new ResponseEntity<String>("Failed to validate token", HttpStatus.UNAUTHORIZED);
+		}
+		//Optional<Room> newRoom = roomService.createRoom(room);
+		//return new ResponseEntity<Optional<Room>>(newRoom, HttpStatus.ACCEPTED);
+		return new ResponseEntity<Employee>(e, HttpStatus.ACCEPTED);
+	}
 }
-
-    
-
