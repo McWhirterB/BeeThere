@@ -1,9 +1,15 @@
 package com.beethere.app;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+
+import com.beethere.config.Config;
+
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
@@ -14,7 +20,8 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @EntityScan(basePackages = "com.beethere.model")
 public class AppApplication {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
+		Config.getInstance();
 		SpringApplication.run(AppApplication.class, args);
 	}
 
