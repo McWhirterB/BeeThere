@@ -1,25 +1,30 @@
 package com.beethere.model;
 
-import java.util.*;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.Id;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
+
 
 @Entity
 public class Room {
 
-    private static final Logger LOG = LogManager.getLogger();
-    
 	@Id
+    @Column(name = "roomId")
 	private Integer roomId;
 	private String location;
 	private String building;
+    @Column(name = "room_number")
 	private String roomNumber;
 	private String type;
 	private Integer seats;
+
+    private static final Logger LOG = LogManager.getLogger();
+
+    public Room() {}
 
 	public Room(int id, String location, String building, String roomNumber, String type, int seatCount) {
         setId(id);
@@ -37,32 +42,32 @@ public class Room {
     public void setId(int id) {
         this.roomId = id;
     }
-	 String getLocation() {
+	public String getLocation() {
          LOG.debug("returning the Address: " + location);
         return location;
     }
     public void setLocation(String location) {
-           LOG.debug("setting the address");
+           LOG.debug("setting the building");
         final int max = 50;
         final int min = 5;
 
         if (location == null)
         {
-            LOG.error("address must not be null");
-            throw new IllegalArgumentException("address must not be null");
+            LOG.error("building must not be null");
+            throw new IllegalArgumentException("building must not be null");
         }
 
         if (location.isEmpty())
         {
-            LOG.error("address must not be empty");
-            throw new IllegalArgumentException("address must not be empty");
+            LOG.error("building must not be empty");
+            throw new IllegalArgumentException("building must not be empty");
         }
         if (location.length() > max || location.length() < min)
         {
-            LOG.error("address must be between 5 and 50 chars in length");
-            throw new IllegalArgumentException("address must be between 5 and 50 chars in length");
+            LOG.error("building must be between 5 and 50 chars in length");
+            throw new IllegalArgumentException("building must be between 5 and 50 chars in length");
         }
-        LOG.debug("setting the address to: " + location);
+        LOG.debug("setting the building to: " + location);
         this.location = location;
     }
     public String getBuilding() {
@@ -70,27 +75,27 @@ public class Room {
         return building;
     }
     public void setBuilding(String building) {
-           LOG.debug("setting the address");
+           LOG.debug("setting the building");
         final int max = 50;
         final int min = 5;
 
         if (building == null)
         {
-            LOG.error("address must not be null");
-            throw new IllegalArgumentException("address must not be null");
+            LOG.error("building must not be null");
+            throw new IllegalArgumentException("building must not be null");
         }
 
         if (building.isEmpty())
         {
-            LOG.error("address must not be empty");
-            throw new IllegalArgumentException("address must not be empty");
+            LOG.error("building must not be empty");
+            throw new IllegalArgumentException("building must not be empty");
         }
         if (building.length() > max || building.length() < min)
         {
-            LOG.error("address must be between 5 and 50 chars in length");
-            throw new IllegalArgumentException("address must be between 5 and 50 chars in length");
+            LOG.error("building must be between 5 and 50 chars in length");
+            throw new IllegalArgumentException("building must be between 5 and 50 chars in length");
         }
-        LOG.debug("setting the address to: " + building);
+        LOG.debug("setting the building to: " + building);
         this.building = building;
     }
     public String getRoomNumber() {
