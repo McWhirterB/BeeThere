@@ -4,6 +4,7 @@ import com.beethere.service.*;
 import com.beethere.model.*;
 
 import java.util.*;
+import jakarta.validation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
@@ -37,6 +38,23 @@ public class RoomController {
 		return new ResponseEntity<Iterable<Room>>(rooms, HttpStatus.ACCEPTED);
 	}
 
+	@GetMapping("/open")
+	public ResponseEntity<?> getOpenRooms(@RequestHeader(value = "Bearer", required = false) String token, @RequestBody OpenRoomRequest request) {
+		if (token == null || token.isEmpty()) {
+			return new ResponseEntity<String>("Token Required", HttpStatus.BAD_REQUEST);
+		}
+		Employee e = null;
+		
+		try { 
+			e = authProxy.verifyEmployee(new TokenRequest(token));	
+		} catch (Exception ex) {
+			return new ResponseEntity<String>("Failed to validate token", HttpStatus.UNAUTHORIZED);
+		}
+		//Iterable<Room> rooms = roomService.getOpenRooms();
+			return new ResponseEntity<String>("Failed to validate token", HttpStatus.UNAUTHORIZED);
+		//return new ResponseEntity<Iterable<Room>>(rooms, HttpStatus.ACCEPTED);
+	}
+
 	@GetMapping("/{id}")
 	public ResponseEntity<?> getRoomById(@RequestHeader(value = "Bearer", required = false) String token, @PathVariable("id") String id) {
 		if (token == null || token.isEmpty()) {
@@ -54,7 +72,7 @@ public class RoomController {
 	}
 
 	@PostMapping("/")
-	public ResponseEntity<?> createRoom(@RequestHeader(value = "Bearer", required = false) String token, @RequestBody Room room) {
+	public ResponseEntity<?> createRoom(@RequestHeader(value = "Bearer", required = false) String token, @Valid @RequestBody Room room) {
 		if (token == null || token.isEmpty()) {
 			return new ResponseEntity<String>("Token Required", HttpStatus.BAD_REQUEST);
 		}

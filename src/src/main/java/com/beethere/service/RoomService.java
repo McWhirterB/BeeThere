@@ -17,6 +17,11 @@ public class RoomService {
 		return roomRepository.findAll();
 	}
 
+	//public Iterable<Room> getOpenRooms(OpenRoomRequest request) {
+	//	return null;
+	//	//return roomRepository.getOpenRooms(request.startTime, request.endTime);
+	//}
+
 	public Optional<Room> getRoomById(String id) {
 		return roomRepository.findById(id);
 	}
