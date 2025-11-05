@@ -18,6 +18,18 @@ public class RoomService {
         return roomRepository.findAll();
     }
 
+    public Iterable<Room> getRooms(String location, String type) {
+        if (location != null && type != null) {
+            return roomRepository.findByLocationAndType(location, type);
+        } else if (location != null) {
+            return roomRepository.findByLocation(location);
+        } else if (type != null) {
+            return roomRepository.findByType(type);
+        } else {
+            return roomRepository.findAll();
+        }
+    }
+
     // Get room by ID
     public Optional<Room> getRoomById(Integer id) {
         return roomRepository.findById(id);
