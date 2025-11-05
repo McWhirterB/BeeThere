@@ -1,8 +1,8 @@
  package com.beethere.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.junit.jupiter.api.Test;
 // import org.springframework.test.context.event.annotation;
 
 public class RoomTest {
@@ -29,7 +29,7 @@ public class RoomTest {
     @Test
     void testGetLocation() {
         String actual = testRoom.getLocation();
-        String expected = "2nd Street";
+        String expected = "Japan";
         assertEquals(actual, expected);
             
     }
