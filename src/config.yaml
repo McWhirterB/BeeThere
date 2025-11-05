@@ -1,1 +1,2 @@
-debugLevel: "NOT_SET"
+shortStringMaxLength: 20
+longStringMaxLength: 50
