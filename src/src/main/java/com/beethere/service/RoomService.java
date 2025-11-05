@@ -1,28 +1,48 @@
 package com.beethere.service;
 
-import java.util.*;
-import com.beethere.model.*;
-import com.beethere.repository.*;
+import com.beethere.model.Room;
+import com.beethere.repository.RoomRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class RoomService {
-	private RoomRepository roomRepository;
 
-	public RoomService(RoomRepository roomRepository) {
-		this.roomRepository = roomRepository;
-	}
+    @Autowired
+    private RoomRepository roomRepository;
 
-	public Iterable<Room> getRooms() {
-		return roomRepository.findAll();
-	}
+    // Get all rooms
+    public Iterable<Room> getRooms() {
+        return roomRepository.findAll();
+    }
 
-	public Optional<Room> getRoomById(Integer id) {
-		return roomRepository.findById(id);
-	}
+    // Get room by ID
+    public Optional<Room> getRoomById(Integer id) {
+        return roomRepository.findById(id);
+    }
 
-	//public Optional<Room> createRoom(Room room) {
-	//	return roomRepository.save(room);	
-	//}
+    // Create a new room
+    public Room createRoom(Room room) {
+        return roomRepository.save(room);
+    }
 
+    // Update an existing room
+    public Room updateRoom(Room room) {
+        if (roomRepository.existsById(room.getId())) {
+            return roomRepository.save(room);
+        } else {
+            throw new RuntimeException("Room not found with ID: " + room.getId());
+        }
+    }
+
+    // Delete a room by ID
+    public void deleteRoom(Integer id) {
+        if (roomRepository.existsById(id)) {
+            roomRepository.deleteById(id);
+        } else {
+            throw new RuntimeException("Room not found with ID: " + id);
+        }
+    }
 }

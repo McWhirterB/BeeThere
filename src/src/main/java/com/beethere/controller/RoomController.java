@@ -1,75 +1,111 @@
 package com.beethere.controller;
 
-import com.beethere.service.*;
-import com.beethere.model.*;
+import com.beethere.service.RoomService;
+import com.beethere.model.Room;
+import com.beethere.model.Employee;
+import com.beethere.model.TokenRequest;
 
-import java.util.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.util.Optional;
+import java.util.function.Supplier;
 
 @RestController
 @RequestMapping("/room")
 public class RoomController {
-	private AuthProxy authProxy;
-	private RoomService roomService;
 
-	public RoomController(AuthProxy authProxy, RoomService roomService) {
-		this.authProxy = authProxy;
-		this.roomService = roomService;
-	}
+    private final AuthProxy authProxy;
+    private final RoomService roomService;
 
-	@GetMapping("/")
-	public ResponseEntity<?> getRooms(@RequestHeader(value = "Bearer", required = false) String token) {
-		if (token == null || token.isEmpty()) {
-			return new ResponseEntity<String>("Token Required", HttpStatus.BAD_REQUEST);
-		}
-		Employee e = null;
-		
-		try { 
-			e = authProxy.verifyEmployee(new TokenRequest(token));	
-		} catch (Exception ex) {
-			return new ResponseEntity<String>("Failed to validate token", HttpStatus.UNAUTHORIZED);
-		}
-		Iterable<Room> rooms = roomService.getRooms();
-		return new ResponseEntity<Iterable<Room>>(rooms, HttpStatus.ACCEPTED);
-		//Employee e = authProxy.verifyEmployee(new TokenRequest(token));
-		//return new ResponseEntity<Employee>(e, HttpStatus.ACCEPTED);
-	}
+    public RoomController(AuthProxy authProxy, RoomService roomService) {
+        this.authProxy = authProxy;
+        this.roomService = roomService;
+    }
 
-	@GetMapping("/{id}")
-	public ResponseEntity<?> getRoomById(@RequestHeader(value = "Bearer", required = false) String token, @PathVariable("id") Integer id) {
-		if (token == null || token.isEmpty()) {
-			return new ResponseEntity<String>("Token Required", HttpStatus.BAD_REQUEST);
-		}
-		Employee e = null;
 
-		try { 
-			e = authProxy.verifyEmployee(new TokenRequest(token));	
-		} catch (Exception ex) {
-			return new ResponseEntity<String>("Failed to validate token", HttpStatus.UNAUTHORIZED);
-		}
-		//Optional<Room> room = roomService.getRoomById(id);
-		//return new ResponseEntity<Optional<Room>>(room, HttpStatus.ACCEPTED);
-		return new ResponseEntity<Employee>(e, HttpStatus.ACCEPTED);
-	}
+    private ResponseEntity<?> withAuth(String token, Supplier<ResponseEntity<?>> action) {
+        if (token == null || token.isEmpty()) {
+            return new ResponseEntity<>("Token Required", HttpStatus.BAD_REQUEST);
+        }
 
-	@PostMapping("/")
-	public ResponseEntity<?> createRoom(@RequestHeader(value = "Bearer", required = false) String token, @RequestBody Room room) {
-		if (token == null || token.isEmpty()) {
-			return new ResponseEntity<String>("Token Required", HttpStatus.BAD_REQUEST);
-		}
-		Employee e = null;
+        try {
+            Employee employee = authProxy.verifyEmployee(new TokenRequest(token));
+            return action.get();
+        } catch (Exception ex) {
+            return new ResponseEntity<>("Failed to validate token", HttpStatus.UNAUTHORIZED);
+        }
+    }
 
-		try { 
-			e = authProxy.verifyEmployee(new TokenRequest(token));	
-		} catch (Exception ex) {
-			return new ResponseEntity<String>("Failed to validate token", HttpStatus.UNAUTHORIZED);
-		}
-		//Optional<Room> newRoom = roomService.createRoom(room);
-		//return new ResponseEntity<Optional<Room>>(newRoom, HttpStatus.ACCEPTED);
-		return new ResponseEntity<Employee>(e, HttpStatus.ACCEPTED);
-	}
+    @GetMapping("/")
+    public ResponseEntity<?> getAllRooms(@RequestHeader(value = "Bearer", required = false) String token) {
+        return withAuth(token, () -> {
+            Iterable<Room> rooms = roomService.getRooms();
+            return new ResponseEntity<>(rooms, HttpStatus.OK);
+        });
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getRoomById(
+            @RequestHeader(value = "Bearer", required = false) String token,
+            @PathVariable Integer id) {
+
+        return withAuth(token, () -> {
+            Optional<Room> room = roomService.getRoomById(id);
+            return room.isPresent()
+                    ? new ResponseEntity<>(room.get(), HttpStatus.OK)
+                    : new ResponseEntity<>("Room not found", HttpStatus.NOT_FOUND);
+        });
+    }
+
+    @PostMapping("/")
+    public ResponseEntity<?> createRoom(
+            @RequestHeader(value = "Bearer", required = false) String token,
+            @RequestBody Room room) {
+
+        return withAuth(token, () -> {
+            Room newRoom = roomService.createRoom(room);
+            return new ResponseEntity<>(newRoom, HttpStatus.CREATED);
+        });
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateRoom(
+            @RequestHeader(value = "Bearer", required = false) String token,
+            @PathVariable Integer id,
+            @RequestBody Room updatedRoom) {
+
+        return withAuth(token, () -> {
+            Optional<Room> existing = roomService.getRoomById(id);
+            if (existing.isEmpty()) {
+                return new ResponseEntity<>("Room not found", HttpStatus.NOT_FOUND);
+            }
+
+            Room room = existing.get();
+            room.setLocation(updatedRoom.getLocation());
+            room.setBuilding(updatedRoom.getBuilding());
+            room.setRoomNumber(updatedRoom.getRoomNumber());
+            room.setType(updatedRoom.getType());
+            room.setSeatCount(updatedRoom.getSeatCount());
+
+            Room saved = roomService.updateRoom(room);
+            return new ResponseEntity<>(saved, HttpStatus.OK);
+        });
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteRoom(
+            @RequestHeader(value = "Bearer", required = false) String token,
+            @PathVariable Integer id) {
+
+        return withAuth(token, () -> {
+            Optional<Room> existing = roomService.getRoomById(id);
+            if (existing.isEmpty()) {
+                return new ResponseEntity<>("Room not found", HttpStatus.NOT_FOUND);
+            }
+            roomService.deleteRoom(id);
+            return new ResponseEntity<>("Room deleted successfully", HttpStatus.NO_CONTENT);
+        });
+    }
 }

@@ -1,5 +1,8 @@
 package com.beethere.model;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Id;
@@ -7,7 +10,7 @@ import jakarta.persistence.Id;
 @Entity
 public class Employee {
 	@Id
-	private Integer id;
+	private Integer ID;
 	private String fName;	
 	private String lName;
 	private String loc;
@@ -15,33 +18,35 @@ public class Employee {
 	private String title;
 
 
-    public Employee(int id, String location, String firstName, String lastName, String department, Roles role) {
+    private static final Logger LOG = LogManager.getLogger();
+
+    public Employee(int id, String location, String firstName, String lastName, String department, String title) {
         setId(id);
         setLocation(location);
         setFirstName(firstName);
         setLastName(lastName);
         setDepartment(department);
-        setTitle(role);
+        setTitle(title);
     }
 
 	//TODO: Implement data validation for setters
     public int getId() {
         LOG.debug("Getting the employee id");
-        return id;
+        return ID;
     }
     
     
     public void setId(int id) {
         LOG.debug("Setting the employee id");
 
-        if (ID < 0){
+        if (id < 0){
 
             LOG.error("Employee ID cannot be less than 0");
             throw new IllegalArgumentException("Employee ID cannot be less than 0");
         }
 
         LOG.debug("Employee ID set to " + id);
-        this.id = id;
+        this.ID = id;
     }
 
 
@@ -92,7 +97,7 @@ public class Employee {
         }
         
         LOG.debug("Setting first name to " + firstName);
-        this.firstName = firstName;
+        this.fName = firstName;
     }
 
 

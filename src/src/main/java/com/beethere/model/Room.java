@@ -1,6 +1,10 @@
 package com.beethere.model;
 
 import java.util.*;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Id;
@@ -14,6 +18,8 @@ public class Room {
 	private String roomNumber;
 	private String type;
 	private Integer seats;
+
+    private static final Logger LOG = LogManager.getLogger();
 
 	public Room(int id, String location, String building, String roomNumber, String type, int seatCount) {
         setId(id);
@@ -31,7 +37,7 @@ public class Room {
     public void setId(int id) {
         this.roomId = id;
     }
-	 String getLocation() {
+	public String getLocation() {
          LOG.debug("returning the Address: " + location);
         return location;
     }
