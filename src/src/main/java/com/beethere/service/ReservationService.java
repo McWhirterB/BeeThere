@@ -3,6 +3,7 @@ package com.beethere.service;
 import java.util.*;
 import com.beethere.model.*;
 import com.beethere.repository.*;
+
 import org.springframework.stereotype.Service;
 
 @Service
@@ -33,7 +34,11 @@ public class ReservationService {
 		return null;
 	}
 
-	public void deleteRsvp(Reservation rsvp) {
-		reservationRepository.delete(rsvp);	
+	public void deleteRsvp(Integer id) {
+        if (reservationRepository.existsById(id)) {
+            reservationRepository.deleteById(id);
+        } else {
+            throw new RuntimeException("Room not found with ID: " + id);
+        }
 	}
 }

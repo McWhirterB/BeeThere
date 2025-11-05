@@ -1,7 +1,6 @@
 package com.beethere.controller;
 
 import com.beethere.service.*;
-
 import com.beethere.controller.AuthProxy;
 import com.beethere.model.*;
 
@@ -88,19 +87,15 @@ public class ReservationController {
         });
 	}
 
-	@DeleteMapping("/")
-	public ResponseEntity<?> deleteReservation(@RequestHeader(value = "Bearer", required = false) String token, @RequestBody Reservation rsvp) {
-		if (token == null || token.isEmpty()) {
-			return new ResponseEntity<String>("Token Required", HttpStatus.BAD_REQUEST);
-		}
-		Employee e = null;
-		
-		try { 
-			e = authProxy.verifyEmployee(new TokenRequest(token));	
-		} catch (Exception ex) {
-			return new ResponseEntity<String>("Failed to validate token", HttpStatus.UNAUTHORIZED);
-		}
-		reservationService.deleteRsvp(rsvp);
-		return new ResponseEntity< >(HttpStatus.ACCEPTED);
+	@DeleteMapping("/{id}")
+	public ResponseEntity<?> deleteReservation(@RequestHeader(value = "Bearer", required = false) String token, @PathVariable Integer id) {
+		return withAuth(token, () -> {
+            Optional<Reservation> existing = reservationService.getRsvp(id);
+            if (existing.isEmpty()) {
+                return new ResponseEntity<>("Reservation not found", HttpStatus.NOT_FOUND);
+            }
+            reservationService.deleteRsvp(id);
+            return new ResponseEntity<>("Reservation deleted successfully", HttpStatus.NO_CONTENT);
+        });
 	}
 }
