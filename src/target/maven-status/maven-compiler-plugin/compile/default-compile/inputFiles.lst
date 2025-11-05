@@ -1,7 +1,3 @@
-/home/protech/BeeThere/src/src/main/java/com/beethere/Controllers/AuthProxy.java
-/home/protech/BeeThere/src/src/main/java/com/beethere/Controllers/ReservationContoller.java
-/home/protech/BeeThere/src/src/main/java/com/beethere/Controllers/RoomController.java
-/home/protech/BeeThere/src/src/main/java/com/beethere/Controllers/TokenRequest.java
 /home/protech/BeeThere/src/src/main/java/com/beethere/app/AppApplication.java
 /home/protech/BeeThere/src/src/main/java/com/beethere/config/Config.java
 /home/protech/BeeThere/src/src/main/java/com/beethere/controller/AuthProxy.java

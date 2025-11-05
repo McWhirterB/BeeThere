@@ -22,7 +22,7 @@ public class RoomController {
 	}
 
 	@GetMapping("/")
-	public ResponseEntity<?> getRooms(@RequestHeader(value = "Bearer", required = false) String token) {
+	public ResponseEntity<?> getRooms(@RequestHeader(value = "Bearer") String token) {
 		if (token == null || token.isEmpty()) {
 			return new ResponseEntity<String>("Token Required", HttpStatus.BAD_REQUEST);
 		}
