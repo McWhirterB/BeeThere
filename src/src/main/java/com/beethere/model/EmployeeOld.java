@@ -1,37 +1,40 @@
 package com.beethere.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.Id;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import jakarta.persistence.*;
 
 @Entity
-public class Employee {
-	@Id
-	private Integer id;
-	private String fName;	
-	private String lName;
-	private String loc;
-	private String dept;
-	private String title;
+public class EmployeeOld {
+private static final Logger LOG = LogManager.getLogger();
+		@Id
+    private int ID;
+    private String firstName;
+    private String lastName;
+    private String location;
+    private String department;
+		private String title;
 
+		public EmployeeOld() {
+				
+		}
 
-    public Employee(int id, String location, String firstName, String lastName, String department, Roles role) {
-        setId(id);
+    public EmployeeOld(int ID, String location, String firstName, String lastName, String department) {
+        setID(ID);
         setLocation(location);
         setFirstName(firstName);
         setLastName(lastName);
         setDepartment(department);
-        setTitle(role);
     }
-
-	//TODO: Implement data validation for setters
-    public int getId() {
+    
+    //TODO: Implement data validation for setters
+    public int getID() {
         LOG.debug("Getting the employee id");
-        return id;
+        return ID;
     }
     
     
-    public void setId(int id) {
+    public void setID(int ID) {
         LOG.debug("Setting the employee id");
 
         if (ID < 0){
@@ -40,14 +43,14 @@ public class Employee {
             throw new IllegalArgumentException("Employee ID cannot be less than 0");
         }
 
-        LOG.debug("Employee ID set to " + id);
-        this.id = id;
+        LOG.debug("Employee ID set to " + ID);
+        this.ID = ID;
     }
 
 
    public String getLocation() {
         LOG.debug("Getting the employee location");
-        return loc;
+        return location;
     }
 
 
@@ -67,12 +70,12 @@ public class Employee {
         
         
         LOG.debug("setting location to " + location);
-        this.loc = location;
+        this.location = location;
     }
 
     public String getFirstName() {
         LOG.debug("Getting the employee first name");
-        return fName;
+        return firstName;
     }
 
 
@@ -98,7 +101,7 @@ public class Employee {
 
     public String getLastName() {
         LOG.debug("Getting the employee last name");
-        return lName;
+        return lastName;
     }
 
 
@@ -119,13 +122,13 @@ public class Employee {
         
 
         LOG.debug("Setting last name to " + lastName);
-        this.lName = lastName;
+        this.lastName = lastName;
     }
 
 
     public String getDepartment() {
         LOG.debug("Getting the employee department");
-        return dept;
+        return department;
     }
 
 
@@ -145,14 +148,6 @@ public class Employee {
         }
         
         LOG.debug("Setting department to " + department);
-        this.dept = department;
+        this.department = department;
     }
-    public String getTitle() {
-        return title;
-    }
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
 }
-

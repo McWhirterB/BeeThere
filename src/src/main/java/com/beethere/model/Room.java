@@ -1,147 +1,96 @@
 package com.beethere.model;
 
-/*
- * This is free and unencumbered software released into the public domain.
- * Anyone is free to copy, modify, publish, use, compile, sell, or distribute this software,
- * either in source code form or as a compiled binary, for any purpose, commercial or
- * non-commercial, and by any means.
- *
- * In jurisdictions that recognize copyright laws, the author or authors of this
- * software dedicate any and all copyright interest in the software to the public domain.
- * We make this dedication for the benefit of the public at large and to the detriment of
- * our heirs and successors. We intend this dedication to be an overt act of relinquishment in
- * perpetuity of all present and future rights to this software under copyright law.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
- * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
- * PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES
- * OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- *
- * For more information, please refer to: https://unlicense.org/
-*/
+import java.util.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.Id;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
+@Entity
 public class Room {
+	@Id
+	private Integer roomId;
+	private String location;
+	private String building;
+	private String roomNumber;
+	private String type;
+	private Integer seats;
 
-    private static final Logger LOG = LogManager.getLogger();
-
-    private int ID;
-    private String country;
-    private String city;
-    private String address;
-    private String roomNumber;
-    private String type;
-    private int seatCount;
-
-    public Room(int ID, String country, String city, String address, String roomNumber, String type, int seatCount) {
-        setID(ID);
-        setCountry(country);
-        setCity(city);
-        setAddress(address);
+	public Room(int id, String location, String building, String roomNumber, String type, int seatCount) {
+        setId(id);
+        setLocation(location);
+		setBuilding(building);
         setRoomNumber(roomNumber);
         setType(type);
         setSeatCount(seatCount);
     }
 
-    public int getID() {
-           LOG.debug("returning the ID: " + ID);
-        return ID;
+    public int getId() {
+           LOG.debug("returning the ID: " + roomId);
+        return roomId;
     }
-    public void setID(int ID) {
-        this.ID = ID;
+    public void setId(int id) {
+        this.roomId = id;
     }
-    public String getCountry() {
-         LOG.debug("returning the Country: " + country);
-        return country;
+	 String getLocation() {
+         LOG.debug("returning the Address: " + location);
+        return location;
     }
-    public void setCountry(String country) {
-     LOG.debug("setting the Country");
-        final int max = 20;
-        final int min = 2;
-
-        if (country == null)
-        {
-            LOG.error("Country must not be null");
-            throw new IllegalArgumentException("Country must not be null");
-        }
-
-        if (country.isEmpty())
-        {
-            LOG.error("Country must not be empty");
-            throw new IllegalArgumentException("Country must not be empty");
-        }
-        if (country.length() > max || country.length() < min)
-        {
-            LOG.error("Country must be between 2 and 20 chars in length");
-            throw new IllegalArgumentException("Country must be between 2 and 20 chars in length");
-        }
-        LOG.debug("setting the Country to: " + country);
-        this.country = country;
-    }
-    public String getCity() {
-        LOG.debug("returning the City: " + city);
-        return city;
-    }
-    
-    public void setCity(String city) {
-          LOG.debug("setting the City");
-        final int max = 20;
-        final int min = 2;
-
-        if (city == null)
-        {
-            LOG.error("City must not be null");
-            throw new IllegalArgumentException("City must not be null");
-        }
-
-        if (city.isEmpty())
-        {
-            LOG.error("City must not be empty");
-            throw new IllegalArgumentException("City must not be empty");
-        }
-        if (city.length() > max || city.length() < min)
-        {
-            LOG.error("City must be between 2 and 20 chars in length");
-            throw new IllegalArgumentException("City must be between 2 and 20 chars in length");
-        }
-        LOG.debug("setting the City to: " + city);
-        this.city = city;
-    }
-    public String getAddress() {
-         LOG.debug("returning the Address: " + address);
-        return address;
-    }
-    public void setAddress(String address) {
+    public void setLocation(String location) {
            LOG.debug("setting the address");
         final int max = 50;
         final int min = 5;
 
-        if (address == null)
+        if (location == null)
         {
             LOG.error("address must not be null");
             throw new IllegalArgumentException("address must not be null");
         }
 
-        if (address.isEmpty())
+        if (location.isEmpty())
         {
             LOG.error("address must not be empty");
             throw new IllegalArgumentException("address must not be empty");
         }
-        if (address.length() > max || address.length() < min)
+        if (location.length() > max || location.length() < min)
         {
             LOG.error("address must be between 5 and 50 chars in length");
             throw new IllegalArgumentException("address must be between 5 and 50 chars in length");
         }
-        LOG.debug("setting the address to: " + address);
-        this.address = address;
+        LOG.debug("setting the address to: " + location);
+        this.location = location;
+    }
+    public String getBuilding() {
+         LOG.debug("returning the Address: " + building);
+        return building;
+    }
+    public void setBuilding(String building) {
+           LOG.debug("setting the address");
+        final int max = 50;
+        final int min = 5;
+
+        if (building == null)
+        {
+            LOG.error("address must not be null");
+            throw new IllegalArgumentException("address must not be null");
+        }
+
+        if (building.isEmpty())
+        {
+            LOG.error("address must not be empty");
+            throw new IllegalArgumentException("address must not be empty");
+        }
+        if (building.length() > max || building.length() < min)
+        {
+            LOG.error("address must be between 5 and 50 chars in length");
+            throw new IllegalArgumentException("address must be between 5 and 50 chars in length");
+        }
+        LOG.debug("setting the address to: " + building);
+        this.building = building;
     }
     public String getRoomNumber() {
-              LOG.debug("returning the Room Number: " + roomNumber);
+		LOG.debug("returning the Room Number: " + roomNumber);
         return roomNumber;
-    }
+	}
     public void setRoomNumber(String roomNumber) {
          LOG.debug("setting the room number");
         final int max = 5;
@@ -195,8 +144,8 @@ public class Room {
         this.type = type;
     }
     public int getSeatCount() {
-        LOG.debug("returning the Seat Count: " + seatCount);
-        return seatCount;
+        LOG.debug("returning the Seat Count: " + seats);
+        return seats;
     }
     public void setSeatCount(int seatCount) {
         LOG.debug("setting the Seat Count");
@@ -209,8 +158,8 @@ public class Room {
             throw new IllegalArgumentException("Seat Count must be between 1 and 250");
         }
         LOG.debug("setting the seat count to: " + seatCount);
-        this.seatCount = seatCount;
+        this.seats = seatCount;
     }
 
-    
 }
+

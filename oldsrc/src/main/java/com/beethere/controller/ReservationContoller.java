@@ -1,4 +1,4 @@
-package com.beethere.Controllers;
+package com.beethere.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +32,7 @@ private  ReservationService reservationService;
 		this.reservationService = rsvpService;
 	}
 
-    @GetMapping("/")
+    @GetMapping({"", "/"})
    
     public ResponseEntity<?> GetRsvp(@RequestHeader(value = "Bearer" ) String token) {
 
