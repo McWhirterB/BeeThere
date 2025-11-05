@@ -1,8 +1,8 @@
 com/beethere/app/AppApplication.class
 com/beethere/config/Config.class
 com/beethere/model/Employee.class
-com/beethere/controller/AuthProxy.class
 com/beethere/controller/RoomController.class
+com/beethere/controller/AuthProxy.class
 com/beethere/repository/RoomRepository.class
 com/beethere/model/Room.class
 com/beethere/model/TokenRequest.class
