@@ -39,6 +39,7 @@ public class ReservationService {
         Optional<Reservation> perms = reservationRepository.findById(id);
         // If an employee tries to delete a reservation that's not their own
         // and they are not a manager
+        System.out.println("HI TESTING " + e.getId());
         if (perms.get().getEmployeeId() != e.getId() && !e.isManager()) {
             throw new RuntimeException("Insufficient permissions to delete reservation");
         }
@@ -47,10 +48,10 @@ public class ReservationService {
 	}
 
 	public void deleteRsvp(Integer id, Employee e) {
-        Reservation perms = reservationRepository.findById(id);
+        Optional<Reservation> perms = reservationRepository.findById(id);
         // If an employee tries to delete a reservation that's not their own
         // and they are not a manager
-        if (perms.getEmployeeId() != e.getId() && !e.isManager()) {
+        if (perms.get().getEmployeeId() != e.getId() && !e.isManager()) {
             throw new RuntimeException("Insufficient permissions to delete reservation");
         }
         

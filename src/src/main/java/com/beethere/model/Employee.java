@@ -27,8 +27,8 @@ public class Employee {
     public Employee(int id, String loc, String fName, String lName, String dept, String title) {
         setId(id);
         setLoc(loc);
-        setFName(fName);
-        setLName(lName);
+        setfName(fName);
+        setlName(lName);
         setDept(dept);
         setTitle(title);
     }
@@ -44,8 +44,8 @@ public class Employee {
     public void toStringFormat(){
         System.out.println("Employee ID: " + getId());
         System.out.println("Location: " + getLoc());
-        System.out.println("First Name: " + getFName());
-        System.out.println("Last Name: " + getLName());
+        System.out.println("First Name: " + getfName());
+        System.out.println("Last Name: " + getlName());
         System.out.println("Department: " + getDept());
         System.out.println("Title: " + getTitle());
     }
@@ -89,12 +89,12 @@ public class Employee {
         this.loc = loc;
     }
 
-    public String getFName() {
+    public String getfName() {
         LOG.debug("Getting the employee first name");
         return fName;
     }
 
-    public void setFName(String fName) {
+    public void setfName(String fName) {
         LOG.debug("Setting the employee first name");
         final int min = 1;
         final int max = 20;
@@ -112,12 +112,12 @@ public class Employee {
         this.fName = fName;
     }
 
-    public String getLName() {
+    public String getlName() {
         LOG.debug("Getting the employee last name");
         return lName;
     }
 
-    public void setLName(String lName) {
+    public void setlName(String lName) {
         LOG.debug("Setting the employee last name");
         final int min = 1;
         final int max = 20;
