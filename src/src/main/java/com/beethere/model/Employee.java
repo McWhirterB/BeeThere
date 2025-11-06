@@ -6,8 +6,8 @@ import org.apache.logging.log4j.Logger;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import com.beethere.config.Config;
+import com.beethere.utils.sanitizer.Sanitize;
 
 @Entity
 public class Employee {
@@ -20,9 +20,11 @@ public class Employee {
     private String dept;
     private String title;
 
-    private static final Logger LOG = LogManager.getLogger();
+    private static final Logger APPLICATION_LOGGER = LogManager.getLogger("Application");
+    private static final Config CONFIG = Config.getInstance();
 
     public Employee(int id, String loc, String fName, String lName, String dept, String title) {
+        APPLICATION_LOGGER.debug("Constructing Employee");
         setId(id);
         setLoc(loc);
         setFName(fName);
@@ -40,121 +42,133 @@ public class Employee {
         System.out.println("Title: " + getTitle());
     }
 
+    public boolean isManager() {
+        if (title.toLowerCase().contains("manager")) {
+            return true;
+        }
+        return false;
+    }
+
     // Getters and Setters
     public int getId() {
-        LOG.debug("Getting the employee id");
+        APPLICATION_LOGGER.debug("Getting the employee id");
         return id;
     }
 
     public void setId(int id) {
-        LOG.debug("Setting the employee id");
+        APPLICATION_LOGGER.debug("Setting the employee id");
         if (id < 0) {
-            LOG.error("Employee ID cannot be less than 0");
+            APPLICATION_LOGGER.error("Employee ID cannot be less than 0");
             throw new IllegalArgumentException("Employee ID cannot be less than 0");
         }
-        LOG.debug("Employee ID set to " + id);
+        APPLICATION_LOGGER.debug("Employee ID set to " + id);
         this.id = id;
     }
 
     public String getLoc() {
-        LOG.debug("Getting the employee location");
+        APPLICATION_LOGGER.debug("Getting the employee location");
         return loc;
     }
 
     public void setLoc(String loc) {
-        LOG.debug("Setting the employee location");
-        final int min = 2;
-        final int max = 20;
+        APPLICATION_LOGGER.debug("Setting the employee location");
+        final int min = 1;
+        final int max = CONFIG.getShortStringMaxLength();
 
         if (loc == null || loc.isEmpty()) {
-            LOG.error("Location cannot be null or empty");
+            APPLICATION_LOGGER.error("Location cannot be null or empty");
             throw new IllegalArgumentException("Location cannot be null or empty");
         }
         if (loc.length() < min || loc.length() > max) {
-            LOG.error("Location must be between " + min + " and " + max + " characters");
+            APPLICATION_LOGGER.error("Location must be between " + min + " and " + max + " characters");
             throw new IllegalArgumentException("Location must be between " + min + " and " + max + " characters");
         }
 
-        LOG.debug("Setting location to " + loc);
-        this.loc = loc;
+            String cleanLoc = Sanitize.sanitizeHtml(loc);
+        APPLICATION_LOGGER.debug("Setting location to " + cleanLoc);
+        this.loc = cleanLoc;
     }
 
     public String getFName() {
-        LOG.debug("Getting the employee first name");
+        APPLICATION_LOGGER.debug("Getting the employee first name");
         return fName;
     }
 
     public void setFName(String fName) {
-        LOG.debug("Setting the employee first name");
+        APPLICATION_LOGGER.debug("Setting the employee first name");
         final int min = 1;
-        final int max = 20;
+        final int max = CONFIG.getShortStringMaxLength();
 
         if (fName == null || fName.isEmpty()) {
-            LOG.error("First name cannot be null or empty");
+            APPLICATION_LOGGER.error("First name cannot be null or empty");
             throw new IllegalArgumentException("First name cannot be null or empty");
         }
         if (fName.length() < min || fName.length() > max) {
-            LOG.error("First name must be between " + min + " and " + max + " characters");
+            APPLICATION_LOGGER.error("First name must be between " + min + " and " + max + " characters");
             throw new IllegalArgumentException("First name must be between " + min + " and " + max + " characters");
         }
 
-        LOG.debug("Setting first name to " + fName);
-        this.fName = fName;
+        String cleanfName = Sanitize.sanitizeHtml(fName);
+        APPLICATION_LOGGER.debug("Setting first name to " + cleanfName);
+        this.fName = cleanfName;
     }
 
     public String getLName() {
-        LOG.debug("Getting the employee last name");
+        APPLICATION_LOGGER.debug("Getting the employee last name");
         return lName;
     }
 
     public void setLName(String lName) {
-        LOG.debug("Setting the employee last name");
+        APPLICATION_LOGGER.debug("Setting the employee last name");
         final int min = 1;
-        final int max = 20;
+        final int max = CONFIG.getShortStringMaxLength();
 
         if (lName == null || lName.isEmpty()) {
-            LOG.error("Last name cannot be null or empty");
+            APPLICATION_LOGGER.error("Last name cannot be null or empty");
             throw new IllegalArgumentException("Last name cannot be null or empty");
         }
         if (lName.length() < min || lName.length() > max) {
-            LOG.error("Last name must be between " + min + " and " + max + " characters");
+            APPLICATION_LOGGER.error("Last name must be between " + min + " and " + max + " characters");
             throw new IllegalArgumentException("Last name must be between " + min + " and " + max + " characters");
         }
 
-        LOG.debug("Setting last name to " + lName);
-        this.lName = lName;
+        String cleanlName = Sanitize.sanitizeHtml(lName);
+        APPLICATION_LOGGER.debug("Setting last name to " + cleanlName);
+        this.lName = cleanlName;
     }
 
     public String getDept() {
-        LOG.debug("Getting the employee department");
+        APPLICATION_LOGGER.debug("Getting the employee department");
         return dept;
     }
 
     public void setDept(String dept) {
-        LOG.debug("Setting the employee department");
+        APPLICATION_LOGGER.debug("Setting the employee department");
         final int min = 1;
-        final int max = 40;
+        final int max = CONFIG.getLongStringMaxLength();
 
         if (dept == null || dept.isEmpty()) {
-            LOG.error("Department cannot be null or empty");
+            APPLICATION_LOGGER.error("Department cannot be null or empty");
             throw new IllegalArgumentException("Department cannot be null or empty");
         }
         if (dept.length() < min || dept.length() > max) {
-            LOG.error("Department must be between " + min + " and " + max + " characters");
+            APPLICATION_LOGGER.error("Department must be between " + min + " and " + max + " characters");
             throw new IllegalArgumentException("Department must be between " + min + " and " + max + " characters");
         }
 
-        LOG.debug("Setting department to " + dept);
-        this.dept = dept;
+        String cleanDept = Sanitize.sanitizeHtml(dept);
+        APPLICATION_LOGGER.debug("Setting department to " + cleanDept);
+        this.dept = cleanDept;
     }
 
     public String getTitle() {
-        LOG.debug("Getting the employee title");
+        APPLICATION_LOGGER.debug("Getting the employee title");
         return title;
     }
 
     public void setTitle(String title) {
-        LOG.debug("Setting the employee title");
-        this.title = title;
+        String cleanTitle = Sanitize.sanitizeHtml(title);
+        APPLICATION_LOGGER.debug("Setting the employee title");
+        this.title = cleanTitle;
     }
 }

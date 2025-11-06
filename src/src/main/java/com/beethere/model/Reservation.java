@@ -1,134 +1,147 @@
 package com.beethere.model;
 
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.beethere.utils.sanitizer.Sanitize;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.JoinColumn;
+
+@Entity
 public class Reservation {
-    private int ID;
-    private Date startTime;
-    private Date endTime;
-    private String owner;
-    private int ownerID;
-    private ArrayList<Room> rooms;
+	@Id
+	private Integer reservationId;
+	private Integer employeeId;
+	private String employeeName;
+	private Date startTime;
+	private Date endTime;
 
-    public Reservation(int ID, Date startTime, Date endTime, String owner, int ownerID, ArrayList<Room> rooms){
-        setID(ID);
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+        name = "reservation_room",
+        joinColumns = @JoinColumn(name = "reservation_id"),
+        inverseJoinColumns = @JoinColumn(name = "room_id")
+    )
+    private Set<Room> rooms = new HashSet<>();
+
+    private static final Logger APPLICATION_LOGGER = LogManager.getLogger("Application");
+
+    public Reservation() {
+        APPLICATION_LOGGER.debug("Constructing Default Reservation");
+    }
+
+    public Reservation(Integer reservationId, Integer employeId, String employeeName, Date startTime, Date endTime) {
+        APPLICATION_LOGGER.debug("Constructing Reservation");
+        setReservationId(reservationId);
+        setEmployeeId(employeId);
+        setEmployeeName(employeeName);
         setStartTime(startTime);
         setEndTime(endTime);
-        setOwner(owner);
-        setOwnerID(ownerID);
-        setRooms(rooms);
     }
 
-    
-    //TODO: Implement data validation for setters
-    public int getID() {
-        return ID;
+    public Integer getReservationId() {
+        APPLICATION_LOGGER.debug("Getting reservation ID");
+        return reservationId;
     }
 
-
-    public void setID(int ID) {
-        //LOG.debug("Setting the reservation id");
-        if (ID < 0){
-            //LOG.error("Reservation ID cannot be less than 0");
-            throw new IllegalArgumentException("Reservation ID cannot be less than 0");
+    public void setReservationId(Integer reservationId) {
+        APPLICATION_LOGGER.debug("Setting reservation ID");
+        if (reservationId <= 0){
+            APPLICATION_LOGGER.error("Reservation ID cannot be <= 0");
+            throw new IllegalArgumentException("Reservation ID cannot be <= 0");
         }
-
-        this.ID = ID;
+        this.reservationId = reservationId;
     }
 
-    
+    public Integer getEmployeeId() {
+        APPLICATION_LOGGER.debug(employeeName, APPLICATION_LOGGER);
+        return employeeId;
+    }
+
+    public void setEmployeeId(Integer employeeId) {
+        APPLICATION_LOGGER.debug("Setting employee ID");
+        if (employeeId <= 0){
+            APPLICATION_LOGGER.error("Employee ID cannot be <= 0");
+            throw new IllegalArgumentException("Employee ID cannot be <= 0");
+        }
+        this.employeeId = employeeId;
+    }
+
+    public String getEmployeeName() {
+        APPLICATION_LOGGER.debug("Getting employee name");
+        return employeeName;
+    }
+
+    public void setEmployeeName(String employeeName) {
+        APPLICATION_LOGGER.debug("Setting employee name");
+        String cleanEmployeeName = Sanitize.sanitizeHtml(employeeName);
+        if (cleanEmployeeName == null || cleanEmployeeName.isEmpty()) {
+            APPLICATION_LOGGER.error("Employee name cannot be null or empty");
+            throw new IllegalArgumentException("Employee name cannot be null or empty");
+        }
+        this.employeeName = cleanEmployeeName;
+    }
+
     public Date getStartTime() {
+        APPLICATION_LOGGER.debug("Getting start time");
         return startTime;
     }
 
-
     public void setStartTime(Date startTime) {
+        APPLICATION_LOGGER.debug("Setting start time");
         Date now = new Date();
-        if (startTime == null){
-            throw new IllegalArgumentException("Start time cannot be null");
-        }
-        if (startTime.after(endTime)) {
-            throw new IllegalArgumentException("Start time cannot be after end time");
-        }
-        if (startTime.equals(endTime)) {
-            throw new IllegalArgumentException("Start time cannot be the same as end time");
-        }
-        if (startTime.before(now)) {
-            throw new IllegalArgumentException("Start time cannot be in the past");
+        if (endTime != null) {
+            if (startTime == null){
+                throw new IllegalArgumentException("Start time cannot be null");
+            }
+            if (startTime.after(endTime)) {
+                throw new IllegalArgumentException("Start time cannot be after end time");
+            }
+            if (startTime.equals(endTime)) {
+                throw new IllegalArgumentException("Start time cannot be the same as end time");
+            }
+            if (startTime.before(now)) {
+                throw new IllegalArgumentException("Start time cannot be in the past");
+            }
         }
         this.startTime = startTime;
     }
 
-
     public Date getEndTime() {
+        APPLICATION_LOGGER.debug("Getting end time");
         return endTime;
     }
 
-
     public void setEndTime(Date endTime) {
+        APPLICATION_LOGGER.debug("Setting end time");
         Date now = new Date();
-
-        if (endTime == null){
-            throw new IllegalArgumentException("End time cannot be null");
-        }
-        if (endTime.before(startTime)) {
-            throw new IllegalArgumentException("End time cannot be before start time");
-        }
-        if (endTime.equals(startTime)) {
-            throw new IllegalArgumentException("End time cannot be the same as start time");
-        }
-        if (endTime.before(now)) {
-            throw new IllegalArgumentException("End time cannot be in the past");
+        if (startTime != null) {
+            if (endTime == null){
+                throw new IllegalArgumentException("End time cannot be null");
+            }
+            if (endTime.before(startTime)) {
+                throw new IllegalArgumentException("End time cannot be before start time");
+            }
+            if (endTime.equals(startTime)) {
+                throw new IllegalArgumentException("End time cannot be the same as start time");
+            }
+            if (endTime.before(now)) {
+                throw new IllegalArgumentException("End time cannot be in the past");
+            }
         }
         this.endTime = endTime;
     }
 
-
-    public String getOwner() {
-        return owner;
-    }
-    
-    
-    public void setOwner(String owner) {
-        final int min = 2;
-        final int max = 40;
-
-        if (owner == null || owner.isEmpty()){
-            throw new IllegalArgumentException("Owner cannot be null or empty");
-        }
-        if (owner.length() < min || owner.length() > max) {
-            throw new IllegalArgumentException("Owner name must be between " + min + " and " + max + " characters");
-        }
-        
-        this.owner = owner;
-    }
-
-
-    public int getOwnerID() {
-        return ownerID;
-    }
-    
-    
-    public void setOwnerID(int ownerID) {
-        if (ownerID < 0){
-            throw new IllegalArgumentException("Owner ID cannot be less than 0");
-        }
-        this.ownerID = ownerID;
-    }
-
-
-    public ArrayList<Room> getRooms() {
-        return rooms;
-    }
-
-
-    public void setRooms(ArrayList<Room> rooms) {
-        if (rooms == null || rooms.isEmpty()){
-            throw new IllegalArgumentException("Rooms cannot be null or empty");
-        }
-        this.rooms = rooms;
-    }
-
-    
+    public Set<Room> getRooms() { return rooms; }
+    public void setRooms(Set<Room> rooms) { this.rooms = rooms; }
 }
