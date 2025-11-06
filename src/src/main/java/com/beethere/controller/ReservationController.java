@@ -1,32 +1,45 @@
 package com.beethere.controller;
 
-import com.beethere.service.*;
-import com.beethere.controller.AuthProxy;
-import com.beethere.model.*;
-
-import java.util.*;
+import java.util.Optional;
 import java.util.function.Function;
-import java.util.function.Supplier;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.beethere.model.Employee;
+import com.beethere.model.Reservation;
+import com.beethere.model.TokenRequest;
+import com.beethere.service.ReservationService;
 
 @RestController
-@RequestMapping("/reservation")
+@RequestMapping("/reservations")
 public class ReservationController {
 	private AuthProxy authProxy;
 	private ReservationService reservationService;
 
+    private static final Logger APPLICATION_LOGGER = LogManager.getLogger("Application");
+    private static final Logger SECURITY_LOGGER = LogManager.getLogger("Security");
+
 	public ReservationController(AuthProxy authProxy, ReservationService reservationService) {
+        APPLICATION_LOGGER.debug("Constructing ReservationController");
 		this.authProxy = authProxy;
 		this.reservationService = reservationService;
 	}
 
     private ResponseEntity<?> withAuth(String token, Function<Employee, ResponseEntity<?>> action) {
         if (token == null || token.isEmpty()) {
+            SECURITY_LOGGER.error("Authentication failed: Token is missing ");
             return new ResponseEntity<>("Token Required", HttpStatus.BAD_REQUEST);
         }
         try {
@@ -35,11 +48,12 @@ public class ReservationController {
             return action.apply(employee);
         } catch (Exception ex) {
             ex.printStackTrace();
+            SECURITY_LOGGER.error("Authentication failed: Invalid token");
             return new ResponseEntity<>("Failed to validate token", HttpStatus.UNAUTHORIZED);
         }
     }
 
-	@GetMapping("/")
+	@GetMapping({"", "/"})
 	public ResponseEntity<?> getReservations(@RequestHeader(value = "Bearer", required = false) String token) {
 		return withAuth(token, employee -> {
             Iterable<Reservation> rsvps = reservationService.getRsvps();
