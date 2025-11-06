@@ -15,6 +15,14 @@ public class Reservation {
 	public Date startTime;
 	public Date endTime;
 
+    @ManyToMany
+    @JoinTable(
+        name = "reservation_room", // join table name
+        joinColumns = @JoinColumn(name = "reservation_id"), // column referring to Reservation
+        inverseJoinColumns = @JoinColumn(name = "room_id") // column referring to Room
+    )
+    private Set<Room> rooms = new HashSet<>();
+
     public Reservation() {}
 
     public Reservation(Integer reservationId, Integer employeId, String employeeName, Date startTime, Date endTime) {
@@ -59,19 +67,19 @@ public class Reservation {
     }
 
     public void setStartTime(Date startTime) {
-        Date now = new Date();
-        if (startTime == null){
-            throw new IllegalArgumentException("Start time cannot be null");
-        }
-        if (startTime.after(endTime)) {
-            throw new IllegalArgumentException("Start time cannot be after end time");
-        }
-        if (startTime.equals(endTime)) {
-            throw new IllegalArgumentException("Start time cannot be the same as end time");
-        }
-        if (startTime.before(now)) {
-            throw new IllegalArgumentException("Start time cannot be in the past");
-        }
+        // Date now = new Date();
+        // if (startTime == null){
+        //     throw new IllegalArgumentException("Start time cannot be null");
+        // }
+        // if (startTime.after(endTime)) {
+        //     throw new IllegalArgumentException("Start time cannot be after end time");
+        // }
+        // if (startTime.equals(endTime)) {
+        //     throw new IllegalArgumentException("Start time cannot be the same as end time");
+        // }
+        // if (startTime.before(now)) {
+        //     throw new IllegalArgumentException("Start time cannot be in the past");
+        // }
         this.startTime = startTime;
     }
 
@@ -80,20 +88,23 @@ public class Reservation {
     }
 
     public void setEndTime(Date endTime) {
-        Date now = new Date();
+        // Date now = new Date();
 
-        if (endTime == null){
-            throw new IllegalArgumentException("End time cannot be null");
-        }
-        if (endTime.before(startTime)) {
-            throw new IllegalArgumentException("End time cannot be before start time");
-        }
-        if (endTime.equals(startTime)) {
-            throw new IllegalArgumentException("End time cannot be the same as start time");
-        }
-        if (endTime.before(now)) {
-            throw new IllegalArgumentException("End time cannot be in the past");
-        }
+        // if (endTime == null){
+        //     throw new IllegalArgumentException("End time cannot be null");
+        // }
+        // if (endTime.before(startTime)) {
+        //     throw new IllegalArgumentException("End time cannot be before start time");
+        // }
+        // if (endTime.equals(startTime)) {
+        //     throw new IllegalArgumentException("End time cannot be the same as start time");
+        // }
+        // if (endTime.before(now)) {
+        //     throw new IllegalArgumentException("End time cannot be in the past");
+        // }
         this.endTime = endTime;
     }
+
+    public Set<Room> getRooms() { return rooms; }
+    public void setRooms(Set<Room> rooms) { this.rooms = rooms; }
 }

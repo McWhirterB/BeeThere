@@ -1,11 +1,14 @@
 package com.beethere.model;
 
+import java.util.Set;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 
 import com.beethere.utils.sanitizer.Sanitize;
 
@@ -21,6 +24,9 @@ public class Room {
 	private String roomNumber;
 	private String type;
 	private Integer seats;
+
+    @ManyToMany(mappedBy = "rooms")
+    private Set<Reservation> reservations; 
 
     private static final Logger LOG = LogManager.getLogger();
 
@@ -158,6 +164,14 @@ public class Room {
         }
         LOG.debug("setting the seat count to: " + seatCount);
         this.seats = seatCount;
+    }
+
+    public Set<Reservation> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations(Set<Reservation> reservations) {
+        this.reservations = reservations;
     }
 
 }
