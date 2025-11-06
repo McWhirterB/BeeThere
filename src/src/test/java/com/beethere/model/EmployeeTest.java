@@ -2,6 +2,9 @@ package com.beethere.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import java.io.FileInputStream;
+
 import org.junit.jupiter.api.Test;
 // import org.springframework.test.context.event.annotation;
 
@@ -23,6 +26,11 @@ public class EmployeeTest {
     //     String expected = "whomp";
     //     assertEquals(actual, expected);
             
+    // }
+    // @BeforeAll
+    // void initializeConfig() throws FileNotFoundException{
+    //     System.getProperty("user.dir");
+    //     Config.initializeFromFile(new FileInputStream("config.yaml"));
     // }
 
 
@@ -66,7 +74,7 @@ public class EmployeeTest {
     @Test
     void testGetTitle() {
         String actual = testEmployee.getTitle();
-        String expected = "Ketchum";
+        String expected = "Trainer";
         assertEquals(actual, expected);
     }
 
