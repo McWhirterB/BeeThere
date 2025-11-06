@@ -36,19 +36,19 @@ public class ReservationService {
 		return reservationRepository.save(rsvp);
 	}
 
-	public Reservation updateRsvp(Reservation rsvp) {
-		if (reservationRepository.existsById(rsvp.reservationId)) {
-			return reservationRepository.save(rsvp);
+	public Reservation updateRsvp(Reservation rsvp, Employee e) {
+		Optional<Reservation> perms = reservationRepository.findById(rsvp.getReservationId());
+		if (perms.get().getEmployeeId() != e.getId() && !e.isManager()) {
+			throw new RuntimeException("Insufficient permissions to update reservation");
 		}
-
-		return null;
+		return reservationRepository.save(rsvp);
 	}
 
-	public void deleteRsvp(Integer id) {
-        if (reservationRepository.existsById(id)) {
-            reservationRepository.deleteById(id);
-        } else {
-            throw new RuntimeException("Room not found with ID: " + id);
-        }
+	public void deleteRsvp(Integer id, Employee e) {
+		Optional<Reservation> perms = reservationRepository.findById(id);
+		if (perms.get().getEmployeeId() != e.getId() && !e.isManager()) {
+			throw new RuntimeException("Insufficient permissions to delete reservation");
+		}
+        reservationRepository.deleteById(id);
 	}
 }
