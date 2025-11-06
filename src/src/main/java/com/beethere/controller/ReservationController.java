@@ -5,6 +5,7 @@ import com.beethere.controller.AuthProxy;
 import com.beethere.model.*;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,17 +25,14 @@ public class ReservationController {
 		this.reservationService = reservationService;
 	}
 
-    private ResponseEntity<?> withAuth(String token, Supplier<ResponseEntity<?>> action) {
+    private ResponseEntity<?> withAuth(String token, Function<Employee, ResponseEntity<?>> action) {
         if (token == null || token.isEmpty()) {
             return new ResponseEntity<>("Token Required", HttpStatus.BAD_REQUEST);
         }
-
         try {
             Employee employee = authProxy.verifyEmployee(new TokenRequest(token));
-            employee.toStringFormat();
-            //String response = authProxy.verifyEmployee(new TokenRequest(token));
-            //System.out.println(response);
-            return action.get();
+            employee.toStringFormat(); // optional, maybe for logging
+            return action.apply(employee);
         } catch (Exception ex) {
             ex.printStackTrace();
             return new ResponseEntity<>("Failed to validate token", HttpStatus.UNAUTHORIZED);
@@ -43,7 +41,7 @@ public class ReservationController {
 
 	@GetMapping("/")
 	public ResponseEntity<?> getReservations(@RequestHeader(value = "Bearer", required = false) String token) {
-		return withAuth(token, () -> {
+		return withAuth(token, employee -> {
             Iterable<Reservation> rsvps = reservationService.getRsvps();
             return new ResponseEntity<>(rsvps, HttpStatus.OK);
         });
@@ -51,7 +49,7 @@ public class ReservationController {
 
 	@GetMapping("/{id}")
 	public ResponseEntity<?> getReservation(@RequestHeader(value = "Bearer", required = false) String token, @PathVariable("id") Integer id) {
-		return withAuth(token, () -> {
+		return withAuth(token, employee -> {
             Optional<Reservation> rsvp = reservationService.getRsvp(id);
             return rsvp.isPresent()
                     ? new ResponseEntity<>(rsvp.get(), HttpStatus.OK)
@@ -61,7 +59,7 @@ public class ReservationController {
 
 	@PostMapping("/")
 	public ResponseEntity<?> createReservation(@RequestHeader(value = "Bearer", required = false) String token, @RequestBody Reservation rsvp) {
-		return withAuth(token, () -> {
+		return withAuth(token, employee -> {
             Reservation newRsvp = reservationService.createRsvp(rsvp);
             return new ResponseEntity<>(newRsvp, HttpStatus.CREATED);
         });
@@ -69,7 +67,7 @@ public class ReservationController {
 
 	@PutMapping("/{id}")
 	public ResponseEntity<?> updateReservation(@RequestHeader(value = "Bearer", required = false) String token, @PathVariable Integer id, @RequestBody Reservation updatedRsvp) {
-		return withAuth(token, () -> {
+		return withAuth(token, employee -> {
             Optional<Reservation> existing = reservationService.getRsvp(id);
             if (existing.isEmpty()) {
                 return new ResponseEntity<>("Reservation not found", HttpStatus.NOT_FOUND);
@@ -79,22 +77,22 @@ public class ReservationController {
             rsvp.setReservationId(updatedRsvp.getReservationId());
             rsvp.setEmployeeId(updatedRsvp.getEmployeeId());
             rsvp.setEmployeeName(updatedRsvp.getEmployeeName());
-            rsvp.setStartTime(updatedRsvp.getStartTime());
             rsvp.setEndTime(updatedRsvp.getEndTime());
+            rsvp.setStartTime(updatedRsvp.getStartTime());
 
-            Reservation saved = reservationService.updateRsvp(rsvp);
+            Reservation saved = reservationService.updateRsvp(rsvp, employee);
             return new ResponseEntity<>(saved, HttpStatus.OK);
         });
 	}
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deleteReservation(@RequestHeader(value = "Bearer", required = false) String token, @PathVariable Integer id) {
-		return withAuth(token, () -> {
+		return withAuth(token, employee -> {
             Optional<Reservation> existing = reservationService.getRsvp(id);
             if (existing.isEmpty()) {
                 return new ResponseEntity<>("Reservation not found", HttpStatus.NOT_FOUND);
             }
-            reservationService.deleteRsvp(id);
+            reservationService.deleteRsvp(id, employee);
             return new ResponseEntity<>("Reservation deleted successfully", HttpStatus.NO_CONTENT);
         });
 	}

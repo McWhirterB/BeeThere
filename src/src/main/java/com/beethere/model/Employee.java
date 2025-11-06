@@ -39,6 +39,13 @@ public class Employee {
         System.out.println("Title: " + getTitle());
     }
 
+    public boolean isManager() {
+        if (title.toLowerCase().contains("manager")) {
+            return true;
+        }
+        return false;
+    }
+
     // Getters and Setters
     public int getId() {
         LOG.debug("Getting the employee id");

@@ -36,18 +36,18 @@ public class RoomController {
 
 
     private ResponseEntity<?> withAuth(String token, Function<Employee, ResponseEntity<?>> action) {
-    if (token == null || token.isEmpty()) {
-        return new ResponseEntity<>("Token Required", HttpStatus.BAD_REQUEST);
+        if (token == null || token.isEmpty()) {
+            return new ResponseEntity<>("Token Required", HttpStatus.BAD_REQUEST);
+        }
+        try {
+            Employee employee = authProxy.verifyEmployee(new TokenRequest(token));
+            employee.toStringFormat(); // optional, maybe for logging
+            return action.apply(employee);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return new ResponseEntity<>("Failed to validate token", HttpStatus.UNAUTHORIZED);
+        }
     }
-    try {
-        Employee employee = authProxy.verifyEmployee(new TokenRequest(token));
-        employee.toStringFormat(); // optional, maybe for logging
-        return action.apply(employee);
-    } catch (Exception ex) {
-        ex.printStackTrace();
-        return new ResponseEntity<>("Failed to validate token", HttpStatus.UNAUTHORIZED);
-    }
-}
 
 
    @GetMapping({"", "/"})
