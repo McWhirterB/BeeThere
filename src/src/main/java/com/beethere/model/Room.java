@@ -10,6 +10,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.beethere.utils.sanitizer.Sanitize;
 
 @Entity
@@ -26,6 +27,7 @@ public class Room {
 	private Integer seats;
 
     @ManyToMany(mappedBy = "rooms")
+    @JsonIgnore 
     private Set<Reservation> reservations; 
 
     private static final Logger LOG = LogManager.getLogger();

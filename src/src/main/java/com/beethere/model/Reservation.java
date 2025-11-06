@@ -3,6 +3,7 @@ package com.beethere.model;
 import java.util.*;
 
 import com.beethere.utils.sanitizer.Sanitize;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.*;
 
@@ -15,11 +16,11 @@ public class Reservation {
 	public Date startTime;
 	public Date endTime;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
-        name = "reservation_room", // join table name
-        joinColumns = @JoinColumn(name = "reservation_id"), // column referring to Reservation
-        inverseJoinColumns = @JoinColumn(name = "room_id") // column referring to Room
+        name = "reservation_room",
+        joinColumns = @JoinColumn(name = "reservation_id"),
+        inverseJoinColumns = @JoinColumn(name = "room_id")
     )
     private Set<Room> rooms = new HashSet<>();
 

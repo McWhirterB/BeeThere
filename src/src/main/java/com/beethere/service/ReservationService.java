@@ -13,8 +13,9 @@ public class ReservationService {
 	private ReservationRepository reservationRepository;
 	private RoomRepository roomRepository;
 
-	public ReservationService(ReservationRepository reservationRepository) {
+	public ReservationService(ReservationRepository reservationRepository, RoomRepository roomRepsitory) {
 		this.reservationRepository = reservationRepository;
+        this.roomRepository = roomRepsitory;
 	}
 
 	public Iterable<Reservation> getRsvps() {
