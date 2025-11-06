@@ -1,6 +1,9 @@
 package com.beethere.model;
 
 import java.util.*;
+
+import com.beethere.utils.sanitizer.Sanitize;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -47,7 +50,8 @@ public class Reservation {
     }
 
     public void setEmployeeName(String employeeName) {
-        this.employeeName = employeeName;
+        String cleanEmployeeName = Sanitize.sanitizeHtml(employeeName);
+        this.employeeName = cleanEmployeeName;
     }
 
     public Date getStartTime() {

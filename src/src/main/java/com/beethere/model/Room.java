@@ -7,7 +7,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
-
+import com.beethere.utils.sanitizer.Sanitize;
 
 @Entity
 public class Room {
@@ -59,8 +59,9 @@ public class Room {
             LOG.error("building must be between 1 and 50 chars in length");
             throw new IllegalArgumentException("building must be between 1 and 50 chars in length");
         }
-        LOG.debug("setting the building to: " + location);
-        this.location = location;
+        String cleanLocation = Sanitize.sanitizeHtml(location);
+        LOG.debug("setting the building to: " + cleanLocation);
+        this.location = cleanLocation;
     }
     public String getBuilding() {
          LOG.debug("returning the Address: " + building);
@@ -85,8 +86,9 @@ public class Room {
             LOG.error("building must be between 1 and 50 chars in length");
             throw new IllegalArgumentException("building must be between 1 and 50 chars in length");
         }
-        LOG.debug("setting the building to: " + building);
-        this.building = building;
+        String cleanBuilding = Sanitize.sanitizeHtml(building);
+        LOG.debug("setting the building to: " + cleanBuilding);
+        this.building = cleanBuilding;
     }
     public String getRoomNumber() {
 		LOG.debug("returning the Room Number: " + roomNumber);
@@ -137,8 +139,9 @@ public class Room {
             LOG.error("Type must be between 1 and 50 characters in length");
             throw new IllegalArgumentException("Type must be between 1 and 50 characters in length");
         }
-        LOG.debug("setting the Type to: " + type);
-        this.type = type;
+        String cleanType = Sanitize.sanitizeHtml(type);
+        LOG.debug("setting the Type to: " + cleanType);
+        this.type = cleanType;
     }
     public int getSeatCount() {
         LOG.debug("returning the Seat Count: " + seats);
