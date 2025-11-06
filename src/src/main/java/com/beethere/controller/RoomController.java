@@ -1,6 +1,7 @@
 package com.beethere.controller;
 
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 import org.springframework.http.HttpStatus;
@@ -34,22 +35,20 @@ public class RoomController {
     }
 
 
-    private ResponseEntity<?> withAuth(String token, Supplier<ResponseEntity<?>> action) {
+    private ResponseEntity<?> withAuth(String token, Function<Employee, ResponseEntity<?>> action) {
         if (token == null || token.isEmpty()) {
             return new ResponseEntity<>("Token Required", HttpStatus.BAD_REQUEST);
         }
-
         try {
             Employee employee = authProxy.verifyEmployee(new TokenRequest(token));
-            employee.toStringFormat();
-            //String response = authProxy.verifyEmployee(new TokenRequest(token));
-            //System.out.println(response);
-            return action.get();
+            employee.toStringFormat(); // optional, maybe for logging
+            return action.apply(employee);
         } catch (Exception ex) {
             ex.printStackTrace();
             return new ResponseEntity<>("Failed to validate token", HttpStatus.UNAUTHORIZED);
         }
     }
+
 
    @GetMapping({"", "/"})
     public ResponseEntity<?> getAllRooms(
@@ -57,7 +56,7 @@ public class RoomController {
             @RequestParam(required = false) String location,
             @RequestParam(required = false) String type
     ) {
-        return withAuth(token, () -> {
+        return withAuth(token, employee -> {
             Iterable<Room> rooms = roomService.getRooms(location, type);
             return new ResponseEntity<>(rooms, HttpStatus.OK);
         });
@@ -69,7 +68,7 @@ public class RoomController {
             @RequestHeader(value = "Bearer", required = false) String token,
             @PathVariable Integer id) {
 
-        return withAuth(token, () -> {
+        return withAuth(token, employee -> {
             Optional<Room> room = roomService.getRoomById(id);
             return room.isPresent()
                     ? new ResponseEntity<>(room.get(), HttpStatus.OK)
@@ -82,8 +81,8 @@ public class RoomController {
             @RequestHeader(value = "Bearer", required = false) String token,
             @RequestBody Room room) {
 
-        return withAuth(token, () -> {
-            Room newRoom = roomService.createRoom(room);
+        return withAuth(token, employee -> {
+            Room newRoom = roomService.createRoom(room, employee);
             return new ResponseEntity<>(newRoom, HttpStatus.CREATED);
         });
     }
@@ -94,10 +93,13 @@ public class RoomController {
             @PathVariable Integer id,
             @RequestBody Room updatedRoom) {
 
-        return withAuth(token, () -> {
+        return withAuth(token, employee -> {
             Optional<Room> existing = roomService.getRoomById(id);
             if (existing.isEmpty()) {
                 return new ResponseEntity<>("Room not found", HttpStatus.NOT_FOUND);
+            }
+            if (!"Manager".equals(employee.getTitle())) {
+                return new ResponseEntity<>("Access Denied: Only managers can update rooms.", HttpStatus.FORBIDDEN);
             }
 
             Room room = existing.get();
@@ -117,13 +119,13 @@ public class RoomController {
             @RequestHeader(value = "Bearer", required = false) String token,
             @PathVariable Integer id) {
 
-        return withAuth(token, () -> {
+        return withAuth(token, employee -> {
             Optional<Room> existing = roomService.getRoomById(id);
             if (existing.isEmpty()) {
                 return new ResponseEntity<>("Room not found", HttpStatus.NOT_FOUND);
             }
-            roomService.deleteRoom(id);
-            return new ResponseEntity<>("Room deleted successfully", HttpStatus.NO_CONTENT);
+            roomService.deleteRoom(id, employee);
+            return new ResponseEntity<>("Room successfully deleted", HttpStatus.NO_CONTENT);
         });
     }
 }
