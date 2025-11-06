@@ -28,10 +28,7 @@ public class Config {
     private int longStringMaxLength = -1;
     private String logConfigPath = "";
 
-    public static Config getInstance() throws IOException{
-        if (instance == null){
-            initializeFromFile();
-        }
+    public static Config getInstance(){
         return instance;
     }
 
@@ -61,19 +58,11 @@ public class Config {
         this.logConfigPath = path;
     }
 
-    public static void initializeFromFile() throws IOException{
+    public static void initializeFromFile(FileInputStream file){
         IllegalStateException missingConfigException = new IllegalStateException("All parameters must be set in config");
-        
-        FileInputStream file;
-		try {
-			file = new FileInputStream("config.yaml");
-		} catch (FileNotFoundException e) {
-			throw new FileNotFoundException("Config file not found");
-		}
 
         try {
             Config.instance = new Yaml().loadAs(file, Config.class);
-			file.close();
         } catch (Exception e) {
             throw new IllegalArgumentException("Invalid parameter found in config " + e);
         }
