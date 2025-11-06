@@ -32,6 +32,11 @@ public class EmployeeTest {
     //     assertEquals(actual, expected);
             
     // }
+    // @BeforeAll
+    // void initializeConfig() throws FileNotFoundException{
+    //     System.getProperty("user.dir");
+    //     Config.initializeFromFile(new FileInputStream("config.yaml"));
+    // }
 
     @BeforeAll
     static void initializeConfig(){
@@ -78,7 +83,7 @@ public class EmployeeTest {
     @Test
     void testGetTitle() {
         String actual = testEmployee.getTitle();
-        String expected = "Ketchum";
+        String expected = "Trainer";
         assertEquals(actual, expected);
     }
 
