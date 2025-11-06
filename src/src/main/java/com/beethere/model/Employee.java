@@ -6,8 +6,7 @@ import org.apache.logging.log4j.Logger;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import com.beethere.utils.sanitizer.Sanitize;
 
 @Entity
 public class Employee {
@@ -75,8 +74,9 @@ public class Employee {
             throw new IllegalArgumentException("Location must be between " + min + " and " + max + " characters");
         }
 
-        LOG.debug("Setting location to " + loc);
-        this.loc = loc;
+            String cleanLoc = Sanitize.sanitizeHtml(loc);
+        LOG.debug("Setting location to " + cleanLoc);
+        this.loc = cleanLoc;
     }
 
     public String getFName() {
@@ -98,8 +98,9 @@ public class Employee {
             throw new IllegalArgumentException("First name must be between " + min + " and " + max + " characters");
         }
 
-        LOG.debug("Setting first name to " + fName);
-        this.fName = fName;
+        String cleanfName = Sanitize.sanitizeHtml(fName);
+        LOG.debug("Setting first name to " + cleanfName);
+        this.fName = cleanfName;
     }
 
     public String getLName() {
@@ -121,8 +122,9 @@ public class Employee {
             throw new IllegalArgumentException("Last name must be between " + min + " and " + max + " characters");
         }
 
-        LOG.debug("Setting last name to " + lName);
-        this.lName = lName;
+        String cleanlName = Sanitize.sanitizeHtml(lName);
+        LOG.debug("Setting last name to " + cleanlName);
+        this.lName = cleanlName;
     }
 
     public String getDept() {
@@ -144,8 +146,9 @@ public class Employee {
             throw new IllegalArgumentException("Department must be between " + min + " and " + max + " characters");
         }
 
-        LOG.debug("Setting department to " + dept);
-        this.dept = dept;
+        String cleanDept = Sanitize.sanitizeHtml(dept);
+        LOG.debug("Setting department to " + cleanDept);
+        this.dept = cleanDept;
     }
 
     public String getTitle() {
@@ -154,7 +157,8 @@ public class Employee {
     }
 
     public void setTitle(String title) {
+        String cleanTitle = Sanitize.sanitizeHtml(title);
         LOG.debug("Setting the employee title");
-        this.title = title;
+        this.title = cleanTitle;
     }
 }

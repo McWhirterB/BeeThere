@@ -1,12 +1,11 @@
 package com.beethere.utils.sanitizer;
 
-public class sanitize {
+public class Sanitize {
 
-    public String sanitizeHtml(String untrustedHtml) {
+   public static String sanitizeHtml(String untrustedHtml) {
         if (untrustedHtml == null) {
             return "";
         }
-        
         return untrustedHtml.replaceAll("<[^>]*>", "")
                            .replaceAll("&nbsp;", " ")
                            .replaceAll("&lt;", "<")
@@ -14,6 +13,5 @@ public class sanitize {
                            .replaceAll("&amp;", "&")
                            .replaceAll("&quot;", "\"")
                            .replaceAll("&#39;", "'");
-                           
     }
 }
