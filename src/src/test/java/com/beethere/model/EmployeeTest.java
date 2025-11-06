@@ -65,7 +65,7 @@ public class EmployeeTest {
 
     @Test
     void testGetTitle() {
-        String actual = testEmployee.get();
+        String actual = testEmployee.getTitle();
         String expected = "Ketchum";
         assertEquals(actual, expected);
     }
