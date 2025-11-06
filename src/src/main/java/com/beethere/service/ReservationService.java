@@ -41,7 +41,7 @@ public class ReservationService {
         // and they are not a manager
         System.out.println("HI TESTING " + e.getId());
         if (perms.get().getEmployeeId() != e.getId() && !e.isManager()) {
-            throw new RuntimeException("Insufficient permissions to delete reservation");
+            throw new RuntimeException("Insufficient permissions to update reservation");
         }
 		
 		return reservationRepository.save(rsvp);
