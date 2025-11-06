@@ -1,0 +1,48 @@
+Configuration:
+  status: WARN
+  Appenders:
+    Console:
+      name: Console
+      PatternLayout:
+        pattern: "%d{HH:mm:ss.SSS} %-5level %c{1} - %msg%n"
+    RollingFile:
+      - name: Application
+        fileName: logs/application.log
+        filePattern: logs/application-%d{yyyy-MM-dd}.log.gz
+        PatternLayout:
+          pattern: "%d %-5p %c - %m%n"
+        Policies:
+          TimeBasedTriggeringPolicy:
+            interval: 1
+            modulate: true
+        DefaultRolloverStrategy:
+          max: 30
+      - name: Security
+        fileName: logs/security.log
+        filePattern: logs/security-%d{yyyy-MM-dd}.log.gz
+        PatternLayout:
+          pattern: "%d %-5p %c - %m%n"
+        Policies:
+          TimeBasedTriggeringPolicy:
+            interval: 1
+            modulate: true
+        DefaultRolloverStrategy:
+          max: 30
+  Loggers:
+    Root:
+      level: info
+      AppenderRef:
+        - ref: Console
+    Logger:
+      - name: Application
+        level: debug
+        additivity: false
+        AppenderRef:
+          # - ref: Console
+          - ref: Application
+      - name: Security
+        level: debug
+        additivity: false
+        AppenderRef:
+          # - ref: Console
+          - ref: Security

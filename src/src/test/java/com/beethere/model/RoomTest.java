@@ -1,8 +1,8 @@
  package com.beethere.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.junit.jupiter.api.Test;
 // import org.springframework.test.context.event.annotation;
 
 public class RoomTest {
