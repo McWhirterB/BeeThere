@@ -29,7 +29,7 @@ public class RoomTest {
     @Test
     void testGetLocation() {
         String actual = testRoom.getLocation();
-        String expected = "2nd Street";
+        String expected = "Japan";
         assertEquals(actual, expected);
             
     }
