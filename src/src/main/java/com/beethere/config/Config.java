@@ -3,8 +3,6 @@ package com.beethere.config;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
 
 import org.yaml.snakeyaml.Yaml;
 
@@ -28,6 +26,7 @@ public class Config {
     private static Config instance;
     private int shortStringMaxLength = -1;
     private int longStringMaxLength = -1;
+    private String logConfigPath = "";
 
     public static Config getInstance() throws IOException{
         if (instance == null){
@@ -54,6 +53,13 @@ public class Config {
         this.longStringMaxLength = val;
     }
 
+    public String getLogConfigPath(){
+        return logConfigPath;
+    }
+
+    public void setLogConfigPath(String path){
+        this.logConfigPath = path;
+    }
 
     public static void initializeFromFile() throws IOException{
         IllegalStateException missingConfigException = new IllegalStateException("All parameters must be set in config");
