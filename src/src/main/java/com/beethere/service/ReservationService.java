@@ -26,19 +26,29 @@ public class ReservationService {
 		return reservationRepository.save(rsvp);
 	}
 
+    public Reservation overrideRsvp(Integer id, Reservation rsvp) {
+        
+        if (reservationRepository.existsById(rsvp.reservationId)) {
+            reservationRepository.deleteById(id);
+            reservationRepository.save(rsvp);
+        } else {
+            throw new RuntimeException("Reservation not found with ID: " + id);
+        }
+	}
+
 	public Reservation updateRsvp(Reservation rsvp) {
 		if (reservationRepository.existsById(rsvp.reservationId)) {
 			return reservationRepository.save(rsvp);
-		}
-
-		return null;
+		} else {
+            throw new RuntimeException("Reservation not found with ID: " + rsvp.getReservationId());
+        }
 	}
 
 	public void deleteRsvp(Integer id) {
         if (reservationRepository.existsById(id)) {
             reservationRepository.deleteById(id);
         } else {
-            throw new RuntimeException("Room not found with ID: " + id);
+            throw new RuntimeException("Reservation not found with ID: " + id);
         }
 	}
 }

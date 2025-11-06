@@ -67,6 +67,14 @@ public class ReservationController {
         });
 	}
 
+    @PostMapping("/override/{id}")
+	public ResponseEntity<?> overrideReservation(@RequestHeader(value = "Bearer", required = false) String token, @PathVariable Integer id, @RequestBody Reservation rsvp) {
+		return withAuth(token, () -> {
+            Reservation newRsvp = reservationService.overrideRsvp(id, rsvp);
+            return new ResponseEntity<>(newRsvp, HttpStatus.CREATED);
+        });
+	}
+
 	@PutMapping("/{id}")
 	public ResponseEntity<?> updateReservation(@RequestHeader(value = "Bearer", required = false) String token, @PathVariable Integer id, @RequestBody Reservation updatedRsvp) {
 		return withAuth(token, () -> {
