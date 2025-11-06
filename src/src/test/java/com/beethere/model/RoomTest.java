@@ -1,20 +1,26 @@
  package com.beethere.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.Test;
 // import org.springframework.test.context.event.annotation;
 
 public class RoomTest {
 
+    int testId = 01;
+    String testLocation = "Tokyo";
+    String testBuilding = "2nd Street";
+    String testRoomNumber = "2-222";
+    String testType = "video";
+    int testSeatCount = 20;
    
     public Room testRoom = new Room(
-        01, 
-        "Japan",  
-        "2nd Street", 
-        "1-200", 
-        "video", 
-        20
+        testId, 
+        testLocation,  
+        testBuilding, 
+        testRoomNumber, 
+        testType, 
+        testSeatCount
         );
 
     // @Test
@@ -29,7 +35,7 @@ public class RoomTest {
     @Test
     void testGetLocation() {
         String actual = testRoom.getLocation();
-        String expected = "Japan";
+        String expected = testLocation;
         assertEquals(actual, expected);
             
     }
@@ -37,7 +43,7 @@ public class RoomTest {
     @Test
     void testGetID() {
             int actual = testRoom.getId();
-            int expected = 01;
+            int expected = testId;
         assertEquals(actual, expected);
 
     }
@@ -45,14 +51,14 @@ public class RoomTest {
     @Test
     void testGetRoomNumber() {
         String actual = testRoom.getRoomNumber();
-        String expected = "1-200";
+        String expected = testRoomNumber;
         assertEquals(actual, expected);
     }
 
     @Test
     void testGetSeatCount() {
         int actual = testRoom.getSeatCount();
-        int expected = 20;
+        int expected = testSeatCount;
         assertEquals(actual, expected);
     }
 
@@ -95,10 +101,39 @@ public class RoomTest {
         String expected = "breakroom";
         assertEquals(actual, expected);
     }
-
-     @Test()
-    private void testVoidCity() {
-        assertNotNull(testRoom.getLocation());
-       
+    @Test
+    public void testNullLocation() {
+        Room instance = new Room();
+        
+        IllegalArgumentException exception = assertThrows(
+            IllegalArgumentException.class,
+            () -> instance.setLocation(null)
+        );
+        
+        assertEquals("location must not be empty", exception.getMessage());
     }
+    @Test
+    public void testNullBuilding() {
+        Room instance = new Room();
+        
+        IllegalArgumentException exception = assertThrows(
+            IllegalArgumentException.class,
+            () -> instance.setBuilding(null)
+        );
+        
+        assertEquals("building must not be null", exception.getMessage());
+    }
+    @Test
+    public void testNullType() {
+        Room instance = new Room();
+        
+        IllegalArgumentException exception = assertThrows(
+            IllegalArgumentException.class,
+            () -> instance.setType(null)
+        );
+        
+        assertEquals("Type must not be null", exception.getMessage());
+    }
+
+    
 }
