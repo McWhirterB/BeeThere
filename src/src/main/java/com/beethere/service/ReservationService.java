@@ -26,29 +26,34 @@ public class ReservationService {
 		return reservationRepository.save(rsvp);
 	}
 
-    public Reservation overrideRsvp(Integer id, Reservation rsvp) {
+    public Reservation overrideRsvp(Integer id, Reservation rsvp, Employee e) {
+        if (!e.isManager()) {
+            throw new RuntimeException("Insufficient permissions to override reservation");
+        }
         
-        if (reservationRepository.existsById(rsvp.reservationId)) {
-            reservationRepository.deleteById(id);
-            reservationRepository.save(rsvp);
-        } else {
-            throw new RuntimeException("Reservation not found with ID: " + id);
-        }
+        reservationRepository.deleteById(id);
+        return reservationRepository.save(rsvp);
 	}
 
-	public Reservation updateRsvp(Reservation rsvp) {
-		if (reservationRepository.existsById(rsvp.reservationId)) {
-			return reservationRepository.save(rsvp);
-		} else {
-            throw new RuntimeException("Reservation not found with ID: " + rsvp.getReservationId());
+	public Reservation updateRsvp(Integer id, Reservation rsvp, Employee e) {
+        Optional<Reservation> perms = reservationRepository.findById(id);
+        // If an employee tries to delete a reservation that's not their own
+        // and they are not a manager
+        if (perms.get().getEmployeeId() != e.getId() && !e.isManager()) {
+            throw new RuntimeException("Insufficient permissions to delete reservation");
         }
+		
+		return reservationRepository.save(rsvp);
 	}
 
-	public void deleteRsvp(Integer id) {
-        if (reservationRepository.existsById(id)) {
-            reservationRepository.deleteById(id);
-        } else {
-            throw new RuntimeException("Reservation not found with ID: " + id);
+	public void deleteRsvp(Integer id, Employee e) {
+        Reservation perms = reservationRepository.findById(id);
+        // If an employee tries to delete a reservation that's not their own
+        // and they are not a manager
+        if (perms.getEmployeeId() != e.getId() && !e.isManager()) {
+            throw new RuntimeException("Insufficient permissions to delete reservation");
         }
+        
+        reservationRepository.deleteById(id);
 	}
 }

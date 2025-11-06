@@ -22,6 +22,8 @@ public class Employee {
 
     private static final Logger LOG = LogManager.getLogger();
 
+    public Employee() {}
+
     public Employee(int id, String loc, String fName, String lName, String dept, String title) {
         setId(id);
         setLoc(loc);
@@ -29,6 +31,14 @@ public class Employee {
         setLName(lName);
         setDept(dept);
         setTitle(title);
+    }
+
+    public boolean isManager() {
+        if (title.toLowerCase().contains("manager")) {
+            return true;
+        }
+
+        return false;
     }
 
     public void toStringFormat(){
