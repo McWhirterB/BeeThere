@@ -3,7 +3,7 @@
  import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.time.Instant;
 
@@ -16,6 +16,7 @@ public class ReservationTest {
     Date testDateStart2 = Date.from(Instant.parse("3025-10-01T12:10:30.123456789Z"));
     Date testDateEnd1 = Date.from(Instant.parse("3025-10-01T12:12:00.123456789Z"));
     Date testDateEnd2 = Date.from(Instant.parse("3025-10-01T12:12:30.123456789Z"));
+    Date testEarlyStart = Date.from(Instant.parse("3024-10-01T12:10:00.123456789Z"));
 
    
     public Reservation testReservation = new Reservation(
@@ -81,6 +82,26 @@ public class ReservationTest {
         Date actual = testReservation.getEndTime();
         Date expected = testDateEnd2;
         assertEquals(actual, expected);
+    }
+    @Test
+    public void testStartTimeLaterThanEndTime() {
+        
+        IllegalArgumentException exception = assertThrows(
+            IllegalArgumentException.class,
+            () -> testReservation.setStartTime(testDateEnd2)
+        );
+        
+        assertEquals("Start time cannot be after end time", exception.getMessage());
+    }
+       @Test
+    public void testEndTimeBeforeStartTime() {
+        
+        IllegalArgumentException exception = assertThrows(
+            IllegalArgumentException.class,
+            () -> testReservation.setEndTime(testEarlyStart)
+        );
+        
+        assertEquals("End time cannot be before start time", exception.getMessage());
     }
 
 

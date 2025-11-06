@@ -55,20 +55,20 @@ public class Room {
         return location;
     }
     public void setLocation(String location) {
-           LOG.debug("setting the building");
+           LOG.debug("setting the location");
 
         if (location == null || location.isEmpty())
         {
-            LOG.error("building must not be empty");
-            throw new IllegalArgumentException("building must not be empty");
+            LOG.error("location must not be empty");
+            throw new IllegalArgumentException("location must not be empty");
         }
         if (location.length() > 50 || location.length() < 1)
         {
-            LOG.error("building must be between 1 and 50 chars in length");
-            throw new IllegalArgumentException("building must be between 1 and 50 chars in length");
+            LOG.error("location must be between 1 and 50 chars in length");
+            throw new IllegalArgumentException("location must be between 1 and 50 chars in length");
         }
         String cleanLocation = Sanitize.sanitizeHtml(location);
-        LOG.debug("setting the building to: " + cleanLocation);
+        LOG.debug("setting the location to: " + cleanLocation);
         this.location = cleanLocation;
     }
     public String getBuilding() {

@@ -11,7 +11,7 @@ public class RoomTest {
     String testLocation = "Tokyo";
     String testBuilding = "2nd Street";
     String testRoomNumber = "2-222";
-    String testVideo = "video";
+    String testType = "video";
     int testSeatCount = 20;
    
     public Room testRoom = new Room(
@@ -19,7 +19,7 @@ public class RoomTest {
         testLocation,  
         testBuilding, 
         testRoomNumber, 
-        testVideo, 
+        testType, 
         testSeatCount
         );
 
@@ -110,7 +110,7 @@ public class RoomTest {
             () -> instance.setLocation(null)
         );
         
-        assertEquals("Location must not be empty", exception.getMessage());
+        assertEquals("location must not be empty", exception.getMessage());
     }
     @Test
     public void testNullBuilding() {
@@ -121,7 +121,7 @@ public class RoomTest {
             () -> instance.setBuilding(null)
         );
         
-        assertEquals("building must not be empty", exception.getMessage());
+        assertEquals("building must not be null", exception.getMessage());
     }
     @Test
     public void testNullType() {
@@ -132,7 +132,7 @@ public class RoomTest {
             () -> instance.setType(null)
         );
         
-        assertEquals("Type must not be empty", exception.getMessage());
+        assertEquals("Type must not be null", exception.getMessage());
     }
 
     
