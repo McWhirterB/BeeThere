@@ -1,1 +1,3 @@
-src/target
+backend/target
+backend/logs
+backend/*.class
