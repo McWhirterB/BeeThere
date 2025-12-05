@@ -17,12 +17,14 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import com.beethere.model.Employee;
 import com.beethere.model.Room;
 import com.beethere.model.TokenRequest;
 import com.beethere.service.RoomService;
 
+@CrossOrigin(origins ="http://localhost:3000")
 @RestController
 @RequestMapping("/rooms")
 public class RoomController {
@@ -56,7 +58,6 @@ public class RoomController {
             return new ResponseEntity<>("Failed to validate token", HttpStatus.UNAUTHORIZED);
             }
         }
-
 
    @GetMapping({"", "/"})
     public ResponseEntity<?> getAllRooms(
