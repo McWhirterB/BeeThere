@@ -4,19 +4,18 @@
 			v-model="snackbarRef"
 			class=""
 			:color="snackbarStatus"
-			
 		>
-			<div class="text-subtitle-1 pb-2 title-custom">{{ snackbarStatus }}</div>
+			<!--<div class="text-subtitle-1 pb-2 title-custom">{{ snackbarStatus }}</div> -->
 			<p>{{ errorMsg }}</p>	
-			<template>
+			<template v-slot:actions>
 				<v-btn
 					v-for="act of snackbarActions"
 					:key="act.actionName"
-					:to="act.link"
+					@click="act.do"
 				>
-					{{ act.actionName }}
+					{{ act.do }}
 				</v-btn>
-				<v-btn variant="tonal" @click="closeSnackbar"> Close </v-btn>
+				<v-btn variant="text" @click="closeSnackbar"> Close </v-btn>
 			</template>
 		</v-snackbar>
 	</div>

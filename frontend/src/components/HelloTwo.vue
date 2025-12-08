@@ -205,10 +205,9 @@
 			 // success, warning, error
 			 openSnackbar() {
 				this.snackbar.showSnackbar('Show snackbar', 'success', [
-					{ actionName: 'test', link: '/test' },
-					{ actionName: 'test', link: '/test' },
+					{ actionName: 'test', do: () => console.log("test") },
+					{ actionName: 'test', do: () => this.$router.push('/test') },
 				])
-				console.log('test');
 			},
 			testClick() {
 				let time = this.startTime.split(":");
@@ -255,6 +254,7 @@
 				//this.snackbar.showSnackbar('
 			} catch (error) {
 				console.error('error fetching data: ', error);
+				this.snackbar.showSnackbar('Error retrieving room data', 'error');
 			}
 		}	
 	}

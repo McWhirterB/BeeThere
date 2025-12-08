@@ -11,7 +11,7 @@ import 'vuetify/styles'
 // Composables
 import { createVuetify } from 'vuetify'
 
-const customLightTheme = {
+const beeThereTheme = {
 	dark: false,
 	colors: {
 		background: '#F5F5F5',
@@ -24,7 +24,7 @@ export default createVuetify({
   theme: {
     defaultTheme: 'light',
 		themes: {
-			customLightTheme,
+			beeThereTheme,
 		},
   },
 })

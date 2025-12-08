@@ -3,7 +3,7 @@ import { ref } from 'vue'
 
 export interface CustomAction {
 	actionName: string;
-	link: any;
+	do: any;
 }
 
 export const useSnackbarStore = defineStore('SnackbarStore', () => {
