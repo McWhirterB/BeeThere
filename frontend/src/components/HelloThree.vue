@@ -13,33 +13,18 @@
           @change="getEvents"
 					@click:event="onEventClick"
           @mousedown:time="startTime"
-          @mouseleave="cancelDrag"
-          @mousemove:time="mouseMove"
-          @mouseup:time="endDrag"
-        ><template #event="{ event, timed, eventSummary }">
-  <!-- FULL-EVENT CLICK BLOCKER -->
-  <div
-    class="my-event"
-    @mousedown.stop
-    @click.stop="onEventClick({ event })"
-  >
-
-    <!-- event label/content -->
-    <div class="v-event-draggable">
-      <component :is="eventSummary"></component>
-    </div>
-
-    <!-- resize handle -->
-    <div
-      v-if="timed"
-      class="v-event-drag-bottom"
-      @mousedown.stop="extendBottom(event)"
-      @click.stop
-      @mouseup.stop
-    ></div>
-  </div>
-</template>
-
+        >
+					<template #event="{ event, timed, eventSummary }">
+						<div
+							class="my-event"
+							@mousedown.stop
+							@click.stop="onEventClick({ event })"
+						>
+							<div class="v-event-draggable">
+								<component :is="eventSummary"></component>
+							</div>
+						</div>
+					</template>
         </v-calendar>
 				<v-dialog v-model="addReservationDialog" width="60%"> 
 					<template v-slot:default="{ isActive }">
@@ -112,20 +97,7 @@
 		reservationInfoDialog.value = true
 	}
 
-  function startDrag (nativeEvent, { event, timed }) {
-    if (event && timed) {
-      dragEvent.value = event
-      dragTime.value = null
-      extendOriginal.value = null
-    }
-  }
-
   function startTime (nativeEvent, tms) {
-		// if click landed inside an event
-		//if (nativeEvent.target.closest('.v-event-draggable')) {
-		//	return
-		//}		
-
 		addReservationDialog.value = true;
     const mouse = toTime(tms)
 		createStart.value = roundTime(mouse)
@@ -137,12 +109,6 @@
 			timed: true,
 		}
 		events.value.push(createEvent.value)
-  }
-
-  function extendBottom (event) {
-    createEvent.value = event
-    createStart.value = event.start
-    extendOriginal.value = event.end
   }
 
   function mouseMove (nativeEvent, tms) {
@@ -166,32 +132,6 @@
       createEvent.value.start = min
       createEvent.value.end = max
     }
-  }
-
-  function endDrag () {
-    dragTime.value = null
-    dragEvent.value = null
-    createEvent.value = null
-    createStart.value = null
-    extendOriginal.value = null
-  }
-
-  function cancelDrag () {
-    if (createEvent.value) {
-      if (extendOriginal.value) {
-        createEvent.value.end = extendOriginal.value
-      } else {
-        const i = events.value.indexOf(createEvent.value)
-        if (i !== -1) {
-          events.value.splice(i, 1)
-        }
-      }
-    }
-
-    createEvent.value = null
-    createStart.value = null
-    dragTime.value = null
-    dragEvent.value = null
   }
 
   function roundTime (time, down = true) {
