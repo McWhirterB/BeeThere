@@ -11,22 +11,35 @@
           color="primary"
           type="week"
           @change="getEvents"
-          @mousedown:event="startDrag"
+					@click:event="onEventClick"
           @mousedown:time="startTime"
           @mouseleave="cancelDrag"
           @mousemove:time="mouseMove"
           @mouseup:time="endDrag"
-        >
-          <template v-slot:event="{ event, timed, eventSummary }">
-            <div class="v-event-draggable">
-              <component :is="eventSummary"></component>
-            </div>
-            <div
-              v-if="timed"
-              class="v-event-drag-bottom"
-              @mousedown.stop="extendBottom(event)"
-            ></div>
-          </template>
+        ><template #event="{ event, timed, eventSummary }">
+  <!-- FULL-EVENT CLICK BLOCKER -->
+  <div
+    class="my-event"
+    @mousedown.stop
+    @click.stop="onEventClick({ event })"
+  >
+
+    <!-- event label/content -->
+    <div class="v-event-draggable">
+      <component :is="eventSummary"></component>
+    </div>
+
+    <!-- resize handle -->
+    <div
+      v-if="timed"
+      class="v-event-drag-bottom"
+      @mousedown.stop="extendBottom(event)"
+      @click.stop
+      @mouseup.stop
+    ></div>
+  </div>
+</template>
+
         </v-calendar>
 				<v-dialog v-model="addReservationDialog" width="60%"> 
 					<template v-slot:default="{ isActive }">
@@ -35,12 +48,22 @@
 								Add Meeting
 							</v-card-title>
 							<v-card-text>
-								<v-text-field readonly variant="outlined" label="Start Time" prepend-inner-icon="mdi-clock-in">
+<!--								<v-text-field readonly variant="outlined" label="Start Time" prepend-inner-icon="mdi-clock-in">
 									<v-menu v-model="showStartTimeMenu" :close-on-content-click="false"
 													activator="parent" min-width="0">
 										<v-time-picker></v-time-picker>
-									</v-menu>
-								</v-text-field>
+									</v-menu> 
+								</v-text-field> -->
+								<v-row>
+									<v-col>
+										<v-time-picker>
+											<template #clock></template>
+										</v-time-picker>
+									</v-col>
+									<v-col>
+										<v-time-picker></v-time-picker>
+									</v-col>
+								</v-row>
 							</v-card-text>
 							<v-card-actions> 
 								<v-btn @click="addReservationDialog=false">
@@ -49,6 +72,13 @@
 							</v-card-actions>
 						</v-card>
 					</template>
+				</v-dialog>
+				<v-dialog v-model="reservationInfoDialog">
+					<v-card>
+						<v-card-text>
+							{{ selectedReservation?.name }}	
+						</v-card-text>
+					</v-card>
 				</v-dialog>
       </v-sheet>
     </v-col>
@@ -72,7 +102,15 @@
   const createStart = ref(null)
   const extendOriginal = ref(null)
 	const addReservationDialog = ref(false)
+	const reservationInfoDialog = ref(false)
+	const selectedReservation = ref(null)
 	const showStartTimeMenu = ref(false)
+
+	function onEventClick({ event }) {
+		console.log(event)
+		selectedReservation.value = event
+		reservationInfoDialog.value = true
+	}
 
   function startDrag (nativeEvent, { event, timed }) {
     if (event && timed) {
@@ -83,6 +121,11 @@
   }
 
   function startTime (nativeEvent, tms) {
+		// if click landed inside an event
+		//if (nativeEvent.target.closest('.v-event-draggable')) {
+		//	return
+		//}		
+
 		addReservationDialog.value = true;
     const mouse = toTime(tms)
 		createStart.value = roundTime(mouse)
@@ -214,6 +257,11 @@
 </script>
 
 <style scoped>
+	/*
+	:deep(.v-time-picker-clock) {
+		display: none !important;
+	}
+	*/	
   .v-event-draggable {
     padding-left: 6px;
   }
@@ -248,5 +296,12 @@
       display: block;
     }
   }
+
+	.my-event {
+		height: 100%;
+		width: 100%;
+		position: relative;
+	}
+
 </style>
 
