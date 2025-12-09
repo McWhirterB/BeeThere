@@ -19,7 +19,8 @@ public class Room {
 	@Id
     @Column(name = "roomId")
 	private Integer roomId;
-	private String location;
+    @Column(name = "location")
+	private String country;
 	private String building;
     @Column(name = "room_number")
 	private String roomNumber;
@@ -36,10 +37,10 @@ public class Room {
         APPLICATION_LOGGER.debug("Constructing Default Room");
     }
 
-	public Room(int id, String location, String building, String roomNumber, String type, int seatCount) {
+	public Room(int id, String country, String building, String roomNumber, String type, int seatCount) {
         APPLICATION_LOGGER.debug("Constructing Room");
         setId(id);
-        setLocation(location);
+        setCountry(country);
 		setBuilding(building);
         setRoomNumber(roomNumber);
         setType(type);
@@ -53,29 +54,29 @@ public class Room {
     public void setId(int id) {
         this.roomId = id;
     }
-	public String getLocation() {
-        APPLICATION_LOGGER.debug("returning the Location: " + location);
-        return location;
+	public String getCountry() {
+        APPLICATION_LOGGER.debug("returning the country: " + country);
+        return country;
     }
-    public void setLocation(String location) {
-           APPLICATION_LOGGER.debug("setting the location");
+    public void setCountry(String country) {
+           APPLICATION_LOGGER.debug("setting the country");
 
-        if (location == null || location.isEmpty())
+        if (country == null || country.isEmpty())
         {
-            APPLICATION_LOGGER.error("location must not be empty");
-            throw new IllegalArgumentException("location must not be empty");
+            APPLICATION_LOGGER.error("country must not be empty");
+            throw new IllegalArgumentException("country must not be empty");
         }
-        if (location.length() > 50 || location.length() < 1)
+        if (country.length() > 50 || country.length() < 1)
         {
-            APPLICATION_LOGGER.error("location must be between 1 and 50 chars in length");
-            throw new IllegalArgumentException("location must be between 1 and 50 chars in length");
+            APPLICATION_LOGGER.error("country must be between 1 and 50 chars in length");
+            throw new IllegalArgumentException("country must be between 1 and 50 chars in length");
         }
-        String cleanLocation = Sanitize.sanitizeHtml(location);
-        APPLICATION_LOGGER.debug("setting the location to: " + cleanLocation);
-        this.location = cleanLocation;
+        String cleanCountry = Sanitize.sanitizeHtml(country);
+        APPLICATION_LOGGER.debug("setting the country to: " + cleanCountry);
+        this.country = cleanCountry;
     }
     public String getBuilding() {
-        APPLICATION_LOGGER.debug("returning the Address: " + building);
+        APPLICATION_LOGGER.debug("returning the building: " + building);
         return building;
     }
     public void setBuilding(String building) {
@@ -84,7 +85,7 @@ public class Room {
         if (building == null)
         {
             APPLICATION_LOGGER.error("building must not be null");
-            throw new IllegalArgumentException("building must not be null");
+            throw new IllegalArgumentException("cibuildingty must not be null");
         }
 
         if (building.isEmpty())

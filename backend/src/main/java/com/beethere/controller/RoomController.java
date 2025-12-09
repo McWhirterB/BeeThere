@@ -1,5 +1,8 @@
 package com.beethere.controller;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.Optional;
 import java.util.function.Function;
 
@@ -61,16 +64,20 @@ public class RoomController {
    @GetMapping({"", "/"})
     public ResponseEntity<?> getAllRooms(
             @RequestHeader(value = "Bearer", required = false) String token,
-            @RequestParam(required = false) String location,
-            @RequestParam(required = false) String type
+            @RequestParam(required = false) String country,
+            @RequestParam(required = false) String type,
+            // LocalDateTimes are assumed to be in UTC
+            @RequestParam(required = false) LocalDateTime start,
+            @RequestParam(required = false) LocalDateTime end
     ) {
+        
         APPLICATION_LOGGER.debug("Getting all rooms with optional filters");
         return withAuth(token, employee -> {
-            Iterable<Room> rooms = roomService.getRooms(location, type);
+            Iterable<Room> rooms = roomService.getRooms(country, type, start, end);
             return new ResponseEntity<>(rooms, HttpStatus.OK);
         });
     }
-
+    
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getRoomById(
@@ -114,7 +121,7 @@ public class RoomController {
                     }
 
                     Room room = existing.get();
-                    room.setLocation(updatedRoom.getLocation());
+                    room.setCountry(updatedRoom.getCountry());
                     room.setBuilding(updatedRoom.getBuilding());
                     room.setRoomNumber(updatedRoom.getRoomNumber());
                     room.setType(updatedRoom.getType());
