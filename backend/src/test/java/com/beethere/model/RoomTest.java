@@ -33,8 +33,8 @@ public class RoomTest {
 
 
     @Test
-    void testGetLocation() {
-        String actual = testRoom.getLocation();
+    void testGetCountry() {
+        String actual = testRoom.getCountry();
         String expected = testLocation;
         assertEquals(actual, expected);
             
@@ -63,15 +63,15 @@ public class RoomTest {
     }
 
     @Test
-    void testSetLocation() {
-        testRoom.setLocation("Mexico City");
-        String actual = testRoom.getLocation();
+    void testSetCountry() {
+        testRoom.setBuilding("Mexico City");
+        String actual = testRoom.getCountry();
         String expected = "Mexico City";
         assertEquals(actual, expected);
     }
 
     @Test
-    void testSetBuilding() {
+    void testSetCity() {
         testRoom.setBuilding("1st Street");
         String actual = testRoom.getBuilding();
         String expected = "1st Street";
@@ -107,7 +107,7 @@ public class RoomTest {
         
         IllegalArgumentException exception = assertThrows(
             IllegalArgumentException.class,
-            () -> instance.setLocation(null)
+            () -> instance.setCountry(null)
         );
         
         assertEquals("location must not be empty", exception.getMessage());
