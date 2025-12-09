@@ -12,6 +12,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     GlobalSnackbar: typeof import('./components/GlobalSnackbar.vue')['default']
+    HelloFour: typeof import('./components/HelloFour.vue')['default']
     HelloThree: typeof import('./components/HelloThree.vue')['default']
     HelloTwo: typeof import('./components/HelloTwo.vue')['default']
     HelloWorld: typeof import('./components/HelloWorld.vue')['default']

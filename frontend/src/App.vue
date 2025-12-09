@@ -48,6 +48,9 @@
 							<v-list-item prepend-icon="mdi-clock" value="test">
 								Your Schedule
 							</v-list-item>
+							<v-list-item prepend-icon="mdi-domain" value="test2">
+								Room Index
+							</v-list-item>
 						</v-list>
 					</v-navigation-drawer>
 					<router-view />

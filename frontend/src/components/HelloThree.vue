@@ -114,7 +114,7 @@
 								<v-row>
 									<v-col class="text-center">
 										<v-btn @click="postReservation()">Create Reservation</v-btn>
-										<v-btn @click="console.log(rsvp)">Test Reservation</v-btn>
+										<v-btn @click="console.log(rsvpDate)">Test Reservation</v-btn>
 									</v-col>
 								</v-row>
 							</v-card-text>
@@ -167,6 +167,7 @@
 	const rooms = ref([])
 	const menu = ref(false);
 	const roomsToAdd = ref([])
+	const rsvps = ref ([])
 	const rsvp = ref({
 					reservationId: 44,
 					employeeId: 128,
@@ -178,27 +179,34 @@
 
 	onMounted(() => {
 		getRooms()
+		getReservationsForUser()
 	})
 
-	function buildDateTime(baseTimestamp, timeString) {
-		const [hh, mm] = timeString.split(':').map(Number)
+	function buildDateTime(dateString, timeString) {
+		const [year, month, day] = dateString.split('-').map(Number)
+		const [hour, minute] = timeString.split(':').map(Number)
 
-		const date = new Date(baseTimestamp)
-
-		// Set hours + minutes from the time picker
-		date.setHours(hh)
-		date.setMinutes(mm)
-		date.setSeconds(0)
-		date.setMilliseconds(0)
+		// build the date in local time 
+		const date = new Date(year, month - 1, day, hour, minute, 0, 0)
 
 		return date.toISOString()
 	}
 
+	function convertReservationsToEvents(reservations) {
+		return reservations.map(res => ({
+			title: `${res.employeeName} - ${res.rooms.map(r => r.roomNumber).join(", ")}`,
+			start: new Date(res.startTime).getTime(),  // <-- Date object
+			end: new Date(res.endTime).getTime(),      // <-- Date object
+			color: "#1976D2",
+			data: res                        // keep full reservation
+		}))
+	}
+		
 	async function getRooms() {
 		try {
 				await axios.get("http://localhost:8080/rooms/", {
 															headers: {
-																"Bearer": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBdXRoIFNlcnZpY2UiLCJsYXN0X25hbWUiOiJEdWNrd29ydGgiLCJsb2NhdGlvbiI6IkJyYXppbCIsImlkIjoyLCJkZXBhcnRtZW50IjoiSW5mb3JtYXRpb24gVGVjaG5vbG9neSIsInRpdGxlIjoiRGV2ZWxvcGVyIiwiZmlyc3RfbmFtZSI6Iktlbm5hbiIsInN1YiI6Iktlbm5hbiBEdWNrd29ydGgiLCJpYXQiOjE3NjUzMDk2NDIsImV4cCI6MTc2NTMxMzI0Mn0.j71nzb_4DrQGMGBpfd6RniBhp3SMhr7WMXh2jMe_HTg",
+																"Bearer": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBdXRoIFNlcnZpY2UiLCJsYXN0X25hbWUiOiJEdWNrd29ydGgiLCJsb2NhdGlvbiI6IkJyYXppbCIsImlkIjoyLCJkZXBhcnRtZW50IjoiSW5mb3JtYXRpb24gVGVjaG5vbG9neSIsInRpdGxlIjoiRGV2ZWxvcGVyIiwiZmlyc3RfbmFtZSI6Iktlbm5hbiIsInN1YiI6Iktlbm5hbiBEdWNrd29ydGgiLCJpYXQiOjE3NjUzMTkwMDAsImV4cCI6MTc2NTMyMjYwMH0.19UbI0kXjWxuDX5jbpodAQOfHU5DSMqu8MKJ2OXN2Sk",
 																"Access-Control-Allow-Origin": "*",	
 															},
 															responseType: "json",
@@ -211,15 +219,34 @@
 		}
 	}
 
+	async function getReservationsForUser() {
+		try {
+				await axios.get(`http://localhost:8080/reservations/user/${rsvp.value.employeeId}`, {
+															headers: {
+																"Bearer": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBdXRoIFNlcnZpY2UiLCJsYXN0X25hbWUiOiJEdWNrd29ydGgiLCJsb2NhdGlvbiI6IkJyYXppbCIsImlkIjoyLCJkZXBhcnRtZW50IjoiSW5mb3JtYXRpb24gVGVjaG5vbG9neSIsInRpdGxlIjoiRGV2ZWxvcGVyIiwiZmlyc3RfbmFtZSI6Iktlbm5hbiIsInN1YiI6Iktlbm5hbiBEdWNrd29ydGgiLCJpYXQiOjE3NjUzMTkwMDAsImV4cCI6MTc2NTMyMjYwMH0.19UbI0kXjWxuDX5jbpodAQOfHU5DSMqu8MKJ2OXN2Sk",
+																"Access-Control-Allow-Origin": "*",	
+															},
+															responseType: "json",
+														}).then((response) => {
+															rsvps.value = response.data;
+															events.value = convertReservationsToEvents(response.data);
+															console.log(events.value)
+														});
+		} catch (e) {
+			console.log("unable to get reservations: ", e);
+		}
+	}
+
 	async function postReservation() {
-		const startISO = buildDateTime(createStart.value, rsvpStartTime.value)
-		const endISO   = buildDateTime(createStart.value, rsvpEndTime.value)
+		const startISO = buildDateTime(rsvpDate.value, rsvpStartTime.value)
+		const endISO   = buildDateTime(rsvpDate.value, rsvpEndTime.value)
 		rsvp.value.startTime = startISO
 		rsvp.value.endTime   = endISO
+		console.log(rsvp.value)
 		try {
 			await axios.post("http://localhost:8080/reservations/", rsvp.value, {
 										headers: {
-											"Bearer": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBdXRoIFNlcnZpY2UiLCJsYXN0X25hbWUiOiJEdWNrd29ydGgiLCJsb2NhdGlvbiI6IkJyYXppbCIsImlkIjoyLCJkZXBhcnRtZW50IjoiSW5mb3JtYXRpb24gVGVjaG5vbG9neSIsInRpdGxlIjoiRGV2ZWxvcGVyIiwiZmlyc3RfbmFtZSI6Iktlbm5hbiIsInN1YiI6Iktlbm5hbiBEdWNrd29ydGgiLCJpYXQiOjE3NjUzMDk2NDIsImV4cCI6MTc2NTMxMzI0Mn0.j71nzb_4DrQGMGBpfd6RniBhp3SMhr7WMXh2jMe_HTg",
+											"Bearer": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBdXRoIFNlcnZpY2UiLCJsYXN0X25hbWUiOiJEdWNrd29ydGgiLCJsb2NhdGlvbiI6IkJyYXppbCIsImlkIjoyLCJkZXBhcnRtZW50IjoiSW5mb3JtYXRpb24gVGVjaG5vbG9neSIsInRpdGxlIjoiRGV2ZWxvcGVyIiwiZmlyc3RfbmFtZSI6Iktlbm5hbiIsInN1YiI6Iktlbm5hbiBEdWNrd29ydGgiLCJpYXQiOjE3NjUzMTkwMDAsImV4cCI6MTc2NTMyMjYwMH0.19UbI0kXjWxuDX5jbpodAQOfHU5DSMqu8MKJ2OXN2Sk",
 											"Access-Control-Allow-Origin": "*",	
 										},
 										responseType: "json",
@@ -246,8 +273,15 @@
 		const mm = String(date.getMinutes()).padStart(2, '0');
 		rsvpStartTime.value = `${hh}:${mm}`;
 		rsvpEndTime.value = '';
+
+		// build YYYY-MM-DD for the date field
+		const yyyy = date.getFullYear()
+		const month = String(date.getMonth() + 1).padStart(2, '0')
+		const day = String(date.getDate()).padStart(2, '0')
+		rsvpDate.value = `${yyyy}-${month}-${day}`
+
 		createEvent.value = {
-			name: `Event #${events.value.length}`,
+			title: `Event #${events.value.length}`,
 			color: rndElement(colors),
 			start: createStart.value,
 			end: createStart.value,
