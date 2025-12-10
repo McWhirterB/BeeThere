@@ -45,11 +45,14 @@
 						<v-list nav>
 							<v-date-picker hide-header width="">
 							</v-date-picker>
-							<v-list-item prepend-icon="mdi-clock" value="test">
+							<v-list-item prepend-icon="mdi-clock" to="/">
 								Your Schedule
 							</v-list-item>
-							<v-list-item prepend-icon="mdi-domain" value="test2">
+							<v-list-item prepend-icon="mdi-domain" to="/room">
 								Room Index
+							</v-list-item>
+							<v-list-item prepend-icon="mdi-badge-account-horizontal" to="/manager">
+								Manager Index
 							</v-list-item>
 						</v-list>
 					</v-navigation-drawer>

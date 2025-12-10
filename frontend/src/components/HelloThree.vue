@@ -137,15 +137,49 @@
 			<v-dialog v-model="reservationInfoDialog" width="60%">
 				<v-card>
 					<v-card-text>
-						{{ selectedReservation?.name }}	
+						<v-row>
+							<v-col>
+							{{ selectedReservation?.name }}	
+							</v-col>
+						</v-row>
+						<v-row>
+							<v-col>
+							{{ selectedReservation?.data.reservationId }}	
+							</v-col>
+						</v-row>
+						<v-row>
+							<v-col>
+								<v-text-field v-model="selectedReservation.data.startTime"></v-text-field> 
+							</v-col>
+						</v-row>
+						<v-row>
+							<v-col>
+								<v-text-field v-model="selectedReservation.data.endTime"></v-text-field> 
+							</v-col>
+						</v-row>
+						<v-row>
+							<v-col>
+								<v-list v-for="(room, i) in selectedReservation.data.rooms" :key="i">
+									<v-list-item>
+										{{ room }} 
+									</v-list-item>
+								</v-list>
+							</v-col>
+						</v-row>
 					</v-card-text>
+					<v-card-actions>
+						<v-btn color="red" @click="deleteReservation(selectedReservation.data.reservationId)">Delete</v-btn>
+						<v-btn color="blue" @click="console.log(selectedReservation)">Update</v-btn>
+					</v-card-actions>
 				</v-card>
 			</v-dialog>
 		</v-sheet>
-		<v-row class="mb-2">
-			<v-btn variant="tonal" @click="prevWeek">Previous Week</v-btn>
-			<v-btn variant="tonal" @click="nextWeek">Next Week</v-btn>
-			<v-btn variant="tonal" @click="goToday">Today</v-btn>
+		<v-row class="mb-2"> 
+			<v-col align="center">
+				<v-btn variant="elevated" @click="prevWeek">Previous Week</v-btn>
+				<v-btn variant="elevated" @click="goToday">Today</v-btn>
+				<v-btn variant="elevated" @click="nextWeek">Next Week</v-btn>
+			</v-col>
 		</v-row>
 
 	</v-col>
@@ -173,6 +207,7 @@ const createEvent = ref(null)
 const createStart = ref(null)
 const extendOriginal = ref(null)
 const addReservationDialog = ref(false)
+const updateReservationDialog = ref(false)
 const reservationInfoDialog = ref(false)
 const selectedReservation = ref(null)
 const showStartTimeMenu = ref(false)
@@ -185,13 +220,13 @@ const roomsToAdd = ref([])
 const rsvps = ref ([])
 const rsvp = ref({
 				reservationId: 28,
-				employeeId: 128,
+				employeeId: 2,
 				employeeName: "LuhTyrese",
 				startTime: "2025-12-10T15:00:00.000+00:00",
 				endTime: "2025-12-10T16:30:00.000+00:00",
 				rooms: [],
 			})
-const token = ref('eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBdXRoIFNlcnZpY2UiLCJsYXN0X25hbWUiOiJEdWNrd29ydGgiLCJsb2NhdGlvbiI6IkJyYXppbCIsImlkIjoyLCJkZXBhcnRtZW50IjoiSW5mb3JtYXRpb24gVGVjaG5vbG9neSIsInRpdGxlIjoiRGV2ZWxvcGVyIiwiZmlyc3RfbmFtZSI6Iktlbm5hbiIsInN1YiI6Iktlbm5hbiBEdWNrd29ydGgiLCJpYXQiOjE3NjUzMzY0NzIsImV4cCI6MTc2NTM0MDA3Mn0.nw7IgMlgyxnhUf4aSBAAaTWqzXfUWIF6rva728ZUtnw')
+const token = ref('eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBdXRoIFNlcnZpY2UiLCJsYXN0X25hbWUiOiJEdWNrd29ydGgiLCJsb2NhdGlvbiI6IkJyYXppbCIsImlkIjoyLCJkZXBhcnRtZW50IjoiSW5mb3JtYXRpb24gVGVjaG5vbG9neSIsInRpdGxlIjoiRGV2ZWxvcGVyIiwiZmlyc3RfbmFtZSI6Iktlbm5hbiIsInN1YiI6Iktlbm5hbiBEdWNrd29ydGgiLCJpYXQiOjE3NjUzODA1NjEsImV4cCI6MTc2NTM4NDE2MX0.U5D52oGCjePme-oivOMdqVdpj5HQd3-CkfFs_CU0lCQ')
 
 onMounted(() => {
 	getRooms()
@@ -259,6 +294,25 @@ function nextWeek() {
 		} catch (e) {
 			console.log("unable to get rooms: ", e);
 			snackbar.showSnackbar('Error retrieving room info', 'error');
+		}
+	}
+
+	async function deleteReservation(id) {
+		try {
+				await axios.delete(`http://localhost:8080/reservations/${id}`, {
+															headers: {
+																"Bearer": token.value,
+																"Access-Control-Allow-Origin": "*",	
+															},
+															responseType: "json",
+														}).then((response) => {
+															console.log(response);
+														});
+			snackbar.showSnackbar('Succesfully deleted reservation', 'success');
+			getReservationsForUser();
+		} catch (e) {
+			console.log("unable to delete reservation", e);
+			snackbar.showSnackbar('Error deleting reservation', 'error');
 		}
 	}
 
