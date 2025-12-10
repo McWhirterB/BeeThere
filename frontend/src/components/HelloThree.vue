@@ -10,7 +10,6 @@
           :events="events"
           color="primary"
           type="week"
-          @change="getEvents"
 					@click:event="onEventClick"
           @mousedown:time="startTime"
         >
@@ -55,152 +54,161 @@
 											<v-card-text>
 												<v-row>
 													<v-col> 
+														<v-menu v-model="menu" :close-on-content-click="false" location="end">
+															<template #activator="{ props }">
+																<v-btn v-bind="props" variant="plain"> Add Rooms </v-btn>
+															</template>
 
-<v-menu v-model="menu" :close-on-content-click="false" location="end">
-  <template #activator="{ props }">
-    <v-btn v-bind="props" variant="plain"> Add Rooms </v-btn>
-  </template>
+															<v-card min-width="350" max-height="350" class="d-flex flex-column">
 
-  <v-card min-width="350" max-height="350" class="d-flex flex-column">
+															<v-list-title class="text-h6 text-center">
+																Available Rooms
+															</v-list-title>
 
-    <!-- Fixed header -->
-    <v-list-title class="text-h6 text-center">
-      Available Rooms
-    </v-list-title>
+															<div style="overflow-y: auto; max-height: 250px;">
+																<v-list density="comfortable">
+																	<v-list-item
+																		v-for="room in rooms"
+																		:key="room.id"
+																		:class="{ 'bg-green-lighten-5': isSelected(room) }"
+																	>
+																		<template #title>
+																			<span class="font-weight-medium">{{ room.roomNumber }}</span>
+																		</template>
 
-    <!-- Scrollable list -->
-    <div style="overflow-y: auto; max-height: 250px;">
-      <v-list density="comfortable">
-        <v-list-item
-          v-for="room in rooms"
-          :key="room.id"
-          :class="{ 'bg-green-lighten-5': isSelected(room) }"
-        >
-          <template #title>
-            <span class="font-weight-medium">{{ room.roomNumber }}</span>
-          </template>
+																		<template #subtitle>
+																			<v-chip
+																				color="green"
+																				text-color="white"
+																				size="small"
+																				variant="flat"
+																				label
+																			>
+																				Available
+																			</v-chip>
+																		</template>
 
-          <template #subtitle>
-            <v-chip
-              color="green"
-              text-color="white"
-              size="small"
-              variant="flat"
-              label
-            >
-              Available
-            </v-chip>
-          </template>
+																		<template #append>
+																			<v-btn icon size="small" @click="toggleRoom(room)">
+																				<v-icon :color="isSelected(room) ? 'green' : 'grey-darken-1'">
+																					{{ isSelected(room) ? "mdi-check-circle" : "mdi-plus-box" }}
+																				</v-icon>
+																			</v-btn>
+																		</template>
+																	</v-list-item>
+																</v-list>
+															</div>
 
-          <template #append>
-            <v-btn icon size="small" @click="toggleRoom(room)">
-              <v-icon :color="isSelected(room) ? 'green' : 'grey-darken-1'">
-                {{ isSelected(room) ? "mdi-check-circle" : "mdi-plus-box" }}
-              </v-icon>
-            </v-btn>
-          </template>
-        </v-list-item>
-      </v-list>
-    </div>
+															<v-card-actions>
+																<v-spacer></v-spacer>
+																<v-btn text @click="menu = false">Close</v-btn>
+															</v-card-actions>
 
-    <v-card-actions>
-      <v-spacer></v-spacer>
-      <v-btn text @click="menu = false">Close</v-btn>
-    </v-card-actions>
-
-  </v-card>
-</v-menu>
-
-													</v-col>
-												</v-row>
-												<v-row>
-													<v-col>
-														<v-list v-for="(room, i) in rsvp.rooms" :key="i">
-															<v-list-item v-text="room.roomNumber"></v-list-item>
-														</v-list>
-													</v-col>
-												</v-row>
-											</v-card-text>	
-										</v-card>
-									</v-col>
-								</v-row>
-								<v-row>
-									<v-col class="text-center">
-										<v-btn @click="postReservation()" variant="flat">Create Reservation</v-btn>
-										<v-btn @click="console.log(rsvpDate)">Test Reservation</v-btn>
-									</v-col>
-								</v-row>
-							</v-card-text>
-							<v-card-actions> 
-								<v-btn @click="addReservationDialog=false">
-									Close
-								</v-btn>
-							</v-card-actions>
-						</v-card>
-					</template>
-				</v-dialog>
-				<v-dialog v-model="reservationInfoDialog" width="60%">
-					<v-card>
-						<v-card-text>
-							{{ selectedReservation?.name }}	
+														</v-card>
+													</v-menu>
+												</v-col>
+											</v-row>
+											<v-row>
+												<v-col>
+													<v-list v-for="(room, i) in rsvp.rooms" :key="i">
+														<v-list-item v-text="room.roomNumber"></v-list-item>
+													</v-list>
+												</v-col>
+											</v-row>
+										</v-card-text>	
+									</v-card>
+								</v-col>
+							</v-row>
+							<v-row>
+								<v-col class="text-center">
+									<v-btn @click="postReservation()" variant="flat">Create Reservation</v-btn>
+									<v-btn @click="console.log(rsvpDate)">Test Reservation</v-btn>
+								</v-col>
+							</v-row>
 						</v-card-text>
+						<v-card-actions> 
+							<v-btn @click="addReservationDialog=false">
+								Close
+							</v-btn>
+						</v-card-actions>
 					</v-card>
-				</v-dialog>
-      </v-sheet>
-			<v-row class="mb-2">
-				<v-btn variant="tonal" @click="prevWeek">Previous Week</v-btn>
-				<v-btn variant="tonal" @click="nextWeek">Next Week</v-btn>
-				<v-btn variant="tonal" @click="goToday">Today</v-btn>
-			</v-row>
+				</template>
+			</v-dialog>
+			<v-dialog v-model="reservationInfoDialog" width="60%">
+				<v-card>
+					<v-card-text>
+						{{ selectedReservation?.name }}	
+					</v-card-text>
+				</v-card>
+			</v-dialog>
+		</v-sheet>
+		<v-row class="mb-2">
+			<v-btn variant="tonal" @click="prevWeek">Previous Week</v-btn>
+			<v-btn variant="tonal" @click="nextWeek">Next Week</v-btn>
+			<v-btn variant="tonal" @click="goToday">Today</v-btn>
+		</v-row>
 
-    </v-col>
-  </v-row>
+	</v-col>
+</v-row>
 </template>
 
 <script setup>
-  import { ref, onMounted } from 'vue'
-	import axios from 'axios'
-	import { useSnackbarStore } from  '../stores/snackbar-store.ts'
+import { ref, onMounted } from 'vue'
+import axios from 'axios'
+import { useSnackbarStore } from  '../stores/snackbar-store.ts'
 
-	const snackbar = useSnackbarStore();
-  const value = ref('')
-  const events = ref([])
-  const colors = [
-    '#2196F3', '#3F51B5', '#673AB7', '#00BCD4', '#4CAF50', '#FF9800', '#757575',
-  ]
-  const names = [
-    'Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'Conference', 'Party',
-  ]
-  const dragEvent = ref(null)
-  const dragTime = ref(null)
-  const createEvent = ref(null)
-  const createStart = ref(null)
-  const extendOriginal = ref(null)
-	const addReservationDialog = ref(false)
-	const reservationInfoDialog = ref(false)
-	const selectedReservation = ref(null)
-	const showStartTimeMenu = ref(false)
-	const rsvpStartTime = ref('')
-	const rsvpEndTime = ref('')
-	const rsvpDate = ref('')
-	const rooms = ref([])
-	const menu = ref(false);
-	const roomsToAdd = ref([])
-	const rsvps = ref ([])
-	const rsvp = ref({
-					reservationId: 28,
-					employeeId: 128,
-					employeeName: "LuhTyrese",
-					startTime: "2025-12-10T15:00:00.000+00:00",
-					endTime: "2025-12-10T16:30:00.000+00:00",
-					rooms: [],
-				})
-	const token = ref('eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBdXRoIFNlcnZpY2UiLCJsYXN0X25hbWUiOiJEdWNrd29ydGgiLCJsb2NhdGlvbiI6IkJyYXppbCIsImlkIjoyLCJkZXBhcnRtZW50IjoiSW5mb3JtYXRpb24gVGVjaG5vbG9neSIsInRpdGxlIjoiRGV2ZWxvcGVyIiwiZmlyc3RfbmFtZSI6Iktlbm5hbiIsInN1YiI6Iktlbm5hbiBEdWNrd29ydGgiLCJpYXQiOjE3NjUzMzY0NzIsImV4cCI6MTc2NTM0MDA3Mn0.nw7IgMlgyxnhUf4aSBAAaTWqzXfUWIF6rva728ZUtnw')
+const snackbar = useSnackbarStore();
+const value = ref('')
+const events = ref([])
+const colors = [
+	'#2196F3', '#3F51B5', '#673AB7', '#00BCD4', '#4CAF50', '#FF9800', '#757575',
+]
+const names = [
+	'Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'Conference', 'Party',
+]
+const calendar = ref(null)
+const dragEvent = ref(null)
+const dragTime = ref(null)
+const createEvent = ref(null)
+const createStart = ref(null)
+const extendOriginal = ref(null)
+const addReservationDialog = ref(false)
+const reservationInfoDialog = ref(false)
+const selectedReservation = ref(null)
+const showStartTimeMenu = ref(false)
+const rsvpStartTime = ref('')
+const rsvpEndTime = ref('')
+const rsvpDate = ref('')
+const rooms = ref([])
+const menu = ref(false);
+const roomsToAdd = ref([])
+const rsvps = ref ([])
+const rsvp = ref({
+				reservationId: 28,
+				employeeId: 128,
+				employeeName: "LuhTyrese",
+				startTime: "2025-12-10T15:00:00.000+00:00",
+				endTime: "2025-12-10T16:30:00.000+00:00",
+				rooms: [],
+			})
+const token = ref('eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBdXRoIFNlcnZpY2UiLCJsYXN0X25hbWUiOiJEdWNrd29ydGgiLCJsb2NhdGlvbiI6IkJyYXppbCIsImlkIjoyLCJkZXBhcnRtZW50IjoiSW5mb3JtYXRpb24gVGVjaG5vbG9neSIsInRpdGxlIjoiRGV2ZWxvcGVyIiwiZmlyc3RfbmFtZSI6Iktlbm5hbiIsInN1YiI6Iktlbm5hbiBEdWNrd29ydGgiLCJpYXQiOjE3NjUzMzY0NzIsImV4cCI6MTc2NTM0MDA3Mn0.nw7IgMlgyxnhUf4aSBAAaTWqzXfUWIF6rva728ZUtnw')
 
-	onMounted(() => {
-		getRooms()
-		getReservationsForUser()
-	})
+onMounted(() => {
+	getRooms()
+	getReservationsForUser()
+})
+
+function prevWeek() {
+	calendar.value.prev()
+}
+
+function nextWeek() {
+	calendar.value.next()
+}
+
+	function goToday() {
+		value.value = new Date().toISOString()
+	}
 
 	function isSelected(room) {
 		return rsvp.value.rooms.some(r => r.id === room.id)
