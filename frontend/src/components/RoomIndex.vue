@@ -27,9 +27,6 @@
             </v-card-text>
 
             <v-card-actions>
-              <v-btn color="primary" @click="openRoom(room.id)">
-                View Room
-              </v-btn>
             </v-card-actions>
           </v-card>
         </v-col>

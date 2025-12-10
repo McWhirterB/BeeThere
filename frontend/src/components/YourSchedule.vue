@@ -41,11 +41,11 @@
 								<v-row>
 									<v-col align="center">
 										<h1>Start Time</h1>
-										<v-time-picker v-model="rsvpStartTime"></v-time-picker>
+										<v-time-picker v-model="rsvpStartTime" max="rsvpEndTime"></v-time-picker>
 									</v-col>
 									<v-col align="center">
 										<h1>End Time</h1>
-										<v-time-picker v-model="rsvpEndTime"></v-time-picker>
+										<v-time-picker v-model="rsvpEndTime" min="rsvpStartTime"></v-time-picker>
 									</v-col>
 								</v-row>
 								<v-row>
@@ -135,44 +135,82 @@
 				</template>
 			</v-dialog>
 			<v-dialog v-model="reservationInfoDialog" width="60%">
-				<v-card>
-					<v-card-text>
-						<v-row>
-							<v-col>
-							{{ selectedReservation?.name }}	
-							</v-col>
-						</v-row>
-						<v-row>
-							<v-col>
-							{{ selectedReservation?.data.reservationId }}	
-							</v-col>
-						</v-row>
-						<v-row>
-							<v-col>
-								<v-text-field v-model="selectedReservation.data.startTime" type="datetime-local"></v-text-field> 
-							</v-col>
-						</v-row>
-						<v-row>
-							<v-col>
-								<v-text-field v-model="selectedReservation.data.endTime"></v-text-field> 
-							</v-col>
-						</v-row>
-						<v-row>
-							<v-col>
-								<v-list v-for="(room, i) in selectedReservation.data.rooms" :key="i">
-									<v-list-item v-text="room.roomNumber">
-										
-									</v-list-item>
-								</v-list>
-							</v-col>
-						</v-row>
-					</v-card-text>
-					<v-card-actions>
-						<v-btn color="red" @click="deleteReservation(selectedReservation.data.reservationId)">Delete</v-btn>
-						<v-btn color="blue" @click="console.log(selectedReservation)">Update</v-btn>
-					</v-card-actions>
-				</v-card>
-			</v-dialog>
+  <v-card>
+    <v-card-title class="text-h5">
+      Edit Reservation
+    </v-card-title>
+
+    <v-card-text>
+      <v-row>
+        <v-col cols="6">
+          <v-text-field
+            label="Employee Name"
+            v-model="selectedReservation.data.employeeName"
+            variant="outlined"
+          />
+        </v-col>
+
+        <v-col cols="6">
+          <v-text-field
+            label="Employee ID"
+            type="number"
+            v-model="selectedReservation.data.employeeId"
+            variant="outlined"
+          />
+        </v-col>
+      </v-row>
+
+      <v-row>
+        <v-col cols="6">
+          <v-text-field
+            label="Start Time"
+            type="datetime-local"
+            v-model="editReservation.start"
+            variant="outlined"
+          />
+        </v-col>
+
+        <v-col cols="6">
+          <v-text-field
+            label="End Time"
+            type="datetime-local"
+            v-model="editReservation.end"
+            variant="outlined"
+          />
+        </v-col>
+      </v-row>
+
+      <v-row>
+        <v-col>
+          <h3>Rooms</h3>
+
+          <!-- Existing rooms -->
+          <v-list>
+            <v-list-item
+              v-for="(room, i) in selectedReservation.data.rooms"
+              :key="i"
+            >
+              <v-list-item-title>{{ room.building }} - {{ room.roomNumber }}</v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-col>
+      </v-row>
+    </v-card-text>
+
+    <v-card-actions>
+      <v-btn color="red" @click="deleteReservation(selectedReservation.data.reservationId)">
+        Delete
+      </v-btn>
+
+      <v-spacer></v-spacer>
+
+      <v-btn color="blue" @click="updateReservation(selectedReservation.data.reservationId)">
+        Update
+      </v-btn>
+    </v-card-actions>
+  </v-card>
+</v-dialog>
+
 		</v-sheet>
 		<v-row class="mb-2"> 
 			<v-col align="center">
@@ -181,7 +219,6 @@
 				<v-btn variant="elevated" @click="nextWeek">Next Week</v-btn>
 			</v-col>
 		</v-row>
-
 	</v-col>
 </v-row>
 </template>
@@ -191,6 +228,93 @@ import { ref, onMounted } from 'vue'
 import axios from 'axios'
 import { useSnackbarStore } from  '../stores/snackbar-store.ts'
 import { useAuthStore } from '../stores/auth-store.ts'
+import { computed } from 'vue';
+
+// formats for datetime-local input
+const formattedStart = computed({
+  get() {
+    return selectedReservation.value
+      ? new Date(selectedReservation.value.data.startTime).toISOString().slice(0, 16)
+      : "";
+  },
+  set(val) {
+    updateStartISO(val);
+  }
+});
+
+const formattedEnd = computed({
+  get() {
+    return selectedReservation.value
+      ? new Date(selectedReservation.value.data.endTime).toISOString().slice(0, 16)
+      : "";
+  },
+  set(val) {
+    updateEndISO(val);
+  }
+});
+
+function localInputToIso(localString) {
+  const date = new Date(localString);
+  return date.toISOString();
+}
+
+function isoToLocalInput(isoString) {
+  const date = new Date(isoString);
+  const pad = (n) => String(n).padStart(2, "0");
+
+  const yyyy = date.getFullYear();
+  const mm = pad(date.getMonth() + 1);
+  const dd = pad(date.getDate());
+  const hh = pad(date.getHours());
+  const min = pad(date.getMinutes());
+
+  return `${yyyy}-${mm}-${dd}T${hh}:${min}`;
+}
+
+function updateStartISO(event) {
+  const val = event.startTime;   
+  if (!val) return;
+  selectedReservation.value.data.startTime = new Date(val).toISOString();
+}
+
+function updateEndISO(event) {
+  const val = event.startTime;
+  if (!val) return;
+  selectedReservation.value.data.endTime = new Date(val).toISOString();
+}
+
+	async function updateReservation(id) {
+		const updated = {
+			...selectedReservation.value.data,
+			startTime: new Date(editReservation.value.start).toISOString(),
+			endTime: new Date(editReservation.value.end).toISOString(),
+			rooms: editReservation.value.rooms
+		};
+		console.log(updated);
+		try {
+				await axios.put(`http://localhost:8080/reservations/${id}`, updated, {
+															headers: {
+																"Bearer": auth.token,
+																"Access-Control-Allow-Origin": "*",	
+															},
+															responseType: "json",
+														}).then((response) => {
+															console.log(response);
+														});
+			snackbar.showSnackbar('Successfully updated reservation', 'success');
+			reservationInfoDialog.value = false;
+			getReservationsForUser()
+		} catch (e) {
+			console.log("unable to update reservation: ", e);
+			snackbar.showSnackbar('Error updating reservation', 'error');
+		}
+	}
+
+const editReservation = ref({
+  start: "",
+  end: "",
+  rooms: []
+});
 
 const snackbar = useSnackbarStore();
 const auth = useAuthStore();
@@ -221,7 +345,6 @@ const menu = ref(false);
 const roomsToAdd = ref([])
 const rsvps = ref ([])
 const rsvp = ref({
-				reservationId: 28,
 				employeeId: 2,
 				employeeName: "LuhTyrese",
 				startTime: "2025-12-10T15:00:00.000+00:00",
@@ -310,6 +433,7 @@ function nextWeek() {
 															console.log(response);
 														});
 			snackbar.showSnackbar('Succesfully deleted reservation', 'success');
+			reservationInfoDialog.value = false;
 			getReservationsForUser();
 		} catch (e) {
 			console.log("unable to delete reservation", e);
@@ -363,7 +487,12 @@ function nextWeek() {
 	function onEventClick({ event }) {
 		console.log(event)
 		selectedReservation.value = event
-		reservationInfoDialog.value = true
+		reservationInfoDialog.value = true	
+
+		// copy values into the edit buffer
+		editReservation.value.start = isoToLocalInput(event.data.startTime)
+		editReservation.value.end   = isoToLocalInput(event.data.endTime)
+		editReservation.value.rooms = [...event.data.rooms];
 	}
 
   function startTime (nativeEvent, tms) {
