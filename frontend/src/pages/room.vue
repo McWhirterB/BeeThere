@@ -1,5 +1,5 @@
 <template>
-	<HelloFour />
+	<RoomIndex />
 </template>
 
 <script lang="ts" setup>

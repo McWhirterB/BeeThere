@@ -1,19 +1,8 @@
-export default class AuthStore {
-	public static storageKey: string = 'token';
-	
-	public static getToken() {
-		return localStorage.getItem(AuthStore.storageKey);
-	}
+import { defineStore } from 'pinia'
+import { ref } from 'vue'
 
-	public static setToken(token: string) {
-		localStorage.setItem(AuthStore.storageKey, token);
-	}
+export const useAuthStore = defineStore('AuthStore', () => {
+	const token = ref('eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBdXRoIFNlcnZpY2UiLCJsYXN0X25hbWUiOiJEdWNrd29ydGgiLCJsb2NhdGlvbiI6IkJyYXppbCIsImlkIjoyLCJkZXBhcnRtZW50IjoiSW5mb3JtYXRpb24gVGVjaG5vbG9neSIsInRpdGxlIjoiRGV2ZWxvcGVyIiwiZmlyc3RfbmFtZSI6Iktlbm5hbiIsInN1YiI6Iktlbm5hbiBEdWNrd29ydGgiLCJpYXQiOjE3NjUzODQ2MjcsImV4cCI6MTc2NTM4ODIyN30.ctGNMS2p6aVEU6L12vQe4B1xehOsB4yZt2Zwbf-vuhI');
 
-	public static removeToken(): void {
-		localStorage.removeItem(AuthStore.storageKey);
-	}
-
-	public static isSignedIn(): boolean {
-		return !!AuthStore.getToken();
-	}
-}
+	return { token } 
+});

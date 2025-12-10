@@ -149,7 +149,7 @@
 						</v-row>
 						<v-row>
 							<v-col>
-								<v-text-field v-model="selectedReservation.data.startTime"></v-text-field> 
+								<v-text-field v-model="selectedReservation.data.startTime" type="datetime-local"></v-text-field> 
 							</v-col>
 						</v-row>
 						<v-row>
@@ -160,8 +160,8 @@
 						<v-row>
 							<v-col>
 								<v-list v-for="(room, i) in selectedReservation.data.rooms" :key="i">
-									<v-list-item>
-										{{ room }} 
+									<v-list-item v-text="room.roomNumber">
+										
 									</v-list-item>
 								</v-list>
 							</v-col>
@@ -190,8 +190,10 @@
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
 import { useSnackbarStore } from  '../stores/snackbar-store.ts'
+import { useAuthStore } from '../stores/auth-store.ts'
 
 const snackbar = useSnackbarStore();
+const auth = useAuthStore();
 const value = ref('')
 const events = ref([])
 const colors = [
@@ -226,7 +228,6 @@ const rsvp = ref({
 				endTime: "2025-12-10T16:30:00.000+00:00",
 				rooms: [],
 			})
-const token = ref('eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBdXRoIFNlcnZpY2UiLCJsYXN0X25hbWUiOiJEdWNrd29ydGgiLCJsb2NhdGlvbiI6IkJyYXppbCIsImlkIjoyLCJkZXBhcnRtZW50IjoiSW5mb3JtYXRpb24gVGVjaG5vbG9neSIsInRpdGxlIjoiRGV2ZWxvcGVyIiwiZmlyc3RfbmFtZSI6Iktlbm5hbiIsInN1YiI6Iktlbm5hbiBEdWNrd29ydGgiLCJpYXQiOjE3NjUzODA1NjEsImV4cCI6MTc2NTM4NDE2MX0.U5D52oGCjePme-oivOMdqVdpj5HQd3-CkfFs_CU0lCQ')
 
 onMounted(() => {
 	getRooms()
@@ -282,7 +283,7 @@ function nextWeek() {
 		try {
 				await axios.get("http://localhost:8080/rooms/", {
 															headers: {
-																"Bearer": token.value,
+																"Bearer": auth.token,
 																"Access-Control-Allow-Origin": "*",	
 															},
 															responseType: "json",
@@ -301,7 +302,7 @@ function nextWeek() {
 		try {
 				await axios.delete(`http://localhost:8080/reservations/${id}`, {
 															headers: {
-																"Bearer": token.value,
+																"Bearer": auth.token,
 																"Access-Control-Allow-Origin": "*",	
 															},
 															responseType: "json",
@@ -320,7 +321,7 @@ function nextWeek() {
 		try {
 				await axios.get(`http://localhost:8080/reservations/user/${rsvp.value.employeeId}`, {
 															headers: {
-																"Bearer": token.value,
+																"Bearer": auth.token,
 																"Access-Control-Allow-Origin": "*",	
 															},
 															responseType: "json",
@@ -343,7 +344,7 @@ function nextWeek() {
 		try {
 			await axios.post("http://localhost:8080/reservations/", rsvp.value, {
 										headers: {
-											"Bearer": token.value,
+											"Bearer": auth.token,
 											"Access-Control-Allow-Origin": "*",	
 										},
 										responseType: "json",

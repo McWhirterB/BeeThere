@@ -54,6 +54,9 @@
 							<v-list-item prepend-icon="mdi-badge-account-horizontal" to="/manager">
 								Manager Index
 							</v-list-item>
+							<v-list-item prepend-icon="mdi-information-outline" to="/about">
+								About Us
+							</v-list-item>
 						</v-list>
 					</v-navigation-drawer>
 					<router-view />
