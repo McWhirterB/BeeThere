@@ -1,13 +1,11 @@
 package com.beethere.repository;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
 import java.util.List;
 
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
-import org.springframework.data.jpa.repository.Query;
 
 import com.beethere.model.Room;
 

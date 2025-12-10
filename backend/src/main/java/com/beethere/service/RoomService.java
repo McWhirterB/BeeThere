@@ -1,8 +1,6 @@
 package com.beethere.service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
 import java.util.Optional;
 
 import org.apache.logging.log4j.LogManager;

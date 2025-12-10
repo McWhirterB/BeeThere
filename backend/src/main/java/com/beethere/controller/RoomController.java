@@ -1,8 +1,6 @@
 package com.beethere.controller;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
 import java.util.Optional;
 import java.util.function.Function;
 
@@ -42,9 +40,17 @@ public class RoomController {
         this.roomService = roomService;
     }
 
-
+    /**
+     * Takes in a token and an action to perform.
+     * <br><br>
+     * Returns a ResponseEntity of either Bad Request, Unauthorized, or the result of the action.
+     * @param token  Bearer token for authentication
+     * @param action Action to perform if authentication is successful
+     * @return ResponseEntity with the result of the action or an error message
+     */
     private ResponseEntity<?> withAuth(String token, Function<Employee, ResponseEntity<?>> action) {
-            APPLICATION_LOGGER.debug("Authenticating request with token");
+  
+        APPLICATION_LOGGER.debug("Authenticating request with token");
         if (token == null || token.isEmpty()) {
                 SECURITY_LOGGER.error("Authentication failed: Token is missing");
             return new ResponseEntity<>("Token Required", HttpStatus.BAD_REQUEST);
@@ -60,7 +66,18 @@ public class RoomController {
             }
         }
 
-
+    /**
+     * Get all rooms with optional filters
+     * <br><br>
+     * The Parameters which are passed will determine the type of filtering applied
+     * @param token   Bearer token for authentication
+     * @param country Optional country filter
+     * @param type    Optional room type filter
+     * @param start   Optional start time for availability filter (UTC)
+     * @param end     Optional end time for availability filter (UTC)
+     * @return ResponseEntity with list of rooms or error message
+     * 
+     */
    @GetMapping({"", "/"})
     public ResponseEntity<?> getAllRooms(
             @RequestHeader(value = "Bearer", required = false) String token,
@@ -70,6 +87,7 @@ public class RoomController {
             @RequestParam(required = false) LocalDateTime start,
             @RequestParam(required = false) LocalDateTime end
     ) {
+
         
         APPLICATION_LOGGER.debug("Getting all rooms with optional filters");
         return withAuth(token, employee -> {
@@ -78,7 +96,12 @@ public class RoomController {
         });
     }
     
-
+    /**
+     * Returns the room with the specified ID
+     * @param token Bearer token for authentication
+     * @param id    ID of the room to retrieve
+     * @return ResponseEntity with the room or error message
+     */
     @GetMapping("/{id}")
     public ResponseEntity<?> getRoomById(
             @RequestHeader(value = "Bearer", required = false) String token,
@@ -93,6 +116,12 @@ public class RoomController {
                 });
             }
 
+    /**
+     * Create a new room
+     * @param token Bearer token for authentication
+     * @param room  Room object to create
+     * @return ResponseEntity with created room or error message
+     */
     @PostMapping("/")
     public ResponseEntity<?> createRoom(
             @RequestHeader(value = "Bearer", required = false) String token,
@@ -104,7 +133,13 @@ public class RoomController {
                     return new ResponseEntity<>(newRoom, HttpStatus.CREATED);
                 });
             }
-
+    /**
+     * Update an existing room
+     * @param token       Bearer token for authentication
+     * @param id          ID of the room to update
+     * @param updatedRoom Room object with updated details
+     * @return ResponseEntity with updated room or error message
+     */
     @PutMapping("/{id}")
     public ResponseEntity<?> updateRoom(
             @RequestHeader(value = "Bearer", required = false) String token,
@@ -131,7 +166,12 @@ public class RoomController {
                     return new ResponseEntity<>(saved, HttpStatus.OK);
                 });
             }
-
+    /**
+     * Delete a room by ID
+     * @param token Bearer token for authentication
+     * @param id ID of the room to delete
+     * @return ResponseEntity with success message or error message
+     */
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteRoom(
             @RequestHeader(value = "Bearer", required = false) String token,

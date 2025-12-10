@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: app
+  jpa:
+    hibernate:
+      ddl-auto: update
+  datasource:
+    username: user
+    password: password
+    url: jdbc:mysql://172.16.0.201:3306/test
+
+beethere:
+  shortStringMaxLength: 20
+  longStringMaxLength: 50
+  maxSeatCount: 250
+  logConfigPath: logging.yaml

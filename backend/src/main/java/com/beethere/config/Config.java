@@ -1,38 +1,36 @@
 package com.beethere.config;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
+import org.springframework.validation.annotation.Validated;
 
-import org.yaml.snakeyaml.Yaml;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
 
-
-/**
- * Implements a singleton pattern.
- * <br></br>
- * Usage example:
- * <br></br>
- * <pre>
- * {@code
- * Config config = Config.getInstance();
- * String value = config.getValue;
- * }
- * </pre>
- * <br></br>
- * It is recommended to call getInstance() at the entry point to trigger a crash from loading the config file sooner rather than later
- */
-// New parameters MUST be added to the params list in fromFile()
+@Component
+@ConfigurationProperties(prefix = "beethere")
+@Validated
 public class Config {
-    private static Config instance;
-    private int shortStringMaxLength = -1;
-    private int longStringMaxLength = -1;
-    private String logConfigPath = "";
+    
+    @Min(value = 1, message = "shortStringMaxLength must be positive")
+    private int shortStringMaxLength;
+    
+    @Min(value = 1, message = "longStringMaxLength must be positive")
+    private int longStringMaxLength;
+    
+    @NotEmpty(message = "logConfigPath cannot be empty")
+    private String logConfigPath;
 
-    public static Config getInstance(){
-        return instance;
+    @Min(value = 1, message = "maxSeatCount must be positive")
+    public int maxSeatCount;
+    
+    public int getMaxSeatCount() {
+        return maxSeatCount;
     }
 
-    private Config(){} 
+    public void setMaxSeatCount(int maxSeatCount) {
+        this.maxSeatCount = maxSeatCount;
+    }
 
     public int getShortStringMaxLength(){
         return shortStringMaxLength;
@@ -56,33 +54,5 @@ public class Config {
 
     public void setLogConfigPath(String path){
         this.logConfigPath = path;
-    }
-
-    public static void initializeFromFile(FileInputStream file){
-        IllegalStateException missingConfigException = new IllegalStateException("All parameters must be set in config");
-
-        try {
-            Config.instance = new Yaml().loadAs(file, Config.class);
-        } catch (Exception e) {
-            throw new IllegalArgumentException("Invalid parameter found in config " + e);
-        }
-        
-        // snakeyaml won't throw an error if a class attribute isn't defined in the config file,
-        //   it will simply leave it null. So we need to ensure no config properties are
-        //   null when they shouldn't be
-
-        if (instance.shortStringMaxLength == -1 || instance.longStringMaxLength == -1){
-            throw missingConfigException;
-        }
-
-        // List<Object> params = Arrays.asList(Config.shortStringMax, Config.longStringMax);
-        // for (Object param : params){
-        //     if (param == null){
-        //         throw new IllegalStateException("All parameters must be set in config");
-        //     }
-
-        //     System.out.println(param);
-        // }
-
     }
 }

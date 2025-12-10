@@ -5,6 +5,7 @@ import java.util.Set;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.beethere.config.ConfigHelper;
 import com.beethere.utils.sanitizer.Sanitize;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -32,7 +33,10 @@ public class Room {
     private Set<Reservation> reservations; 
 
     private static final Logger APPLICATION_LOGGER = LogManager.getLogger("Application");
-    
+    private static final int minStringLength = 1;
+    private static final int longStringMaxLength = ConfigHelper.getConfig().getLongStringMaxLength();
+    private static final int maxSeatCount = ConfigHelper.getConfig().getMaxSeatCount();
+
     public Room() {
         APPLICATION_LOGGER.debug("Constructing Default Room");
     }
@@ -58,6 +62,10 @@ public class Room {
         APPLICATION_LOGGER.debug("returning the country: " + country);
         return country;
     }
+
+    /**
+     * Country can not be null or empty, and must be between 1 and maxLongString characters in length
+     */
     public void setCountry(String country) {
            APPLICATION_LOGGER.debug("setting the country");
 
@@ -66,7 +74,7 @@ public class Room {
             APPLICATION_LOGGER.error("country must not be empty");
             throw new IllegalArgumentException("country must not be empty");
         }
-        if (country.length() > 50 || country.length() < 1)
+        if (country.length() > longStringMaxLength || country.length() < minStringLength)
         {
             APPLICATION_LOGGER.error("country must be between 1 and 50 chars in length");
             throw new IllegalArgumentException("country must be between 1 and 50 chars in length");
@@ -79,6 +87,9 @@ public class Room {
         APPLICATION_LOGGER.debug("returning the building: " + building);
         return building;
     }
+    /**
+     * Building can not be null or empty, and must be between 1 and maxLongString characters in length
+     */
     public void setBuilding(String building) {
         APPLICATION_LOGGER.debug("setting the building");
 
@@ -93,7 +104,7 @@ public class Room {
             APPLICATION_LOGGER.error("building must not be empty");
             throw new IllegalArgumentException("building must not be empty");
         }
-        if (building.length() > 50 || building.length() < 1)
+        if (building.length() > longStringMaxLength || building.length() < minStringLength)
         {
             APPLICATION_LOGGER.error("building must be between 1 and 50 chars in length");
             throw new IllegalArgumentException("building must be between 1 and 50 chars in length");
@@ -106,6 +117,9 @@ public class Room {
 		APPLICATION_LOGGER.debug("returning the Room Number: " + roomNumber);
         return roomNumber;
 	}
+    /**
+     * Room number can not be null or empty, and must be between 1 and maxLongString characters in length
+     */
     public void setRoomNumber(String roomNumber) {
         APPLICATION_LOGGER.debug("setting the room number");
 
@@ -120,7 +134,7 @@ public class Room {
             APPLICATION_LOGGER.error("room number must not be empty");
             throw new IllegalArgumentException("room number must not be empty");
         }
-        if (roomNumber.length() > 50 || roomNumber.length() < 1)
+        if (roomNumber.length() > longStringMaxLength || roomNumber.length() < minStringLength)
         {
             APPLICATION_LOGGER.error("room number must be between 3 and 5 chars in length");
             throw new IllegalArgumentException("room number must be between 3 and 5 chars in length");
@@ -132,6 +146,10 @@ public class Room {
         APPLICATION_LOGGER.debug("returning the Type: " + type);
         return type;
     }
+
+    /**
+     * Type can not be null or empty, and must be between 1 and maxLongString characters in length
+     */
     public void setType(String type) {
          APPLICATION_LOGGER.debug("setting the type of the room");
 
@@ -146,7 +164,7 @@ public class Room {
             APPLICATION_LOGGER.error("Type must not be empty");
             throw new IllegalArgumentException("Type must not be empty");
         }
-        if (type.length() > 50 || type.length() < 1)
+        if (type.length() > longStringMaxLength || type.length() < minStringLength)
         {
             APPLICATION_LOGGER.error("Type must be between 1 and 50 characters in length");
             throw new IllegalArgumentException("Type must be between 1 and 50 characters in length");
@@ -163,10 +181,10 @@ public class Room {
         APPLICATION_LOGGER.debug("setting the Seat Count");
 
 
-        if (seatCount > 250 || seatCount < 1)
+        if (seatCount > maxSeatCount || seatCount < minStringLength)
         {
-            APPLICATION_LOGGER.error("Seat Count must be between 1 and 250");
-            throw new IllegalArgumentException("Seat Count must be between 1 and 250");
+            APPLICATION_LOGGER.error("Seat Count must be between 1 and " + maxSeatCount);
+            throw new IllegalArgumentException("Seat Count must be between 1 and " + maxSeatCount);
         }
         APPLICATION_LOGGER.debug("setting the seat count to: " + seatCount);
         this.seats = seatCount;
