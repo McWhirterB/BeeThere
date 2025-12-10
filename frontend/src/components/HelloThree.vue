@@ -29,20 +29,23 @@
 				<v-dialog v-model="addReservationDialog" width="60%"> 
 					<template v-slot:default="{ isActive }">
 						<v-card>
-							<v-card-title>
+							<v-card-title align="center">
 								Add Meeting
 							</v-card-title>
 							<v-card-text>
 								<v-row>	
-									<v-col>
-										<v-text-field v-model="rsvpDate" type="date"></v-text-field>	
+									<v-col align="center">
+										<h1>Date</h1>
+										<v-text-field v-model="rsvpDate" type="date" variant="outlined" width="40%"></v-text-field>	
 									</v-col>
 								</v-row>
 								<v-row>
-									<v-col>
+									<v-col align="center">
+										<h1>Start Time</h1>
 										<v-time-picker v-model="rsvpStartTime"></v-time-picker>
 									</v-col>
-									<v-col>
+									<v-col align="center">
+										<h1>End Time</h1>
 										<v-time-picker v-model="rsvpEndTime"></v-time-picker>
 									</v-col>
 								</v-row>
@@ -54,7 +57,7 @@
 													<v-col> 
 														<v-menu v-model="menu" :close-on-content-click="false" location="end">
 															<template v-slot:activator="{ props }">
-																<v-btn v-bind="props"> Add Rooms </v-btn>
+																<v-btn v-bind="props" variant="plain"> Add Rooms </v-btn>
 															</template>
 
 															<v-card min-width="300">
@@ -66,21 +69,6 @@
 
 																<v-divider></v-divider>
 
-<!--																<v-list>
-																	<v-list-item>
-																		Room 1 type beat
-																		<v-icon icon="mdi-plus-box"></v-icon>
-																	</v-list-item>
-																	<v-list-item>
-																		Room 2 type beat
-																		<v-icon icon="mdi-plus-box"></v-icon>
-																	</v-list-item>
-																	<v-list-item>
-																		Room 3 type beat
-																		<v-icon icon="mdi-plus-box"></v-icon>
-																	</v-list-item>
-																</v-list>
--->
 																<v-list v-for="(room, i) in rooms" :key="i">
 																	<v-list-item>
 																		<v-list-item-title v-text="room.roomNumber"></v-list-item-title>
@@ -91,10 +79,6 @@
 																<v-card-actions>
 																	<v-spacer></v-spacer>
 
-																	<v-btn variant="text" @click="menu = false"> Cancel </v-btn>
-																	<v-btn color="primary" variant="text" @click="menu = false">
-																		Save
-																	</v-btn>
 																</v-card-actions>
 															</v-card>
 														</v-menu>
@@ -113,7 +97,7 @@
 								</v-row>
 								<v-row>
 									<v-col class="text-center">
-										<v-btn @click="postReservation()">Create Reservation</v-btn>
+										<v-btn @click="postReservation()" variant="flat">Create Reservation</v-btn>
 										<v-btn @click="console.log(rsvpDate)">Test Reservation</v-btn>
 									</v-col>
 								</v-row>
@@ -215,8 +199,10 @@
 															rooms.value = response.data;
 														});
 			console.log(rooms);
+			snackbar.showSnackbar('Succesfully gathered room info', 'success');
 		} catch (e) {
 			console.log("unable to get rooms: ", e);
+			snackbar.showSnackbar('Error retrieving room info', 'error');
 		}
 	}
 
@@ -234,6 +220,7 @@
 														});
 		} catch (e) {
 			console.log("unable to get reservations: ", e);
+			snackbar.showSnackbar('Error retrieving reservation info', 'error');
 		}
 	}
 
@@ -254,7 +241,10 @@
 										console.log(response);
 										getReservationsForUser();
 									});	
+			snackbar.showSnackbar('Successfully created reservation', 'success');
+			addReservationDialog.value = false;
 		} catch (error) {
+			snackbar.showSnackbar('Error creating reservation', 'error');
 			console.error("unable to post reservation: ", error)
 		}	
 	}
@@ -274,6 +264,7 @@
 		const mm = String(date.getMinutes()).padStart(2, '0');
 		rsvpStartTime.value = `${hh}:${mm}`;
 		rsvpEndTime.value = '';
+		rsvp.value.rooms = [];
 
 		// build YYYY-MM-DD for the date field
 		const yyyy = date.getFullYear()
@@ -281,14 +272,14 @@
 		const day = String(date.getDate()).padStart(2, '0')
 		rsvpDate.value = `${yyyy}-${month}-${day}`
 
-		createEvent.value = {
-			title: `Event #${events.value.length}`,
-			color: rndElement(colors),
-			start: createStart.value,
-			end: createStart.value,
-			timed: true,
-		}
-		events.value.push(createEvent.value)
+		//createEvent.value = {
+		//	title: `Event #${events.value.length}`,
+		//	color: rndElement(colors),
+		//	start: createStart.value,
+		//	end: createStart.value,
+		//	timed: true,
+		//}
+		//events.value.push(createEvent.value)
   }
 
   function mouseMove (nativeEvent, tms) {
