@@ -33,9 +33,9 @@ public class Room {
     private Set<Reservation> reservations; 
 
     private static final Logger APPLICATION_LOGGER = LogManager.getLogger("Application");
-    private static final int minStringLength = 1;
-    private static final int longStringMaxLength = ConfigHelper.getConfig().getLongStringMaxLength();
-    private static final int maxSeatCount = ConfigHelper.getConfig().getMaxSeatCount();
+    private final int minStringLength = 1;
+    private final int longStringMaxLength = ConfigHelper.getConfig().getLongStringMaxLength();
+    private final int maxSeatCount = ConfigHelper.getConfig().getMaxSeatCount();
 
     public Room() {
         APPLICATION_LOGGER.debug("Constructing Default Room");

@@ -21,8 +21,8 @@ public class Employee {
     private String title;
 
     private static final Logger APPLICATION_LOGGER = LogManager.getLogger("Application");
-    private static final int minStringLength = 1;
-    private static final int longStringMaxLength = ConfigHelper.getConfig().getLongStringMaxLength();
+    private final int minStringLength = 1;
+    private final int longStringMaxLength = ConfigHelper.getConfig().getLongStringMaxLength();
 
     public Employee(int id, String loc, String fName, String lName, String dept, String title) {
         APPLICATION_LOGGER.debug("Constructing Employee");
