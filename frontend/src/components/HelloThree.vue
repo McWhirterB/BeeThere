@@ -55,33 +55,62 @@
 											<v-card-text>
 												<v-row>
 													<v-col> 
-														<v-menu v-model="menu" :close-on-content-click="false" location="end">
-															<template v-slot:activator="{ props }">
-																<v-btn v-bind="props" variant="plain"> Add Rooms </v-btn>
-															</template>
 
-															<v-card min-width="300">
-																<v-list>
-																	<v-list-item>	
-																		Rooms
-																	</v-list-item>
-																</v-list>
+<v-menu v-model="menu" :close-on-content-click="false" location="end">
+  <template #activator="{ props }">
+    <v-btn v-bind="props" variant="plain"> Add Rooms </v-btn>
+  </template>
 
-																<v-divider></v-divider>
+  <v-card min-width="350" max-height="350" class="d-flex flex-column">
 
-																<v-list v-for="(room, i) in rooms" :key="i">
-																	<v-list-item>
-																		<v-list-item-title v-text="room.roomNumber"></v-list-item-title>
-																		<v-icon icon="mdi-plus-box" @click="rsvp.rooms.push(room)"></v-icon>
-																	</v-list-item>
-																</v-list>
+    <!-- Fixed header -->
+    <v-list-title class="text-h6 text-center">
+      Available Rooms
+    </v-list-title>
 
-																<v-card-actions>
-																	<v-spacer></v-spacer>
+    <!-- Scrollable list -->
+    <div style="overflow-y: auto; max-height: 250px;">
+      <v-list density="comfortable">
+        <v-list-item
+          v-for="room in rooms"
+          :key="room.id"
+          :class="{ 'bg-green-lighten-5': isSelected(room) }"
+        >
+          <template #title>
+            <span class="font-weight-medium">{{ room.roomNumber }}</span>
+          </template>
 
-																</v-card-actions>
-															</v-card>
-														</v-menu>
+          <template #subtitle>
+            <v-chip
+              color="green"
+              text-color="white"
+              size="small"
+              variant="flat"
+              label
+            >
+              Available
+            </v-chip>
+          </template>
+
+          <template #append>
+            <v-btn icon size="small" @click="toggleRoom(room)">
+              <v-icon :color="isSelected(room) ? 'green' : 'grey-darken-1'">
+                {{ isSelected(room) ? "mdi-check-circle" : "mdi-plus-box" }}
+              </v-icon>
+            </v-btn>
+          </template>
+        </v-list-item>
+      </v-list>
+    </div>
+
+    <v-card-actions>
+      <v-spacer></v-spacer>
+      <v-btn text @click="menu = false">Close</v-btn>
+    </v-card-actions>
+
+  </v-card>
+</v-menu>
+
 													</v-col>
 												</v-row>
 												<v-row>
@@ -118,6 +147,12 @@
 					</v-card>
 				</v-dialog>
       </v-sheet>
+			<v-row class="mb-2">
+				<v-btn variant="tonal" @click="prevWeek">Previous Week</v-btn>
+				<v-btn variant="tonal" @click="nextWeek">Next Week</v-btn>
+				<v-btn variant="tonal" @click="goToday">Today</v-btn>
+			</v-row>
+
     </v-col>
   </v-row>
 </template>
@@ -160,11 +195,24 @@
 					endTime: "2025-12-10T16:30:00.000+00:00",
 					rooms: [],
 				})
+	const token = ref('eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBdXRoIFNlcnZpY2UiLCJsYXN0X25hbWUiOiJEdWNrd29ydGgiLCJsb2NhdGlvbiI6IkJyYXppbCIsImlkIjoyLCJkZXBhcnRtZW50IjoiSW5mb3JtYXRpb24gVGVjaG5vbG9neSIsInRpdGxlIjoiRGV2ZWxvcGVyIiwiZmlyc3RfbmFtZSI6Iktlbm5hbiIsInN1YiI6Iktlbm5hbiBEdWNrd29ydGgiLCJpYXQiOjE3NjUzMzY0NzIsImV4cCI6MTc2NTM0MDA3Mn0.nw7IgMlgyxnhUf4aSBAAaTWqzXfUWIF6rva728ZUtnw')
 
 	onMounted(() => {
 		getRooms()
 		getReservationsForUser()
 	})
+
+	function isSelected(room) {
+		return rsvp.value.rooms.some(r => r.id === room.id)
+	}
+
+	function toggleRoom(room) {
+		if (isSelected(room)) {
+			rsvp.value.rooms = rsvp.value.rooms.filter(r => r.id !== room.id)
+		} else {
+			rsvp.value.rooms.push(room)
+		}
+	}
 
 	function buildDateTime(dateString, timeString) {
 		const [year, month, day] = dateString.split('-').map(Number)
@@ -191,7 +239,7 @@
 		try {
 				await axios.get("http://localhost:8080/rooms/", {
 															headers: {
-																"Bearer": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBdXRoIFNlcnZpY2UiLCJsYXN0X25hbWUiOiJEdWNrd29ydGgiLCJsb2NhdGlvbiI6IkJyYXppbCIsImlkIjoyLCJkZXBhcnRtZW50IjoiSW5mb3JtYXRpb24gVGVjaG5vbG9neSIsInRpdGxlIjoiRGV2ZWxvcGVyIiwiZmlyc3RfbmFtZSI6Iktlbm5hbiIsInN1YiI6Iktlbm5hbiBEdWNrd29ydGgiLCJpYXQiOjE3NjUzMzIzMTAsImV4cCI6MTc2NTMzNTkxMH0.Sgo4dAtSQuiz0TY_XygkBfgCz59_xQKDYanaXsPdkYg",
+																"Bearer": token.value,
 																"Access-Control-Allow-Origin": "*",	
 															},
 															responseType: "json",
@@ -210,7 +258,7 @@
 		try {
 				await axios.get(`http://localhost:8080/reservations/user/${rsvp.value.employeeId}`, {
 															headers: {
-																"Bearer": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBdXRoIFNlcnZpY2UiLCJsYXN0X25hbWUiOiJEdWNrd29ydGgiLCJsb2NhdGlvbiI6IkJyYXppbCIsImlkIjoyLCJkZXBhcnRtZW50IjoiSW5mb3JtYXRpb24gVGVjaG5vbG9neSIsInRpdGxlIjoiRGV2ZWxvcGVyIiwiZmlyc3RfbmFtZSI6Iktlbm5hbiIsInN1YiI6Iktlbm5hbiBEdWNrd29ydGgiLCJpYXQiOjE3NjUzMzIzMTAsImV4cCI6MTc2NTMzNTkxMH0.Sgo4dAtSQuiz0TY_XygkBfgCz59_xQKDYanaXsPdkYg",
+																"Bearer": token.value,
 																"Access-Control-Allow-Origin": "*",	
 															},
 															responseType: "json",
@@ -233,7 +281,7 @@
 		try {
 			await axios.post("http://localhost:8080/reservations/", rsvp.value, {
 										headers: {
-											"Bearer": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBdXRoIFNlcnZpY2UiLCJsYXN0X25hbWUiOiJEdWNrd29ydGgiLCJsb2NhdGlvbiI6IkJyYXppbCIsImlkIjoyLCJkZXBhcnRtZW50IjoiSW5mb3JtYXRpb24gVGVjaG5vbG9neSIsInRpdGxlIjoiRGV2ZWxvcGVyIiwiZmlyc3RfbmFtZSI6Iktlbm5hbiIsInN1YiI6Iktlbm5hbiBEdWNrd29ydGgiLCJpYXQiOjE3NjUzMzIzMTAsImV4cCI6MTc2NTMzNTkxMH0.Sgo4dAtSQuiz0TY_XygkBfgCz59_xQKDYanaXsPdkYg",
+											"Bearer": token.value,
 											"Access-Control-Allow-Origin": "*",	
 										},
 										responseType: "json",
