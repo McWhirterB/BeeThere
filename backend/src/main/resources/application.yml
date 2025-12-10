@@ -14,3 +14,15 @@ beethere:
   longStringMaxLength: 50
   maxSeatCount: 250
   logConfigPath: logging.yaml
+
+about:
+  mission_statement: "WE MAKE STUFF"
+  development_team: {
+    "Sebastian Canales": "Sir Sus",
+    "Dillon Hines": "Java Jester",
+    "Bryce McWhirter": "Saint of Shirts",
+    "James Seus": "Tsar of Testing",
+    "Darian Ward": "Prince Pause",
+  }
+  copyright: "LICENSE"
+  contact_us: "NEVER CALL US"
