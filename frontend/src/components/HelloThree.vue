@@ -169,7 +169,7 @@
 	const roomsToAdd = ref([])
 	const rsvps = ref ([])
 	const rsvp = ref({
-					reservationId: 44,
+					reservationId: 28,
 					employeeId: 128,
 					employeeName: "LuhTyrese",
 					startTime: "2025-12-10T15:00:00.000+00:00",
@@ -194,11 +194,12 @@
 
 	function convertReservationsToEvents(reservations) {
 		return reservations.map(res => ({
-			title: `${res.employeeName} - ${res.rooms.map(r => r.roomNumber).join(", ")}`,
-			start: new Date(res.startTime).getTime(),  // <-- Date object
-			end: new Date(res.endTime).getTime(),      // <-- Date object
+			name: `${res.employeeName} - ${res.rooms.map(r => r.roomNumber).join(", ")}`,
+			start: new Date(res.startTime).getTime(),  
+			end: new Date(res.endTime).getTime(),      
 			color: "#1976D2",
-			data: res                        // keep full reservation
+			timed: true,
+			data: res,
 		}))
 	}
 		
@@ -206,7 +207,7 @@
 		try {
 				await axios.get("http://localhost:8080/rooms/", {
 															headers: {
-																"Bearer": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBdXRoIFNlcnZpY2UiLCJsYXN0X25hbWUiOiJEdWNrd29ydGgiLCJsb2NhdGlvbiI6IkJyYXppbCIsImlkIjoyLCJkZXBhcnRtZW50IjoiSW5mb3JtYXRpb24gVGVjaG5vbG9neSIsInRpdGxlIjoiRGV2ZWxvcGVyIiwiZmlyc3RfbmFtZSI6Iktlbm5hbiIsInN1YiI6Iktlbm5hbiBEdWNrd29ydGgiLCJpYXQiOjE3NjUzMTkwMDAsImV4cCI6MTc2NTMyMjYwMH0.19UbI0kXjWxuDX5jbpodAQOfHU5DSMqu8MKJ2OXN2Sk",
+																"Bearer": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBdXRoIFNlcnZpY2UiLCJsYXN0X25hbWUiOiJEdWNrd29ydGgiLCJsb2NhdGlvbiI6IkJyYXppbCIsImlkIjoyLCJkZXBhcnRtZW50IjoiSW5mb3JtYXRpb24gVGVjaG5vbG9neSIsInRpdGxlIjoiRGV2ZWxvcGVyIiwiZmlyc3RfbmFtZSI6Iktlbm5hbiIsInN1YiI6Iktlbm5hbiBEdWNrd29ydGgiLCJpYXQiOjE3NjUzMzIzMTAsImV4cCI6MTc2NTMzNTkxMH0.Sgo4dAtSQuiz0TY_XygkBfgCz59_xQKDYanaXsPdkYg",
 																"Access-Control-Allow-Origin": "*",	
 															},
 															responseType: "json",
@@ -223,14 +224,13 @@
 		try {
 				await axios.get(`http://localhost:8080/reservations/user/${rsvp.value.employeeId}`, {
 															headers: {
-																"Bearer": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBdXRoIFNlcnZpY2UiLCJsYXN0X25hbWUiOiJEdWNrd29ydGgiLCJsb2NhdGlvbiI6IkJyYXppbCIsImlkIjoyLCJkZXBhcnRtZW50IjoiSW5mb3JtYXRpb24gVGVjaG5vbG9neSIsInRpdGxlIjoiRGV2ZWxvcGVyIiwiZmlyc3RfbmFtZSI6Iktlbm5hbiIsInN1YiI6Iktlbm5hbiBEdWNrd29ydGgiLCJpYXQiOjE3NjUzMTkwMDAsImV4cCI6MTc2NTMyMjYwMH0.19UbI0kXjWxuDX5jbpodAQOfHU5DSMqu8MKJ2OXN2Sk",
+																"Bearer": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBdXRoIFNlcnZpY2UiLCJsYXN0X25hbWUiOiJEdWNrd29ydGgiLCJsb2NhdGlvbiI6IkJyYXppbCIsImlkIjoyLCJkZXBhcnRtZW50IjoiSW5mb3JtYXRpb24gVGVjaG5vbG9neSIsInRpdGxlIjoiRGV2ZWxvcGVyIiwiZmlyc3RfbmFtZSI6Iktlbm5hbiIsInN1YiI6Iktlbm5hbiBEdWNrd29ydGgiLCJpYXQiOjE3NjUzMzIzMTAsImV4cCI6MTc2NTMzNTkxMH0.Sgo4dAtSQuiz0TY_XygkBfgCz59_xQKDYanaXsPdkYg",
 																"Access-Control-Allow-Origin": "*",	
 															},
 															responseType: "json",
 														}).then((response) => {
 															rsvps.value = response.data;
 															events.value = convertReservationsToEvents(response.data);
-															console.log(events.value)
 														});
 		} catch (e) {
 			console.log("unable to get reservations: ", e);
@@ -246,12 +246,13 @@
 		try {
 			await axios.post("http://localhost:8080/reservations/", rsvp.value, {
 										headers: {
-											"Bearer": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBdXRoIFNlcnZpY2UiLCJsYXN0X25hbWUiOiJEdWNrd29ydGgiLCJsb2NhdGlvbiI6IkJyYXppbCIsImlkIjoyLCJkZXBhcnRtZW50IjoiSW5mb3JtYXRpb24gVGVjaG5vbG9neSIsInRpdGxlIjoiRGV2ZWxvcGVyIiwiZmlyc3RfbmFtZSI6Iktlbm5hbiIsInN1YiI6Iktlbm5hbiBEdWNrd29ydGgiLCJpYXQiOjE3NjUzMTkwMDAsImV4cCI6MTc2NTMyMjYwMH0.19UbI0kXjWxuDX5jbpodAQOfHU5DSMqu8MKJ2OXN2Sk",
+											"Bearer": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBdXRoIFNlcnZpY2UiLCJsYXN0X25hbWUiOiJEdWNrd29ydGgiLCJsb2NhdGlvbiI6IkJyYXppbCIsImlkIjoyLCJkZXBhcnRtZW50IjoiSW5mb3JtYXRpb24gVGVjaG5vbG9neSIsInRpdGxlIjoiRGV2ZWxvcGVyIiwiZmlyc3RfbmFtZSI6Iktlbm5hbiIsInN1YiI6Iktlbm5hbiBEdWNrd29ydGgiLCJpYXQiOjE3NjUzMzIzMTAsImV4cCI6MTc2NTMzNTkxMH0.Sgo4dAtSQuiz0TY_XygkBfgCz59_xQKDYanaXsPdkYg",
 											"Access-Control-Allow-Origin": "*",	
 										},
 										responseType: "json",
 									}).then((response) => {
 										console.log(response);
+										getReservationsForUser();
 									});	
 		} catch (error) {
 			console.error("unable to post reservation: ", error)
