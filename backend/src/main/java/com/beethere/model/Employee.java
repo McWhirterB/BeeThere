@@ -3,11 +3,11 @@ package com.beethere.model;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.beethere.config.ConfigHelper;
+import com.beethere.utils.sanitizer.Sanitize;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-
-import com.beethere.config.Config;
-import com.beethere.utils.sanitizer.Sanitize;
 
 @Entity
 public class Employee {
@@ -21,7 +21,8 @@ public class Employee {
     private String title;
 
     private static final Logger APPLICATION_LOGGER = LogManager.getLogger("Application");
-    private static final Config CONFIG = Config.getInstance();
+    private final int minStringLength = 1;
+    private final int longStringMaxLength = ConfigHelper.getConfig().getLongStringMaxLength();
 
     public Employee(int id, String loc, String fName, String lName, String dept, String title) {
         APPLICATION_LOGGER.debug("Constructing Employee");
@@ -72,16 +73,14 @@ public class Employee {
 
     public void setLoc(String loc) {
         APPLICATION_LOGGER.debug("Setting the employee location");
-        final int min = 1;
-        final int max = CONFIG.getShortStringMaxLength();
 
         if (loc == null || loc.isEmpty()) {
             APPLICATION_LOGGER.error("Location cannot be null or empty");
             throw new IllegalArgumentException("Location cannot be null or empty");
         }
-        if (loc.length() < min || loc.length() > max) {
-            APPLICATION_LOGGER.error("Location must be between " + min + " and " + max + " characters");
-            throw new IllegalArgumentException("Location must be between " + min + " and " + max + " characters");
+        if (loc.length() < minStringLength || loc.length() > longStringMaxLength) {
+            APPLICATION_LOGGER.error("Location must be between " + minStringLength + " and " + longStringMaxLength + " characters");
+            throw new IllegalArgumentException("Location must be between " + minStringLength + " and " + longStringMaxLength + " characters");
         }
 
             String cleanLoc = Sanitize.sanitizeHtml(loc);
@@ -96,16 +95,16 @@ public class Employee {
 
     public void setFName(String fName) {
         APPLICATION_LOGGER.debug("Setting the employee first name");
-        final int min = 1;
-        final int max = CONFIG.getShortStringMaxLength();
+        
+        
 
         if (fName == null || fName.isEmpty()) {
             APPLICATION_LOGGER.error("First name cannot be null or empty");
             throw new IllegalArgumentException("First name cannot be null or empty");
         }
-        if (fName.length() < min || fName.length() > max) {
-            APPLICATION_LOGGER.error("First name must be between " + min + " and " + max + " characters");
-            throw new IllegalArgumentException("First name must be between " + min + " and " + max + " characters");
+        if (fName.length() < minStringLength || fName.length() > longStringMaxLength) {
+            APPLICATION_LOGGER.error("First name must be between " + minStringLength + " and " + longStringMaxLength + " characters");
+            throw new IllegalArgumentException("First name must be between " + minStringLength + " and " + longStringMaxLength + " characters");
         }
 
         String cleanfName = Sanitize.sanitizeHtml(fName);
@@ -120,16 +119,14 @@ public class Employee {
 
     public void setLName(String lName) {
         APPLICATION_LOGGER.debug("Setting the employee last name");
-        final int min = 1;
-        final int max = CONFIG.getShortStringMaxLength();
-
+        
         if (lName == null || lName.isEmpty()) {
             APPLICATION_LOGGER.error("Last name cannot be null or empty");
             throw new IllegalArgumentException("Last name cannot be null or empty");
         }
-        if (lName.length() < min || lName.length() > max) {
-            APPLICATION_LOGGER.error("Last name must be between " + min + " and " + max + " characters");
-            throw new IllegalArgumentException("Last name must be between " + min + " and " + max + " characters");
+        if (lName.length() < minStringLength || lName.length() > longStringMaxLength) {
+            APPLICATION_LOGGER.error("Last name must be between " + minStringLength + " and " + longStringMaxLength + " characters");
+            throw new IllegalArgumentException("Last name must be between " + minStringLength + " and " + longStringMaxLength + " characters");
         }
 
         String cleanlName = Sanitize.sanitizeHtml(lName);
@@ -144,16 +141,14 @@ public class Employee {
 
     public void setDept(String dept) {
         APPLICATION_LOGGER.debug("Setting the employee department");
-        final int min = 1;
-        final int max = CONFIG.getLongStringMaxLength();
 
         if (dept == null || dept.isEmpty()) {
             APPLICATION_LOGGER.error("Department cannot be null or empty");
             throw new IllegalArgumentException("Department cannot be null or empty");
         }
-        if (dept.length() < min || dept.length() > max) {
-            APPLICATION_LOGGER.error("Department must be between " + min + " and " + max + " characters");
-            throw new IllegalArgumentException("Department must be between " + min + " and " + max + " characters");
+        if (dept.length() < minStringLength || dept.length() > longStringMaxLength) {
+            APPLICATION_LOGGER.error("Department must be between " + minStringLength + " and " + longStringMaxLength + " characters");
+            throw new IllegalArgumentException("Department must be between " + minStringLength + " and " + longStringMaxLength + " characters");
         }
 
         String cleanDept = Sanitize.sanitizeHtml(dept);

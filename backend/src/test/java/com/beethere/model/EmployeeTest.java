@@ -1,17 +1,11 @@
 package com.beethere.model;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 // import org.springframework.test.context.event.annotation;
 
-import com.beethere.config.Config;
+// import com.beethere.config.Config;
 
 public class EmployeeTest {
 
@@ -38,10 +32,10 @@ public class EmployeeTest {
     //     Config.initializeFromFile(new FileInputStream("config.yaml"));
     // }
 
-    @BeforeAll
-    static void initializeConfig(){
-        assertDoesNotThrow(() -> Config.initializeFromFile(new FileInputStream("/home/protech/Desktop/BeeThere/src/config.yaml")
-        ));   }
+    // @BeforeAll
+    // static void initializeConfig(){
+    //     assertDoesNotThrow(() -> Config.initializeFromFile(new FileInputStream("/home/protech/Desktop/BeeThere/src/config.yaml")
+    //     ));   }
 
     @Test
     void testGetId() {

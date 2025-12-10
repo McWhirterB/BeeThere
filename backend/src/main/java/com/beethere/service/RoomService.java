@@ -1,5 +1,6 @@
 package com.beethere.service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import org.apache.logging.log4j.LogManager;
@@ -25,17 +26,21 @@ public class RoomService {
         return roomRepository.findAll();
     }
 
-    public Iterable<Room> getRooms(String location, String type) {
-        APPLICATION_LOGGER.debug("Fetching rooms with filters - Location: " + location + ", Type: " + type);
-        if (location != null && type != null) {
-            return roomRepository.findByLocationAndType(location, type);
-        } else if (location != null) {
-            return roomRepository.findByLocation(location);
-        } else if (type != null) {
-            return roomRepository.findByType(type);
-        } else {
-            return roomRepository.findAll();
+    public Iterable<Room> getRooms(String country, String type, LocalDateTime start, LocalDateTime end) {
+        APPLICATION_LOGGER.debug("Fetching rooms with filters - Location: " + country + ", Type: " + type + ", Start: " + start + ", End: " + end);
+        if (country != null && start != null && end != null){
+            return roomRepository.findByCountryAndAvailability(country, start, end);
         }
+        if (country != null && type != null) {
+            return roomRepository.findByCountryAndType(country, type);
+        } 
+        if (country != null) {
+            return roomRepository.findByCountry(country);
+        } 
+        if (type != null) {
+            return roomRepository.findByType(type);
+        } 
+        return roomRepository.findAll();
     }
 
     // Get room by ID
