@@ -1,0 +1,274 @@
+* [33m7261076[m[33m ([m[1;36mHEAD -> [m[1;32mfrontend-start[m[33m, [m[1;31morigin/frontend-start[m[33m)[m just a few adjustments you feel me? and we are good you feel me? I'm actually feeling fairly confident about the current position of our frontend, given our limited time. this jus how the cookie crumbles u feel me? Shout out to cheromani, makes great music.
+* [33m198e911[m bout to ask da homie gippity
+* [33m855a22d[m garbage looking update menu
+* [33ma6cb501[m week cycling
+* [33ma3f9b3d[m trying to get week navigation
+* [33m3e2df11[m bout to try sum else
+* [33mf992ee3[m magic
+* [33m5556eb1[m bout to try sum
+* [33m1d194c6[m some calendar dialog bidness
+* [33m4c0e433[m no more dragging/resizing on calendar
+* [33mf6e0257[m click on event to show dialog
+* [33m1b8f3f6[m calendar with dialog
+* [33md94468f[m starting fronted
+*   [33med305f2[m[33m ([m[1;31morigin/development[m[33m, [m[1;32mdevelopment[m[33m)[m Merge pull request #41 from TeamBeeThere/vuetify
+[32m|[m[33m\[m  
+[32m|[m * [33m99522f0[m[33m ([m[1;31morigin/vuetify[m[33m, [m[1;32mvuetify[m[33m)[m removed src foder
+[32m|[m * [33m9441053[m no class files
+[32m|[m * [33mdcbfa9a[m vuetify project instead of regular vue
+[32m|[m[32m/[m  
+*   [33mc9ae6a2[m Merge pull request #40 from TeamBeeThere/add-frontend
+[34m|[m[35m\[m  
+[34m|[m * [33mb0bdafd[m[33m ([m[1;31morigin/add-frontend[m[33m)[m CHANGED: Updated gitignore
+[34m|[m * [33m8bd12db[m CHANGED: Updated gitignore
+[34m|[m * [33m5e28e68[m CHANGED: Updated gitignore, deleted src
+[34m|[m * [33m9daefb0[m ADDED: frontend example
+[34m|[m * [33me48dd06[m CHANGED: Renamed /src to /backend
+[34m|[m[34m/[m  
+[34m|[m *   [33mf0dc337[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m Merge pull request #38 from TeamBeeThere/development
+[34m|[m [36m|[m[34m\[m  
+[34m|[m [36m|[m[34m/[m  
+[34m|[m[34m/[m[36m|[m   
+* [36m|[m   [33ma9a4562[m Merge pull request #37 from TeamBeeThere/Fix-Employee-Test
+[1;32m|[m[1;33m\[m [36m\[m  
+[1;32m|[m * [36m\[m   [33m17b49b3[m[33m ([m[1;31morigin/Fix-Employee-Test[m[33m)[m Merge branch 'development' into Fix-Employee-Test
+[1;32m|[m [1;34m|[m[1;32m\[m [36m\[m  
+[1;32m|[m [1;34m|[m[1;32m/[m [36m/[m  
+[1;32m|[m[1;32m/[m[1;34m|[m [36m|[m   
+* [1;34m|[m [36m|[m   [33m361535b[m Merge pull request #35 from TeamBeeThere/employeeTest
+[1;36m|[m[31m\[m [1;34m\[m [36m\[m  
+[1;36m|[m * [1;34m|[m [36m|[m [33mabe5ed7[m[33m ([m[1;31morigin/employeeTest[m[33m)[m fixed employee test again
+[1;36m|[m [31m|[m * [36m|[m [33mbc67041[m CHANGED: Fixed employee test
+[1;36m|[m [31m|[m[1;36m/[m [36m/[m  
+[1;36m|[m[1;36m/[m[31m|[m [36m|[m   
+* [31m|[m [36m|[m [33m7b0e57a[m Merge pull request #34 from TeamBeeThere/employeeTest
+[32m|[m[31m\[m[31m|[m [36m|[m 
+[32m|[m * [36m|[m [33m4dcab79[m fixed employee test
+* [33m|[m [36m|[m [33m00a7e50[m Merge pull request #33 from TeamBeeThere/employeeTest
+[34m|[m[33m\[m[33m|[m [36m|[m 
+[34m|[m * [36m|[m [33mf4aa4a4[m added employee test
+* [35m|[m [36m|[m   [33ma29f23e[m Merge pull request #32 from TeamBeeThere/Fix-Logger-in-SetLocation
+[36m|[m[1;31m\[m [35m\[m [36m\[m  
+[36m|[m * [35m|[m [36m|[m [33mce43d57[m[33m ([m[1;31morigin/Fix-Logger-in-SetLocation[m[33m)[m CHANGED: Fixeeeeeeeeed Logger in SetLocation
+[36m|[m[36m/[m [35m/[m [36m/[m  
+* [35m|[m [36m|[m   [33maa0f7a5[m Merge pull request #31 from TeamBeeThere/reservationTest
+[1;32m|[m[1;33m\[m [35m\[m [36m\[m  
+[1;32m|[m * [35m\[m [36m\[m   [33m15cdaf3[m[33m ([m[1;31morigin/reservationTest[m[33m)[m Merge branch 'development' into reservationTest
+[1;32m|[m [35m|[m[1;32m\[m [35m\[m [36m\[m  
+[1;32m|[m [35m|[m[1;32m/[m [35m/[m [36m/[m  
+[1;32m|[m[1;32m/[m[35m|[m [35m/[m [36m/[m   
+[1;32m|[m [35m|[m[35m/[m [36m/[m    
+* [35m|[m [36m|[m   [33m6a54d08[m Merge pull request #30 from TeamBeeThere/Use-Logger-and-Config-Throughout-Project
+[1;36m|[m[31m\[m [35m\[m [36m\[m  
+[1;36m|[m * [35m|[m [36m|[m [33m1f8fe5d[m[33m ([m[1;31morigin/Use-Logger-and-Config-Throughout-Project[m[33m)[m ADDED: Logging and Config throughout project CHANGED: Organized some imports, fixed reservation endpoint
+[1;36m|[m[1;36m/[m [35m/[m [36m/[m  
+[1;36m|[m * [36m|[m [33mbde9a2a[m deleted old src to clean upppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp
+[1;36m|[m * [36m|[m [33m91dee96[m added reservation tests for endtime vs starttimes
+[1;36m|[m * [36m|[m   [33mef48d39[m Merge branch 'development' of https://github.com/TeamBeeThere/BeeThere into reservationTest yes, preparing for code freeze part 1
+[1;36m|[m [32m|[m[1;36m\[m [36m\[m  
+[1;36m|[m [32m|[m[1;36m/[m [36m/[m  
+[1;36m|[m[1;36m/[m[32m|[m [36m|[m   
+* [32m|[m [36m|[m   [33m80d22a9[m Merge pull request #29 from TeamBeeThere/room-reservation-relationship
+[34m|[m[35m\[m [32m\[m [36m\[m  
+[34m|[m * [32m|[m [36m|[m [33m8710e7f[m[33m ([m[1;31morigin/room-reservation-relationship[m[33m, [m[1;32mroom-reservation-relationship[m[33m)[m basic reservation authorization
+[34m|[m * [32m|[m [36m|[m [33mb803b71[m start time validation fixed
+[34m|[m * [32m|[m [36m|[m [33m6022764[m reservation and room mapping
+[34m|[m * [32m|[m [36m|[m [33m4f84d32[m darrian look at it
+[34m|[m[34m/[m [32m/[m [36m/[m  
+* [32m|[m [36m|[m   [33m850f1be[m Merge pull request #28 from TeamBeeThere/room-business-logic
+[36m|[m[1;31m\[m [32m\[m [36m\[m  
+[36m|[m * [32m|[m [36m|[m [33mc2a1ccf[m[33m ([m[1;31morigin/room-business-logic[m[33m)[m added business logic for manager permissions
+* [1;31m|[m [32m|[m [36m|[m   [33m51efa58[m Merge pull request #27 from TeamBeeThere/SantizerUtil
+[1;32m|[m[1;33m\[m [1;31m\[m [32m\[m [36m\[m  
+[1;32m|[m [1;33m|[m [1;31m|[m * [36m|[m [33mc2db294[m added test suppot for reservations- pulling development for updates
+[1;32m|[m [1;33m|[m [1;31m|[m[1;33m/[m [36m/[m  
+[1;32m|[m [1;33m|[m[1;33m/[m[1;31m|[m [36m|[m   
+[1;32m|[m * [1;31m|[m [36m|[m [33m073a913[m[33m ([m[1;31morigin/SantizerUtil[m[33m)[m added santizier to controllers to clean data
+[1;32m|[m * [1;31m|[m [36m|[m   [33me201296[m Merge branch 'development' of https://github.com/TeamBeeThere/BeeThere into SantizerUtil added other code before adding in the sanitizer
+[1;32m|[m [1;34m|[m[1;32m\[m [1;31m\[m [36m\[m  
+[1;32m|[m [1;34m|[m[1;32m/[m [1;31m/[m [36m/[m  
+[1;32m|[m[1;32m/[m[1;34m|[m [1;31m|[m [36m|[m   
+* [1;34m|[m [1;31m|[m [36m|[m   [33m564ea55[m Merge pull request #26 from TeamBeeThere/Implement-Logger
+[1;31m|[m[31m\[m [1;34m\[m [1;31m\[m [36m\[m  
+[1;31m|[m [31m|[m[1;31m_[m[1;34m|[m[1;31m/[m [36m/[m  
+[1;31m|[m[1;31m/[m[31m|[m [1;34m|[m [36m|[m   
+[1;31m|[m * [1;34m|[m [36m|[m [33mf9a7a7c[m[33m ([m[1;31morigin/Implement-Logger[m[33m)[m ADDED: Logging, Logging config CHNAGED:  Dependencies to avoid Logging dependency issues
+[1;31m|[m[1;31m/[m [1;34m/[m [36m/[m  
+* [1;34m|[m [36m|[m   [33m00ca423[m Merge pull request #25 from TeamBeeThere/fixing-room-test
+[32m|[m[33m\[m [1;34m\[m [36m\[m  
+[32m|[m * [1;34m|[m [36m|[m [33m00b41ca[m[33m ([m[1;31morigin/fixing-room-test[m[33m)[m fixed room tests
+[32m|[m[32m/[m [1;34m/[m [36m/[m  
+* [1;34m|[m [36m|[m   [33ma65ce8e[m Merge pull request #24 from TeamBeeThere/Add-Constants-to-Config
+[34m|[m[35m\[m [1;34m\[m [36m\[m  
+[34m|[m * [1;34m|[m [36m|[m [33m29b8bb3[m[33m ([m[1;31morigin/Add-Constants-to-Config[m[33m)[m ADDED: New parameters to config CHANGED: Config now implements singleton pattern
+* [35m|[m [1;34m|[m [36m|[m   [33mfa224c9[m Merge pull request #23 from TeamBeeThere/RsvpThings
+[36m|[m[1;31m\[m [35m\[m [1;34m\[m [36m\[m  
+[36m|[m [1;31m|[m [35m|[m * [36m|[m [33m30bd346[m added santizer into the util folder
+[36m|[m [1;31m|[m [35m|[m [1;31m|[m [36m|[m * [33m0553900[m[33m ([m[1;31morigin/RsvpThings[m[33m, [m[1;32mRsvpThings[m[33m)[m business logic for reservations
+[36m|[m [1;31m|[m [35m|[m [1;31m|[m [36m|[m * [33mde67015[m pausing, employee not mapping for some reason
+[36m|[m [1;31m|[m [35m|[m [1;31m|[m [36m|[m * [33m9a23d77[m basic business logic, doesn't run
+[36m|[m [1;31m|[m [35m|[m [1;31m|[m [36m|[m * [33m6a992cc[m override methods
+[36m|[m [1;31m|[m [35m|[m[1;31m_[m[1;31m|[m[1;31m_[m[36m|[m[1;31m/[m  
+[36m|[m [1;31m|[m[1;31m/[m[35m|[m [1;31m|[m [36m|[m   
+[36m|[m * [35m|[m [1;31m|[m [36m|[m [33m2cfbab8[m removed target class files
+[36m|[m * [35m|[m [1;31m|[m [36m|[m [33m26f2e99[m getter setter logic for reservation
+[36m|[m * [35m|[m [1;31m|[m [36m|[m [33mfc2cb70[m reservation crud
+[36m|[m * [35m|[m [1;31m|[m [36m|[m [33ma112db2[m put implemented but not validating tokens properly
+[36m|[m [36m|[m [35m|[m[36m_[m[1;31m|[m[36m/[m  
+[36m|[m [36m|[m[36m/[m[35m|[m [1;31m|[m   
+[36m|[m [36m|[m [35m|[m [1;31m|[m * [33m11d5d45[m[33m ([m[1;31morigin/MrRogers[m[33m)[m RestAPTTestingAutomaton_v1
+[36m|[m [36m|[m [35m|[m [1;31m|[m [1;33m|[m * [33m4aca9a2[m[33m ([m[1;31morigin/room-controller-buisness-logic[m[33m)[m one test fixed
+[36m|[m [36m|[m[36m_[m[35m|[m[36m_[m[1;31m|[m[36m_[m[1;33m|[m[36m/[m  
+[36m|[m[36m/[m[36m|[m [35m|[m [1;31m|[m [1;33m|[m   
+* [36m|[m [35m|[m [1;31m|[m [1;33m|[m   [33m73805cf[m Merge pull request #22 from TeamBeeThere/RoomTest
+[35m|[m[1;31m\[m [36m\[m [35m\[m [1;31m\[m [1;33m\[m  
+[35m|[m [1;31m|[m[35m_[m[36m|[m[35m/[m [1;31m/[m [1;33m/[m  
+[35m|[m[35m/[m[1;31m|[m [36m|[m [1;31m/[m [1;33m/[m   
+[35m|[m [1;31m|[m [36m|[m[1;31m/[m [1;33m/[m    
+[35m|[m [1;31m|[m[1;31m/[m[36m|[m [1;33m|[m     
+[35m|[m * [36m|[m [1;33m|[m [33meb785ef[m[33m ([m[1;31morigin/RoomTest[m[33m)[m added Jacob's RoomController,Service and Repository
+[35m|[m * [36m|[m [1;33m|[m [33mfa0e601[m added room class tweaks and basic room tests, needs update
+[35m|[m * [36m|[m [1;33m|[m   [33m172edb3[m Merge branch 'development' of https://github.com/TeamBeeThere/BeeThere into RoomTest yes needed the new doc
+[35m|[m [31m|[m[35m\[m [36m\[m [1;33m\[m  
+[35m|[m [31m|[m[35m/[m [36m/[m [1;33m/[m  
+[35m|[m[35m/[m[31m|[m [36m|[m [1;33m|[m   
+[35m|[m * [36m|[m [1;33m|[m [33ma98ddb5[m added room tests
+[35m|[m [36m|[m[36m/[m [1;33m/[m  
+[35m|[m [36m|[m [1;33m|[m * [33mb423258[m[33m ([m[1;31morigin/room-controller-query-params[m[33m)[m added query params to room contoller and service and repo
+[35m|[m [36m|[m[35m_[m[1;33m|[m[35m/[m  
+[35m|[m[35m/[m[36m|[m [1;33m|[m   
+* [36m|[m [1;33m|[m   [33m89dcf78[m Merge pull request #19 from TeamBeeThere/Business-Rules
+[36m|[m[35m\[m [36m\[m [1;33m\[m  
+[36m|[m [35m|[m[36m/[m [1;33m/[m  
+[36m|[m[36m/[m[35m|[m [1;33m|[m   
+[36m|[m * [1;33m|[m [33m627b320[m[33m ([m[1;31morigin/Business-Rules[m[33m)[m ADDED: Business Rules
+[36m|[m[36m/[m [1;33m/[m  
+* [1;33m|[m [33m44a1985[m Merge pull request #17 from TeamBeeThere/testinggg
+[36m|[m[1;33m\[m[1;33m|[m 
+[36m|[m *   [33md481fc6[m[33m ([m[1;31morigin/testinggg[m[33m)[m i will learn to make better branch names
+[36m|[m [1;32m|[m[36m\[m  
+[36m|[m [1;32m|[m[36m/[m  
+[36m|[m[36m/[m[1;32m|[m   
+* [1;32m|[m   [33mad5663b[m Merge pull request #16 from TeamBeeThere/ModelAdjustment
+[1;34m|[m[1;35m\[m [1;32m\[m  
+[1;34m|[m * [1;32m|[m [33m2e9b9f5[m[33m ([m[1;31morigin/ModelAdjustment[m[33m)[m added dependencies for logger and sanitizer to pom file
+[1;34m|[m * [1;32m|[m [33m14920a6[m adjusted the Employee and Room Models
+[1;34m|[m[1;34m/[m [1;32m/[m  
+[1;34m|[m * [33m2d7dd91[m working
+[1;34m|[m * [33m57c6c71[m[33m ([m[1;31morigin/wednesday-night[m[33m, [m[1;32mwednesday-night[m[33m)[m pushed so i can test on vm
+[1;34m|[m[1;34m/[m  
+*   [33m875b4ec[m Merge pull request #15 from TeamBeeThere/API-Tests
+[1;36m|[m[31m\[m  
+[1;36m|[m * [33ma1da01b[m[33m ([m[1;31morigin/API-Tests[m[33m)[m CHANGED: Added getters and setters back to Employee and Room
+[1;36m|[m * [33md00e02d[m Fixed Src/ Location
+[1;36m|[m * [33mf4b60c2[m MOVED TO DARRIAN'S PROTOTYPE
+[1;36m|[m * [33ma8ee615[m CHANGED: AppApplicationRoute
+[1;36m|[m * [33mf98b142[m Initial Changes
+[1;36m|[m[1;36m/[m  
+[1;36m|[m * [33m8d2b4ee[m[33m ([m[1;31morigin/IWillFinishThis[m[33m, [m[1;32mIWillFinishThis[m[33m)[m working on viewing open rooms
+[1;36m|[m [32m|[m * [33mb3d1d0e[m[33m ([m[1;31morigin/MergingMainChanges[m[33m, [m[1;32mMergingMainChanges[m[33m)[m merged main into branch
+[1;36m|[m [32m|[m * [33m1d95497[m Merge remote-tracking branch 'origin/main' into MergingMainChanges
+[1;36m|[m [32m|[m[32m/[m[1;36m|[m 
+[1;36m|[m [32m|[m[1;36m/[m  
+[1;36m|[m[1;36m/[m[32m|[m   
+* [32m|[m   [33mab96cac[m Merge pull request #14 from TeamBeeThere/add-repository
+[36m|[m[1;31m\[m [32m\[m  
+[36m|[m * [32m|[m [33m58d4611[m[33m ([m[1;31morigin/add-repository[m[33m)[m added repo folder and service folder and updated controller names
+[36m|[m[36m/[m [32m/[m  
+* [32m|[m   [33m0aca1d7[m Merge pull request #13 from TeamBeeThere/james2
+[1;32m|[m[1;33m\[m [32m\[m  
+[1;32m|[m * [32m|[m [33m5e9c82c[m[33m ([m[1;31morigin/james2[m[33m)[m secondCommit
+[1;32m|[m * [32m|[m [33m03447fc[m J1stCommit
+* [1;33m|[m [32m|[m   [33m0d02149[m[33m ([m[1;31morigin/jacobdemo[m[33m)[m Merge pull request #12 from TeamBeeThere/Add-JUnit
+[1;34m|[m[1;35m\[m [1;33m\[m [32m\[m  
+[1;34m|[m * [1;33m|[m [32m|[m [33m40176e0[m[33m ([m[1;31morigin/Add-JUnit[m[33m)[m ADDED: Junit 5
+[1;34m|[m[1;34m/[m [1;33m/[m [32m/[m  
+* [1;33m|[m [32m|[m   [33m736b425[m Merge pull request #11 from TeamBeeThere/Darrian's-Prototype
+[1;36m|[m[31m\[m [1;33m\[m [32m\[m  
+[1;36m|[m * [1;33m|[m [32m|[m [33md7e0d0c[m[33m ([m[1;31morigin/Darrian's-Prototype[m[33m)[m ADDED: Darrian Prototype
+[1;36m|[m[1;36m/[m [1;33m/[m [32m/[m  
+* [1;33m|[m [32m|[m   [33m68476c1[m Merge pull request #10 from TeamBeeThere/sanitizerReady
+[32m|[m[33m\[m [1;33m\[m [32m\[m  
+[32m|[m * [1;33m|[m [32m|[m [33m386eb1b[m[33m ([m[1;31morigin/sanitizerReady[m[33m)[m added working and tested sanitizer. removed duplicate seed file.
+[32m|[m[32m/[m [1;33m/[m [32m/[m  
+[32m|[m [1;33m|[m * [33m8d649c1[m complete basic crud for both rooms and reservations
+[32m|[m [1;33m|[m * [33ma578269[m room endpoints basic crud functionality, starting on reservation with get and create
+[32m|[m [1;33m|[m * [33m1419c05[m swag
+[32m|[m [1;33m|[m * [33m09b4e87[m calling auth server in controller
+[32m|[m [1;33m|[m * [33md462a72[m basic structure, controller calling ng service calling repo calling db
+[32m|[m [1;33m|[m[32m/[m  
+[32m|[m[32m/[m[1;33m|[m   
+* [1;33m|[m   [33m3da1011[m Merge pull request #7 from TeamBeeThere/routes-documentation-fix
+[34m|[m[35m\[m [1;33m\[m  
+[34m|[m * [1;33m|[m [33mc219f31[m[33m ([m[1;31morigin/routes-documentation-fix[m[33m)[m CHANGED: Fixed Routes in Architecture
+[34m|[m[34m/[m [1;33m/[m  
+* [1;33m|[m   [33mb663183[m Merge pull request #6 from TeamBeeThere/input-validation-employee
+[36m|[m[1;31m\[m [1;33m\[m  
+[36m|[m * [1;33m|[m [33mbcbb360[m[33m ([m[1;31morigin/input-validation-employee[m[33m)[m added input val and logging for employee and reservation
+[36m|[m[36m/[m [1;33m/[m  
+[36m|[m [1;33m|[m *   [33m7c1845b[m[33m ([m[1;31morigin/jacob[m[33m, [m[1;31morigin/inputVal[m[33m)[m merged
+[36m|[m [1;33m|[m [1;32m|[m[36m\[m  
+[36m|[m [1;33m|[m[36m_[m[1;32m|[m[36m/[m  
+[36m|[m[36m/[m[1;33m|[m [1;32m|[m   
+* [1;33m|[m [1;32m|[m   [33mf32ec47[m Merge pull request #4 from TeamBeeThere/Add-Config
+[1;34m|[m[1;35m\[m [1;33m\[m [1;32m\[m  
+[1;34m|[m * [1;33m|[m [1;32m|[m [33m38e63c0[m[33m ([m[1;31morigin/Add-Config[m[33m)[m CHANGED: Updated comment to clarify config attribute null checking
+[1;34m|[m * [1;33m|[m [1;32m|[m [33m63ae151[m ADDED: Config Package, file, and Dependency
+[1;34m|[m [1;33m|[m[1;33m/[m [1;32m/[m  
+* [1;33m|[m [1;32m|[m   [33mfdbbc77[m Merge pull request #3 from TeamBeeThere/brycedev
+[1;33m|[m[31m\[m [1;33m\[m [1;32m\[m  
+[1;33m|[m [31m|[m[1;33m/[m [1;32m/[m  
+[1;33m|[m[1;33m/[m[31m|[m [1;32m|[m   
+[1;33m|[m * [1;32m|[m [33m933b5a8[m[33m ([m[1;31morigin/brycedev[m[33m)[m Moved Seed file to DB Prototype
+[1;33m|[m * [1;32m|[m   [33ma86c860[m Merge branch 'main' of https://github.com/TeamBeeThere/BeeThere into brycedev merging to make easy push to main
+[1;33m|[m [32m|[m[1;33m\[m [1;32m\[m  
+[1;33m|[m [32m|[m[1;33m/[m [1;32m/[m  
+[1;33m|[m[1;33m/[m[32m|[m [1;32m|[m   
+* [32m|[m [1;32m|[m   [33m16366d6[m Merge pull request #2 from TeamBeeThere/Adding-Roles
+[34m|[m[35m\[m [32m\[m [1;32m\[m  
+[34m|[m * [32m|[m [1;32m|[m [33m5eb0e19[m[33m ([m[1;31morigin/Adding-Roles[m[33m)[m ADDED: Employee Roles
+* [35m|[m [32m|[m [1;32m|[m   [33m970bb44[m Merge pull request #1 from TeamBeeThere/Config-Prototype
+[35m|[m[1;31m\[m [35m\[m [32m\[m [1;32m\[m  
+[35m|[m [1;31m|[m[35m/[m [32m/[m [1;32m/[m  
+[35m|[m[35m/[m[1;31m|[m [32m|[m [1;32m|[m   
+[35m|[m * [32m|[m [1;32m|[m [33m5cab0c2[m[33m ([m[1;31morigin/Config-Prototype[m[33m)[m ADDED: Config Prototype
+[35m|[m[35m/[m [32m/[m [1;32m/[m  
+[35m|[m * [1;32m|[m [33m7f66e85[m added dependencies for logger into src
+[35m|[m * [1;32m|[m [33m372f1d6[m Added Seed for room table
+[35m|[m * [1;32m|[m [33m76f6892[m Added Room Setters
+[35m|[m[35m/[m [1;32m/[m  
+[35m|[m * [33m8b63e2d[m Added logging to Employee
+[35m|[m * [33mabd5788[m logging
+[35m|[m * [33m883c590[m employee input validation
+[35m|[m * [33mbc4ca6d[m added some validation on reservation, need a little more for the owner field though
+[35m|[m[35m/[m  
+* [33mfdf4cea[m ADDED: Data classes
+* [33m6c12fdf[m ADDED: Style.md
+[1;31m|[m * [33mf9aa172[m[33m ([m[1;31morigin/SomeTests[m[33m)[m some simple basic tests
+[1;31m|[m[1;31m/[m  
+* [33mf42f156[m ADDED: Security document CHANGED: Added missing "/" to Architecture
+* [33m0efacef[m CHANGED: Updated /src with springboot
+*   [33m7626c32[m Merge branch 'main' of https://github.com/TeamBeeThere/BeeThere
+[1;33m|[m[1;34m\[m  
+[1;33m|[m *   [33me43a2e6[m Merge remote-tracking branch 'refs/remotes/origin/main'
+[1;33m|[m [1;35m|[m[1;36m\[m  
+[1;33m|[m * [1;36m|[m [33madf4cad[m added onto prototype
+[1;33m|[m * [1;36m|[m [33m7a798a5[m revamped prototype
+* [1;36m|[m [1;36m|[m [33m8477a54[m CHANGED: Project setup documentation  adjusted for SpringBoot
+[1;36m|[m [1;36m|[m[1;36m/[m  
+[1;36m|[m[1;36m/[m[1;36m|[m   
+* [1;36m|[m [33mb587857[m ADDED: Architecture documentation
+[1;36m|[m[1;36m/[m  
+* [33mba987b8[m CHANED: Project Setup step 3, src/pom.xml to add mainClass
+* [33mb2b5149[m CHANGED:  Updated Documentation For Single Jar Build, Remade Src Files
+* [33mf749a24[m ADDED: Authentication demo
+* [33m9b6f480[m CHANGED: log4j2 demo now working
+* [33mbcebaee[m added logger prototype base
+* [33m6d3c22a[m CHANGED: Moved remaining files to demo/Spring Boot DB
+* [33maf4692e[m CHANGED: Moved demo/* to demo/Spring Boot DB
+* [33ma5bbaee[m CHANGED: Project Setup Maven Command
+* [33m25b7842[m added demo
+* [33me934868[m ADDED: Maven Project, Project Setup CHANGED: Environment Setup to be more generic
+* [33mb5b73df[m ADDED: Environment Setup document CHANGED: Moved Vision Document and Week 1 Presentation
+* [33mc17cd3d[m ADDED: Week 1 documents
+* [33m84a3abf[m Initial commit

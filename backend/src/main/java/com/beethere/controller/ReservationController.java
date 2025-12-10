@@ -73,6 +73,14 @@ public class ReservationController {
         });
 	}
 
+	@GetMapping("/user/{id}")
+	public ResponseEntity<?> getReservationsForUser(@RequestHeader(value = "Bearer", required = false) String token, @PathVariable("id") Integer id) {
+		return withAuth(token, employee -> {
+            Iterable<Reservation> rsvps = reservationService.getRsvpsForUser(id);
+            return new ResponseEntity<>(rsvps, HttpStatus.OK);
+        });
+	}
+
 	@PostMapping("/")
 	public ResponseEntity<?> createReservation(@RequestHeader(value = "Bearer", required = false) String token, @RequestBody Reservation rsvp) {
 		return withAuth(token, employee -> {
