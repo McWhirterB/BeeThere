@@ -17,9 +17,16 @@ import { createApp } from 'vue'
 // Styles
 import 'unfonts.css'
 
+// Import auth store
+import { useAuthStore } from '@/stores/auth-store'
+
 const app = createApp(App)
 const pinia = createPinia()
 app.use(pinia)
 registerPlugins(app)
 
 app.mount('#app')
+
+// Load employee identity after app is mounted
+const authStore = useAuthStore()
+authStore.loadIdentity()

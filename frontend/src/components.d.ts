@@ -11,6 +11,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    AboutUs: typeof import('./components/AboutUs.vue')['default']
     GlobalSnackbar: typeof import('./components/GlobalSnackbar.vue')['default']
     HelloFour: typeof import('./components/HelloFour.vue')['default']
     HelloThree: typeof import('./components/HelloThree.vue')['default']

@@ -145,6 +145,18 @@
                 </v-col>
               </v-row>
             </div>
+
+            <!-- Action Buttons -->
+            <v-divider class="mb-4"></v-divider>
+            <div class="d-flex justify-end gap-2">
+              <v-btn
+                color="error"
+                variant="tonal"
+                @click="deleteReservation(reservation.reservationId)"
+              >
+                Delete
+              </v-btn>
+            </div>
           </v-expansion-panel-text>
         </v-expansion-panel>
       </v-expansion-panels>
