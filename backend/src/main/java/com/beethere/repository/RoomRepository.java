@@ -21,4 +21,6 @@ public interface RoomRepository extends CrudRepository<Room, Integer> {
     @Query(value = "SELECT * FROM room WHERE location = ?1 AND room_id NOT IN (SELECT tr.room_id FROM reservation r JOIN reservation_room tr ON r.reservation_id = tr.reservation_id WHERE start_time >= ?2 AND end_time <= ?3);", nativeQuery = true)
     List<Room> findByCountryAndAvailability(String country, LocalDateTime startTime, LocalDateTime endTime);
 
+    @Query(value = "SELECT * FROM room WHERE room_id NOT IN (SELECT tr.room_id FROM reservation r JOIN reservation_room tr ON r.reservation_id = tr.reservation_id WHERE start_time >= ?1 AND end_time <= ?2);", nativeQuery = true)
+    List<Room> findByAvailability(LocalDateTime startTime, LocalDateTime endTime);
 }

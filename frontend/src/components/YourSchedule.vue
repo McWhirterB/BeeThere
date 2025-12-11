@@ -41,11 +41,11 @@
 								<v-row>
 									<v-col align="center">
 										<h1>Start Time</h1>
-										<v-time-picker v-model="rsvpStartTime" max="rsvpEndTime"></v-time-picker>
+										<v-time-picker v-model="rsvpStartTime"></v-time-picker>
 									</v-col>
 									<v-col align="center">
 										<h1>End Time</h1>
-										<v-time-picker v-model="rsvpEndTime" min="rsvpStartTime"></v-time-picker>
+										<v-time-picker v-model="rsvpEndTime"></v-time-picker>
 									</v-col>
 								</v-row>
 								<v-row>
@@ -56,7 +56,7 @@
 													<v-col> 
 														<v-menu v-model="menu" :close-on-content-click="false" location="end">
 															<template #activator="{ props }">
-																<v-btn v-bind="props" variant="plain"> Add Rooms </v-btn>
+																<v-btn v-bind="props" variant="plain" @click="getRoomsByAvailability()"> Add Rooms </v-btn>
 															</template>
 
 															<v-card min-width="350" max-height="350" class="d-flex flex-column">
@@ -353,7 +353,6 @@ const rsvp = ref({
 			})
 
 onMounted(() => {
-	getRooms()
 	getReservationsForUser()
 })
 
@@ -402,6 +401,29 @@ function nextWeek() {
 		}))
 	}
 		
+	async function getRoomsByAvailability() {
+		try {
+				await axios.get("http://localhost:8080/rooms/", {
+															headers: {
+																"Bearer": auth.token,
+																"Access-Control-Allow-Origin": "*",	
+															},
+															params: {
+																start: rsvpStartTime.length > 0 ? rsvpStartTime : null,
+																end: rsvpEndTime.length > 0 ? rsvpEndTime : null,
+															},
+															responseType: "json",
+														}).then((response) => {
+															rooms.value = response.data;
+														});
+			console.log(rooms);
+			snackbar.showSnackbar('Succesfully gathered room info', 'success');
+		} catch (e) {
+			console.log("unable to get rooms: ", e);
+			snackbar.showSnackbar('Error retrieving room info', 'error');
+		}
+	}
+
 	async function getRooms() {
 		try {
 				await axios.get("http://localhost:8080/rooms/", {
