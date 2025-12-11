@@ -3,9 +3,11 @@ package com.beethere.controller;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.*;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -85,9 +87,9 @@ public class RoomController {
             @RequestHeader(value = "Bearer", required = false) String token,
             @RequestParam(required = false) String country,
             @RequestParam(required = false) String type,
-            // LocalDateTimes are assumed to be in UTC
-            @RequestParam(required = false) LocalDateTime start,
-            @RequestParam(required = false) LocalDateTime end
+            // ISO DateTime format - Spring will parse automatically
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end
     ) {
 
         

@@ -25,186 +25,376 @@
 						</div>
 					</template>
         </v-calendar>
-				<v-dialog v-model="addReservationDialog" width="60%"> 
+				<v-dialog v-model="addReservationDialog" max-width="800"> 
 					<template v-slot:default="{ isActive }">
-						<v-card>
-							<v-card-title align="center">
-								Add Meeting
+						<v-card elevation="4" rounded="lg">
+							<!-- Header -->
+							<v-card-title class="bg-grey-lighten-4 py-4">
+								<div class="d-flex align-center justify-space-between">
+									<div class="d-flex align-center">
+										<v-icon class="mr-2" color="primary">mdi-calendar-plus</v-icon>
+										<span class="text-h6">New Meeting</span>
+									</div>
+									<v-btn 
+										icon 
+										variant="text"
+										size="small"
+										@click="addReservationDialog=false"
+									>
+										<v-icon>mdi-close</v-icon>
+									</v-btn>
+								</div>
 							</v-card-title>
-							<v-card-text>
-								<v-row>	
-									<v-col align="center">
-										<h1>Date</h1>
-										<v-text-field v-model="rsvpDate" type="date" variant="outlined" width="40%"></v-text-field>	
+
+							<v-divider></v-divider>
+
+							<v-card-text class="pa-6">
+								<!-- Date & Time -->
+								<v-row class="mb-4">
+									<v-col cols="12">
+										<v-text-field 
+											v-model="rsvpDate" 
+											type="date" 
+											label="Meeting Date"
+											variant="outlined"
+											density="comfortable"
+											prepend-inner-icon="mdi-calendar"
+											hide-details
+										></v-text-field>	
 									</v-col>
 								</v-row>
-								<v-row>
-									<v-col align="center">
-										<h1>Start Time</h1>
-										<v-time-picker v-model="rsvpStartTime"></v-time-picker>
+								<v-row class="mb-4">
+									<v-col cols="12" md="6">
+										<div class="text-body-2 font-weight-medium text-grey-darken-2 mb-2">Start Time</div>
+										<v-time-picker 
+											v-model="rsvpStartTime"
+											width="100%"
+											elevation="1"
+											color="primary"
+										></v-time-picker>
 									</v-col>
-									<v-col align="center">
-										<h1>End Time</h1>
-										<v-time-picker v-model="rsvpEndTime"></v-time-picker>
+									<v-col cols="12" md="6">
+										<div class="text-body-2 font-weight-medium text-grey-darken-2 mb-2">End Time</div>
+										<v-time-picker 
+											v-model="rsvpEndTime"
+											width="100%"
+											elevation="1"
+											color="primary"
+										></v-time-picker>
 									</v-col>
 								</v-row>
-								<v-row>
-									<v-col align="center">
-										<v-card elevation="2" width="40%">
-											<v-card-text>
-												<v-row>
-													<v-col> 
-														<v-menu v-model="menu" :close-on-content-click="false" location="end">
-															<template #activator="{ props }">
-																<v-btn v-bind="props" variant="plain" @click="getRoomsByAvailability()"> Add Rooms </v-btn>
-															</template>
 
-															<v-card min-width="350" max-height="350" class="d-flex flex-column">
+								<!-- Rooms Section -->
+								<v-divider class="mb-4"></v-divider>
+								
+								<div class="d-flex align-center justify-space-between mb-3">
+									<div class="text-body-2 font-weight-medium text-grey-darken-2">
+										Meeting Rooms
+										<v-chip 
+											v-if="rsvp.rooms.length > 0"
+											class="ml-2" 
+											color="success" 
+											variant="flat"
+											size="x-small"
+										>
+											{{ rsvp.rooms.length }}
+										</v-chip>
+									</div>
+									<v-menu v-model="menu" :close-on-content-click="false" location="bottom">
+										<template #activator="{ props }">
+											<v-btn 
+												v-bind="props" 
+												variant="tonal" 
+												color="primary" 
+												size="small"
+												prepend-icon="mdi-plus" 
+												@click="getRoomsByAvailability()"
+											> 
+												Add Rooms 
+											</v-btn>
+										</template>
 
-															<v-list-title class="text-h6 text-center">
-																Available Rooms
-															</v-list-title>
+										<v-card width="380" max-height="420" class="d-flex flex-column" elevation="4">
+											<v-card-title class="text-subtitle-2 bg-grey-lighten-4 py-3">
+												<v-icon start size="small">mdi-office-building</v-icon>
+												Available Rooms
+											</v-card-title>
 
-															<div style="overflow-y: auto; max-height: 250px;">
-																<v-list density="comfortable">
-																	<v-list-item
-																		v-for="room in rooms"
-																		:key="room.id"
-																		:class="{ 'bg-green-lighten-5': isSelected(room) }"
+											<v-divider></v-divider>
+
+											<div style="overflow-y: auto; flex: 1;">
+												<v-expansion-panels flat variant="accordion">
+													<v-expansion-panel
+														v-for="room in rooms"
+														:key="room.id"
+														:class="{ 'bg-green-lighten-5': isSelected(room) }"
+													>
+														<v-expansion-panel-title class="py-2">
+															<div class="d-flex align-center justify-space-between w-100">
+																<div class="d-flex align-center">
+																	<v-icon 
+																		color="green" 
+																		size="x-small" 
+																		class="mr-2"
 																	>
-																		<template #title>
-																			<span class="font-weight-medium">{{ room.roomNumber }}</span>
-																		</template>
-
-																		<template #subtitle>
-																			<v-chip
-																				color="green"
-																				text-color="white"
-																				size="small"
-																				variant="flat"
-																				label
-																			>
-																				Available
-																			</v-chip>
-																		</template>
-
-																		<template #append>
-																			<v-btn icon size="small" @click="toggleRoom(room)">
-																				<v-icon :color="isSelected(room) ? 'green' : 'grey-darken-1'">
-																					{{ isSelected(room) ? "mdi-check-circle" : "mdi-plus-box" }}
-																				</v-icon>
-																			</v-btn>
-																		</template>
-																	</v-list-item>
-																</v-list>
+																		mdi-circle
+																	</v-icon>
+																	<span class="text-caption text-success mr-2">Available</span>
+																	<span class="text-body-2 font-weight-medium">{{ room.building }} - {{ room.roomNumber }}</span>
+																</div>
+																<v-btn 
+																	icon 
+																	size="x-small" 
+																	variant="flat"
+																	:color="isSelected(room) ? 'success' : 'grey-lighten-1'"
+																	@click.stop="toggleRoom(room)"
+																>
+																	<v-icon size="small">
+																		{{ isSelected(room) ? "mdi-check-circle" : "mdi-plus-circle-outline" }}
+																	</v-icon>
+																</v-btn>
 															</div>
+														</v-expansion-panel-title>
+														<v-expansion-panel-text>
+															<v-list density="compact" class="bg-transparent py-0">
+																<v-list-item v-if="room.location" class="px-0 py-1" density="compact">
+																	<template #prepend>
+																		<v-icon size="x-small" color="primary" class="mr-2">mdi-map-marker</v-icon>
+																	</template>
+																	<div class="d-flex justify-space-between w-100">
+																		<span class="text-caption text-grey-darken-1">Location:</span>
+																		<span class="text-caption font-weight-medium">{{ room.location }}</span>
+																	</div>
+																</v-list-item>
+																
+																<v-list-item class="px-0 py-1" density="compact">
+																	<template #prepend>
+																		<v-icon size="x-small" color="primary" class="mr-2">mdi-folder-table</v-icon>
+																	</template>
+																	<div class="d-flex justify-space-between w-100">
+																		<span class="text-caption text-grey-darken-1">Type:</span>
+																		<span class="text-caption font-weight-medium text-capitalize">{{ room.type || 'Standard' }}</span>
+																	</div>
+																</v-list-item>
+																
+																<v-list-item class="px-0 py-1" density="compact">
+																	<template #prepend>
+																		<v-icon size="x-small" color="primary" class="mr-2">mdi-seat</v-icon>
+																	</template>
+																	<div class="d-flex justify-space-between w-100">
+																		<span class="text-caption text-grey-darken-1">Capacity:</span>
+																		<span class="text-caption font-weight-medium">{{ room.seatCount }} seats</span>
+																	</div>
+																</v-list-item>
+															</v-list>
+														</v-expansion-panel-text>
+													</v-expansion-panel>
+												</v-expansion-panels>
 
-															<v-card-actions>
-																<v-spacer></v-spacer>
-																<v-btn text @click="menu = false">Close</v-btn>
-															</v-card-actions>
+												<div v-if="rooms.length === 0" class="text-center pa-6">
+													<v-icon size="48" color="grey-lighten-1">mdi-calendar-remove</v-icon>
+													<p class="text-caption text-grey mt-2">No rooms available for the selected time</p>
+												</div>
+											</div>
 
-														</v-card>
-													</v-menu>
-												</v-col>
-											</v-row>
-											<v-row>
-												<v-col>
-													<v-list v-for="(room, i) in rsvp.rooms" :key="i">
-														<v-list-item v-text="room.roomNumber"></v-list-item>
-													</v-list>
-												</v-col>
-											</v-row>
-										</v-card-text>	
-									</v-card>
-								</v-col>
-							</v-row>
-							<v-row>
-								<v-col class="text-center">
-									<v-btn @click="postReservation()" variant="flat">Create Reservation</v-btn>
-									<v-btn @click="console.log(rsvpDate)">Test Reservation</v-btn>
-								</v-col>
-							</v-row>
-						</v-card-text>
-						<v-card-actions> 
-							<v-btn @click="addReservationDialog=false">
-								Close
-							</v-btn>
-						</v-card-actions>
-					</v-card>
-				</template>
-			</v-dialog>
-			<v-dialog v-model="reservationInfoDialog" width="60%">
-  <v-card>
-    <v-card-title class="text-h5">
-      Edit Reservation
+											<v-divider></v-divider>
+
+											<v-card-actions class="px-3 py-2">
+												<v-chip 
+													v-if="rsvp.rooms.length > 0" 
+													color="success" 
+													variant="flat"
+													size="x-small"
+												>
+													{{ rsvp.rooms.length }} selected
+												</v-chip>
+												<v-spacer></v-spacer>
+												<v-btn variant="text" size="small" @click="menu = false">Close</v-btn>
+											</v-card-actions>
+										</v-card>
+									</v-menu>
+								</div>
+
+								<!-- Selected Rooms List -->
+								<div v-if="rsvp.rooms.length === 0" class="text-center py-6">
+									<v-icon size="48" color="grey-lighten-2">mdi-office-building-outline</v-icon>
+									<p class="text-caption text-grey mt-2">No rooms selected yet</p>
+								</div>
+
+								<v-list v-else class="bg-grey-lighten-5 rounded pa-2">
+									<v-list-item
+										v-for="(room, i) in rsvp.rooms" 
+										:key="i"
+										class="rounded mb-1"
+										density="comfortable"
+									>
+										<template #prepend>
+											<v-avatar color="primary" size="32">
+												<v-icon size="18" color="white">mdi-domain</v-icon>
+											</v-avatar>
+										</template>
+										<v-list-item-title class="text-body-2 font-weight-medium">
+											{{ room.building }}
+										</v-list-item-title>
+										<v-list-item-subtitle class="text-caption">
+											Room {{ room.roomNumber }}
+										</v-list-item-subtitle>
+										<template #append>
+											<v-btn 
+												icon
+												size="x-small" 
+												variant="text"
+												@click="toggleRoom(room)"
+											>
+												<v-icon size="small">mdi-close</v-icon>
+											</v-btn>
+										</template>
+									</v-list-item>
+								</v-list>
+							</v-card-text>
+
+							<v-divider></v-divider>
+
+							<!-- Footer Actions -->
+							<v-card-actions class="px-6 py-4">
+								<v-spacer></v-spacer>
+								<v-btn 
+									variant="text"
+									@click="addReservationDialog=false"
+								>
+									Cancel
+								</v-btn>
+								<v-btn 
+									color="primary" 
+									variant="tonal"
+									@click="postReservation()"
+								>
+									Create Reservation
+								</v-btn>
+							</v-card-actions>
+						</v-card>
+					</template>
+				</v-dialog>
+			<v-dialog v-model="reservationInfoDialog" max-width="700">
+  <v-card elevation="4" rounded="lg">
+    <v-card-title class="bg-grey-lighten-4 py-4">
+      <div class="d-flex align-center">
+        <v-icon class="mr-2" color="primary">mdi-pencil</v-icon>
+        <span class="text-h6">Edit Reservation</span>
+      </div>
     </v-card-title>
 
-    <v-card-text>
-      <v-row>
-        <v-col cols="6">
+    <v-divider></v-divider>
+
+    <v-card-text class="pa-6">
+      <!-- Employee Information -->
+      <v-row class="mb-2">
+        <v-col cols="12" md="6">
           <v-text-field
             label="Employee Name"
             v-model="selectedReservation.data.employeeName"
             variant="outlined"
+            density="comfortable"
+            hide-details
           />
         </v-col>
 
-        <v-col cols="6">
+        <v-col cols="12" md="6">
           <v-text-field
             label="Employee ID"
             type="number"
             v-model="selectedReservation.data.employeeId"
             variant="outlined"
+            density="comfortable"
+            hide-details
           />
         </v-col>
       </v-row>
 
-      <v-row>
-        <v-col cols="6">
+      <!-- Date & Time -->
+      <v-row class="mb-2">
+        <v-col cols="12" md="6">
           <v-text-field
             label="Start Time"
             type="datetime-local"
             v-model="editReservation.start"
             variant="outlined"
+            density="comfortable"
+            hide-details
           />
         </v-col>
 
-        <v-col cols="6">
+        <v-col cols="12" md="6">
           <v-text-field
             label="End Time"
             type="datetime-local"
             v-model="editReservation.end"
             variant="outlined"
+            density="comfortable"
+            hide-details
           />
         </v-col>
       </v-row>
 
-      <v-row>
-        <v-col>
-          <h3>Rooms</h3>
+      <!-- Rooms Section -->
+      <v-divider class="my-4"></v-divider>
+      
+      <div class="text-subtitle-2 font-weight-medium mb-3 text-grey-darken-2">
+        Assigned Rooms
+      </div>
 
-          <!-- Existing rooms -->
-          <v-list>
-            <v-list-item
-              v-for="(room, i) in selectedReservation.data.rooms"
-              :key="i"
-            >
-              <v-list-item-title>{{ room.building }} - {{ room.roomNumber }}</v-list-item-title>
-            </v-list-item>
-          </v-list>
-        </v-col>
-      </v-row>
+      <div v-if="selectedReservation.data.rooms.length === 0" class="text-center py-4">
+        <v-icon color="grey-lighten-1" size="40">mdi-home-alert-outline</v-icon>
+        <p class="text-body-2 text-grey mt-2">No rooms assigned</p>
+      </div>
+
+      <v-list v-else class="bg-transparent pa-0">
+        <v-list-item
+          v-for="(room, i) in selectedReservation.data.rooms"
+          :key="i"
+          class="px-0 mb-1"
+          rounded="lg"
+        >
+          <template v-slot:prepend>
+            <v-avatar color="primary" size="32">
+              <v-icon size="18" color="white">mdi-domain</v-icon>
+            </v-avatar>
+          </template>
+          <v-list-item-title class="text-body-2 font-weight-medium">
+            {{ room.building }}
+          </v-list-item-title>
+          <v-list-item-subtitle class="text-caption">
+            Room {{ room.roomNumber }}
+          </v-list-item-subtitle>
+        </v-list-item>
+      </v-list>
     </v-card-text>
 
-    <v-card-actions>
-      <v-btn color="red" @click="deleteReservation(selectedReservation.data.reservationId)">
+    <v-divider></v-divider>
+
+    <v-card-actions class="pa-4">
+      <v-btn 
+        variant="tonal" 
+        color="error"
+        @click="deleteReservation(selectedReservation.data.reservationId)"
+      >
         Delete
       </v-btn>
 
       <v-spacer></v-spacer>
 
-      <v-btn color="blue" @click="updateReservation(selectedReservation.data.reservationId)">
+      <v-btn 
+        variant="text"
+        @click="reservationInfoDialog=false"
+      >
+        Cancel
+      </v-btn>
+
+      <v-btn 
+        variant="elevated" 
+        color="primary"
+        @click="updateReservation(selectedReservation.data.reservationId)"
+      >
         Update
       </v-btn>
     </v-card-actions>
@@ -346,7 +536,7 @@ const roomsToAdd = ref([])
 const rsvps = ref ([])
 const rsvp = ref({
 				employeeId: 2,
-				employeeName: "LuhTyrese",
+				employeeName: "Lil Wayne",
 				startTime: "2025-12-10T15:00:00.000+00:00",
 				endTime: "2025-12-10T16:30:00.000+00:00",
 				rooms: [],
@@ -403,14 +593,25 @@ function nextWeek() {
 		
 	async function getRoomsByAvailability() {
 		try {
+				// Build ISO datetime strings from date + time
+				const startISO = (rsvpDate.value && rsvpStartTime.value) 
+					? buildDateTime(rsvpDate.value, rsvpStartTime.value) 
+					: null;
+				const endISO = (rsvpDate.value && rsvpEndTime.value) 
+					? buildDateTime(rsvpDate.value, rsvpEndTime.value) 
+					: null;
+				
+					console.log(startISO);
+					console.log(endISO);
+
 				await axios.get("http://localhost:8080/rooms/", {
 															headers: {
 																"Bearer": auth.token,
 																"Access-Control-Allow-Origin": "*",	
 															},
 															params: {
-																start: rsvpStartTime.length > 0 ? rsvpStartTime : null,
-																end: rsvpEndTime.length > 0 ? rsvpEndTime : null,
+																start: startISO,
+																end: endISO,
 															},
 															responseType: "json",
 														}).then((response) => {

@@ -28,11 +28,14 @@ public class RoomService {
 
     public Iterable<Room> getRooms(String country, String type, LocalDateTime start, LocalDateTime end) {
         APPLICATION_LOGGER.debug("Fetching rooms with filters - Location: " + country + ", Type: " + type + ", Start: " + start + ", End: " + end);
-        System.out.println("test");
+        System.out.println(start);
+        System.out.println(end);
         if (country != null && start != null && end != null){
+            System.out.println("first call");
             return roomRepository.findByCountryAndAvailability(country, start, end);
         }
         if (start != null && end != null){
+            System.out.println("second call");
             return roomRepository.findByAvailability(start, end);
         }
         if (country != null && type != null) {
