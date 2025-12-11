@@ -40,7 +40,7 @@
 						</template>
 					</v-app-bar>
 					<v-navigation-drawer 
-						width="280"
+						width="380"
 						elevation="2"
 						class="custom-nav-drawer">
 						

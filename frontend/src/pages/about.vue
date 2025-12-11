@@ -1,5 +1,5 @@
 <template>
-	About Us Type Beat
+	<AboutUs />
 </template>
 
 <script lang="ts" setup>
