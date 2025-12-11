@@ -65,7 +65,7 @@ public class RoomTest {
 
     @Test
     void testSetCountry() {
-        testRoom.setBuilding("Mexico City");
+        testRoom.setCountry("Mexico City");
         String actual = testRoom.getCountry();
         String expected = "Mexico City";
         assertEquals(actual, expected);
@@ -111,7 +111,7 @@ public class RoomTest {
             () -> instance.setCountry(null)
         );
         
-        assertEquals("location must not be empty", exception.getMessage());
+        assertEquals("country must not be empty", exception.getMessage());
     }
     @Test
     public void testNullBuilding() {

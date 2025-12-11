@@ -96,7 +96,7 @@ public class Room {
         if (building == null)
         {
             APPLICATION_LOGGER.error("building must not be null");
-            throw new IllegalArgumentException("cibuildingty must not be null");
+            throw new IllegalArgumentException("building must not be null");
         }
 
         if (building.isEmpty())
