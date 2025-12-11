@@ -1,5 +1,5 @@
 <template>
-	<YourSchedule />
+	<ManagerIndex />
 </template>
 
 <script lang="ts" setup>

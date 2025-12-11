@@ -1,5 +1,5 @@
 <template>
-	<YourSchedule />
+	<RoomIndex />
 </template>
 
 <script lang="ts" setup>

@@ -16,12 +16,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import com.beethere.model.Employee;
 import com.beethere.model.Reservation;
 import com.beethere.model.TokenRequest;
 import com.beethere.service.ReservationService;
 
+@CrossOrigin(origins ="http://localhost:3000")
 @RestController
 @RequestMapping("/reservations")
 public class ReservationController {
@@ -68,6 +70,14 @@ public class ReservationController {
             return rsvp.isPresent()
                     ? new ResponseEntity<>(rsvp.get(), HttpStatus.OK)
                     : new ResponseEntity<>("Reservation not found", HttpStatus.NOT_FOUND);
+        });
+	}
+
+	@GetMapping("/user/{id}")
+	public ResponseEntity<?> getReservationsForUser(@RequestHeader(value = "Bearer", required = false) String token, @PathVariable("id") Integer id) {
+		return withAuth(token, employee -> {
+            Iterable<Reservation> rsvps = reservationService.getRsvpsForUser(id);
+            return new ResponseEntity<>(rsvps, HttpStatus.OK);
         });
 	}
 

@@ -1,11 +1,12 @@
 package com.beethere.controller;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.Optional;
 import java.util.function.Function;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,12 +19,14 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import com.beethere.model.Employee;
 import com.beethere.model.Room;
 import com.beethere.model.TokenRequest;
 import com.beethere.service.RoomService;
 
+@CrossOrigin(origins ="http://localhost:3000")
 @RestController
 @RequestMapping("/rooms")
 public class RoomController {
@@ -83,15 +86,51 @@ public class RoomController {
             @RequestHeader(value = "Bearer", required = false) String token,
             @RequestParam(required = false) String country,
             @RequestParam(required = false) String type,
-            // LocalDateTimes are assumed to be in UTC
-            @RequestParam(required = false) LocalDateTime start,
-            @RequestParam(required = false) LocalDateTime end
+            // Receive as String and parse manually to ensure UTC handling
+            @RequestParam(required = false) String start,
+            @RequestParam(required = false) String end
     ) {
 
         
         APPLICATION_LOGGER.debug("Getting all rooms with optional filters");
+        
+        // Log what we received from frontend
+        System.out.println("=== Room Controller Debug ===");
+        System.out.println("Received start param: " + start);
+        System.out.println("Received end param: " + end);
+        
         return withAuth(token, employee -> {
-            Iterable<Room> rooms = roomService.getRooms(country, type, start, end);
+            // Parse ISO strings to Date manually
+            Date startDate = null;
+            Date endDate = null;
+            
+            if (start != null && !start.isEmpty()) {
+                try {
+                    // Parse ISO 8601 string with timezone
+                    java.time.Instant instant = java.time.Instant.parse(start);
+                    startDate = Date.from(instant);
+                    System.out.println("Parsed start to Date: " + startDate);
+                    System.out.println("Start instant (UTC): " + instant);
+                } catch (Exception e) {
+                    APPLICATION_LOGGER.error("Failed to parse start date: " + start, e);
+                }
+            }
+            
+            if (end != null && !end.isEmpty()) {
+                try {
+                    // Parse ISO 8601 string with timezone
+                    java.time.Instant instant = java.time.Instant.parse(end);
+                    endDate = Date.from(instant);
+                    System.out.println("Parsed end to Date: " + endDate);
+                    System.out.println("End instant (UTC): " + instant);
+                } catch (Exception e) {
+                    APPLICATION_LOGGER.error("Failed to parse end date: " + end, e);
+                }
+            }
+            
+            System.out.println("===========================");
+            
+            Iterable<Room> rooms = roomService.getRooms(country, type, startDate, endDate);
             return new ResponseEntity<>(rooms, HttpStatus.OK);
         });
     }

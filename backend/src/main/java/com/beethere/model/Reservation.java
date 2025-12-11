@@ -16,10 +16,13 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 
 @Entity
 public class Reservation {
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer reservationId;
 	private Integer employeeId;
 	private String employeeName;

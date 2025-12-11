@@ -11,8 +11,15 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    GlobalSnackbar: typeof import('./components/GlobalSnackbar.vue')['default']
+    HelloFour: typeof import('./components/HelloFour.vue')['default']
+    HelloThree: typeof import('./components/HelloThree.vue')['default']
+    HelloTwo: typeof import('./components/HelloTwo.vue')['default']
     HelloWorld: typeof import('./components/HelloWorld.vue')['default']
+    ManagerIndex: typeof import('./components/ManagerIndex.vue')['default']
+    RoomIndex: typeof import('./components/RoomIndex.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    YourSchedule: typeof import('./components/YourSchedule.vue')['default']
   }
 }

@@ -27,6 +27,11 @@ public class ReservationService {
 		APPLICATION_LOGGER.debug("Fetching all reservations");
 		return reservationRepository.findAll();
 	}
+		
+	public Iterable<Reservation> getRsvpsForUser(Integer id) {
+		APPLICATION_LOGGER.debug("Fetching reservations for user " + id);
+		return reservationRepository.findByEmployeeId(id);
+	}
 
 	public Optional<Reservation> getRsvp(Integer id) {
 		APPLICATION_LOGGER.debug("Fetching reservation with ID: " + id);
