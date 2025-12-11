@@ -1,6 +1,6 @@
 package com.beethere.service;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.Optional;
 
 import org.apache.logging.log4j.LogManager;
@@ -26,10 +26,21 @@ public class RoomService {
         return roomRepository.findAll();
     }
 
-    public Iterable<Room> getRooms(String country, String type, LocalDateTime start, LocalDateTime end) {
+    public Iterable<Room> getRooms(String country, String type, Date start, Date end) {
         APPLICATION_LOGGER.debug("Fetching rooms with filters - Location: " + country + ", Type: " + type + ", Start: " + start + ", End: " + end);
-        System.out.println(start);
-        System.out.println(end);
+        
+        // Log the actual UTC time for debugging
+        if (start != null) {
+            java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+            sdf.setTimeZone(java.util.TimeZone.getTimeZone("UTC"));
+            System.out.println("Start time in UTC: " + sdf.format(start));
+        }
+        if (end != null) {
+            java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+            sdf.setTimeZone(java.util.TimeZone.getTimeZone("UTC"));
+            System.out.println("End time in UTC: " + sdf.format(end));
+        }
+        
         if (country != null && start != null && end != null){
             System.out.println("first call");
             return roomRepository.findByCountryAndAvailability(country, start, end);

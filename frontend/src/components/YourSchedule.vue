@@ -452,6 +452,7 @@ function isoToLocalInput(isoString) {
   const date = new Date(isoString);
   const pad = (n) => String(n).padStart(2, "0");
 
+  // Convert UTC time from backend to local time for display
   const yyyy = date.getFullYear();
   const mm = pad(date.getMonth() + 1);
   const dd = pad(date.getDate());
@@ -536,7 +537,7 @@ const roomsToAdd = ref([])
 const rsvps = ref ([])
 const rsvp = ref({
 				employeeId: 2,
-				employeeName: "Lil Wayne",
+				employeeName: "Test User",
 				startTime: "2025-12-10T15:00:00.000+00:00",
 				endTime: "2025-12-10T16:30:00.000+00:00",
 				rooms: [],
@@ -574,10 +575,22 @@ function nextWeek() {
 		const [year, month, day] = dateString.split('-').map(Number)
 		const [hour, minute] = timeString.split(':').map(Number)
 
-		// build the date in local time 
+		// Build date in local time, then convert to UTC for API
 		const date = new Date(year, month - 1, day, hour, minute, 0, 0)
+		
+		console.log(`=== buildDateTime Debug ===`)
+		console.log(`Input: ${dateString} ${timeString}`)
+		console.log(`Local time selected: ${hour}:${minute}`)
+		console.log(`Date object created: ${date.toString()}`)
+		console.log(`Date in UTC: ${date.toUTCString()}`)
+		console.log(`Timezone offset (minutes): ${date.getTimezoneOffset()}`)
+		console.log(`Local hours: ${date.getHours()}, UTC hours: ${date.getUTCHours()}`)
 
-		return date.toISOString()
+		// toISOString() automatically converts to UTC
+		const isoString = date.toISOString()
+		console.log(`ISO String (UTC): ${isoString}`)
+		console.log(`========================`)
+		return isoString
 	}
 
 	function convertReservationsToEvents(reservations) {
@@ -723,13 +736,14 @@ function nextWeek() {
     const mouse = toTime(tms)
 		createStart.value = roundTime(mouse)
 		const date = new Date(createStart.value)
+		// Display in local time for user
 		const hh = String(date.getHours()).padStart(2, '0');
 		const mm = String(date.getMinutes()).padStart(2, '0');
 		rsvpStartTime.value = `${hh}:${mm}`;
 		rsvpEndTime.value = '';
 		rsvp.value.rooms = [];
 
-		// build YYYY-MM-DD for the date field
+		// build YYYY-MM-DD for the date field (local time)
 		const yyyy = date.getFullYear()
 		const month = String(date.getMonth() + 1).padStart(2, '0')
 		const day = String(date.getDate()).padStart(2, '0')
