@@ -1,150 +1,190 @@
 <template>
-	<div class="mythical-realm">
-		<!-- Floating particles/stars background -->
-		<div class="cosmic-particles">
-			<div v-for="n in 50" :key="n" class="particle" :style="getParticleStyle(n)"></div>
+	<div class="galaxy-realm">
+		<!-- Animated nebula clouds -->
+		<div class="nebula-layer">
+			<div class="nebula nebula-1"></div>
+			<div class="nebula nebula-2"></div>
+			<div class="nebula nebula-3"></div>
+			<div class="nebula nebula-4"></div>
 		</div>
 
-		<!-- Floating ethereal title -->
-		<div class="ethereal-header">
-			<div class="magic-circle">
-				<v-icon size="150" class="divine-icon" color="#ffd700">mdi-star-four-points</v-icon>
-			</div>
-			<h1 class="mythical-title">✨ BeeThere ✨</h1>
-			<p class="subtitle-glow">Where Reality Meets Dreams</p>
-			<div class="floating-runes">
-				<span class="rune">☽</span>
-				<span class="rune">✧</span>
-				<span class="rune">☾</span>
-			</div>
+		<!-- Starfield with different sizes -->
+		<div class="starfield">
+			<div v-for="n in 100" :key="n" class="star" :style="getStarStyle(n)"></div>
 		</div>
 
-		<div v-if="loading" class="loading-realm">
-			<v-progress-circular indeterminate color="purple" size="120" width="8"></v-progress-circular>
-			<p class="loading-text">✨ Summoning ancient wisdom... ✨</p>
+		<!-- Floating comets -->
+		<div class="comet-trail comet-1"></div>
+		<div class="comet-trail comet-2"></div>
+
+		<!-- Cosmic Title centered in galaxy -->
+		<div class="galaxy-title">
+			<div class="supernova-burst"></div>
+			<h1 class="cosmic-text">✦ BeeThere Galaxy ✦</h1>
+			<p class="galaxy-subtitle">Navigate the Cosmos of Collaboration</p>
 		</div>
 
-		<div v-else-if="aboutInfo" class="content-flow">
-			<!-- Mission - Flowing cosmic river -->
-			<div class="cosmic-river">
-				<div class="river-flow"></div>
-				<div class="mission-constellation">
-					<v-icon size="100" class="constellation-star orbit-icon" color="#9c27b0">mdi-creation</v-icon>
-					<h2 class="cosmic-heading">🌙 Our Sacred Mission 🌙</h2>
-					<p class="prophecy-text">
+		<div v-if="loading" class="loading-galaxy">
+			<v-progress-circular indeterminate color="#00ffff" size="150" width="3"></v-progress-circular>
+			<p class="loading-text">🌌 Charting the cosmos... 🌌</p>
+		</div>
+
+		<div v-else-if="aboutInfo" class="galaxy-map">
+			<!-- Central Mission Nebula -->
+			<div class="central-nebula">
+				<div class="nebula-core pulsing">
+					<div class="core-rings"></div>
+					<div class="core-rings"></div>
+					<div class="core-rings"></div>
+				</div>
+				<div class="mission-text-flow">
+					<h2 class="nebula-title">⋆｡°✩ Our Cosmic Purpose ⋆｡°✩</h2>
+					<p class="mission-prophecy">
 						{{ aboutInfo.missionStatement }}
 					</p>
-					<div class="mystical-symbols">
-						<span class="symbol">◈</span>
-						<span class="symbol">❖</span>
-						<span class="symbol">◈</span>
-					</div>
 				</div>
 			</div>
 
-			<!-- Floating ethereal divider -->
-			<div class="ethereal-divider">
-				<div class="energy-wave"></div>
-				<div class="energy-wave"></div>
-				<div class="energy-wave"></div>
-			</div>
-
-			<!-- Team - Scattered like constellations -->
-			<div class="constellation-map">
-				<h2 class="constellation-title">✧･ﾟ: *✧･ﾟ:* The Council of Creators *:･ﾟ✧*:･ﾟ✧</h2>
-				<svg class="constellation-lines" viewBox="0 0 1200 1000">
-					<defs>
-						<linearGradient id="line-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-							<stop offset="0%" style="stop-color:#9c27b0;stop-opacity:0.3" />
-							<stop offset="50%" style="stop-color:#e91e63;stop-opacity:0.5" />
-							<stop offset="100%" style="stop-color:#9c27b0;stop-opacity:0.3" />
-						</linearGradient>
-					</defs>
-					<!-- Mystical connecting lines between team members -->
-					<path d="M 200 150 L 500 200 L 800 100 L 300 400 L 600 450 L 900 500 L 400 700 L 700 750" 
-						stroke="url(#line-gradient)" 
-						stroke-width="2" 
-						fill="none"
-						stroke-dasharray="5,5"
-						class="constellation-path"/>
-				</svg>
+			<!-- Flowing star dust river -->
+			<svg class="cosmic-paths" viewBox="0 0 1400 2000" xmlns="http://www.w3.org/2000/svg">
+				<defs>
+					<linearGradient id="nebula-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+						<stop offset="0%" style="stop-color:#ff00ff;stop-opacity:0.6">
+							<animate attributeName="stop-color" values="#ff00ff;#00ffff;#ff00ff" dur="4s" repeatCount="indefinite"/>
+						</stop>
+						<stop offset="50%" style="stop-color:#00ffff;stop-opacity:0.8">
+							<animate attributeName="stop-color" values="#00ffff;#ff00ff;#00ffff" dur="4s" repeatCount="indefinite"/>
+						</stop>
+						<stop offset="100%" style="stop-color:#ff00ff;stop-opacity:0.6">
+							<animate attributeName="stop-color" values="#ff00ff;#00ffff;#ff00ff" dur="4s" repeatCount="indefinite"/>
+						</stop>
+					</linearGradient>
+					<filter id="glow">
+						<feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+						<feMerge>
+							<feMergeNode in="coloredBlur"/>
+							<feMergeNode in="SourceGraphic"/>
+						</feMerge>
+					</filter>
+				</defs>
 				
-				<div class="floating-souls">
+				<!-- Flowing cosmic river connecting everything -->
+				<path class="stardust-path" 
+					d="M 700 50 
+					   Q 400 200 500 400
+					   Q 600 600 300 800
+					   Q 100 1000 500 1200
+					   Q 900 1400 700 1600
+					   Q 500 1800 700 1950"
+					stroke="url(#nebula-gradient)"
+					stroke-width="40"
+					fill="none"
+					filter="url(#glow)"
+					opacity="0.4"/>
+			</svg>
+
+			<!-- Star System - Team as planets/stars -->
+			<div class="star-system">
+				<h2 class="system-title">✧˖°. The Stellar Collective ✧˖°.</h2>
+				
+				<div class="celestial-bodies">
 					<div 
 						v-for="(role, name, index) in aboutInfo.developmentTeam" 
 						:key="name"
-						class="soul-orb"
-						:style="getSoulPosition(index)"
+						class="planet-orbit"
+						:style="getPlanetOrbit(index)"
 					>
-						<div class="orb-glow" :style="`animation-delay: ${index * 0.3}s`"></div>
-						<div class="orb-inner">
-							<div class="soul-symbol">{{ getMythicalSymbol(index) }}</div>
-							<div class="soul-name">{{ name }}</div>
-							<div class="soul-role">{{ role }}</div>
-							<div class="soul-element">{{ getElement(index) }}</div>
+						<!-- Planet with rings and atmosphere -->
+						<div class="planet" :class="`planet-${index}`">
+							<div class="atmosphere"></div>
+							<div class="planet-surface" :style="getPlanetColor(index)">
+								<div class="planet-symbol">{{ getCelestialSymbol(index) }}</div>
+							</div>
+							<div class="planet-ring"></div>
+							<div class="planet-info">
+								<div class="info-bubble">
+									<div class="planet-name">{{ name }}</div>
+									<div class="planet-role">{{ role }}</div>
+									<div class="planet-constellation">{{ getConstellation(index) }}</div>
+								</div>
+							</div>
 						</div>
-						<div class="orb-ring"></div>
+						<!-- Orbital trail -->
+						<div class="orbit-trail"></div>
 					</div>
 				</div>
 			</div>
 
-			<!-- Mystical portal divider -->
-			<div class="portal-section">
-				<div class="portal">
-					<div class="portal-ring"></div>
-					<div class="portal-ring"></div>
-					<div class="portal-ring"></div>
-					<div class="portal-center">∞</div>
+			<!-- Wormhole divider -->
+			<div class="wormhole-section">
+				<svg class="wormhole" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+					<defs>
+						<radialGradient id="wormhole-gradient">
+							<stop offset="0%" style="stop-color:#000;stop-opacity:1" />
+							<stop offset="30%" style="stop-color:#4a148c;stop-opacity:0.8" />
+							<stop offset="60%" style="stop-color:#7b1fa2;stop-opacity:0.5" />
+							<stop offset="100%" style="stop-color:transparent;stop-opacity:0" />
+						</radialGradient>
+					</defs>
+					<circle cx="200" cy="200" r="180" fill="url(#wormhole-gradient)" class="wormhole-center"/>
+					<circle cx="200" cy="200" r="150" fill="none" stroke="#00ffff" stroke-width="2" class="wormhole-ring ring-1"/>
+					<circle cx="200" cy="200" r="120" fill="none" stroke="#ff00ff" stroke-width="2" class="wormhole-ring ring-2"/>
+					<circle cx="200" cy="200" r="90" fill="none" stroke="#00ffff" stroke-width="2" class="wormhole-ring ring-3"/>
+					<circle cx="200" cy="200" r="60" fill="none" stroke="#ff00ff" stroke-width="2" class="wormhole-ring ring-4"/>
+				</svg>
+			</div>
+
+			<!-- Contact & Copyright - Floating space stations -->
+			<div class="space-stations">
+				<div class="station station-contact">
+					<div class="station-structure">
+						<div class="station-core">
+							<v-icon size="70" class="station-icon rotating" color="#00ffff">mdi-satellite-variant</v-icon>
+						</div>
+						<div class="station-panels panel-left"></div>
+						<div class="station-panels panel-right"></div>
+					</div>
+					<div class="transmission-beam"></div>
+					<div class="station-data">
+						<h3 class="data-title">◈ Transmission Frequency ◈</h3>
+						<p class="data-content">{{ aboutInfo.contactUs }}</p>
+					</div>
+				</div>
+
+				<div class="station station-decree">
+					<div class="station-structure">
+						<div class="station-core">
+							<v-icon size="70" class="station-icon rotating" color="#ff00ff">mdi-shield-star</v-icon>
+						</div>
+						<div class="station-panels panel-left"></div>
+						<div class="station-panels panel-right"></div>
+					</div>
+					<div class="transmission-beam beam-purple"></div>
+					<div class="station-data">
+						<h3 class="data-title">◈ Galactic Charter ◈</h3>
+						<p class="data-content">{{ aboutInfo.copyright }}</p>
+					</div>
 				</div>
 			</div>
 
-			<!-- Contact & Copyright - Floating scrolls -->
-			<div class="ancient-scrolls">
-				<div class="scroll scroll-left">
-					<div class="scroll-rod top"></div>
-					<div class="scroll-paper">
-						<v-icon size="80" class="scroll-icon pulse-glow" color="#00bcd4">mdi-email-seal</v-icon>
-						<h3 class="scroll-title">📜 Summon Us 📜</h3>
-						<p class="scroll-text">{{ aboutInfo.contactUs }}</p>
-						<div class="magical-seal">☆</div>
-					</div>
-					<div class="scroll-rod bottom"></div>
-				</div>
-
-				<div class="scroll scroll-right">
-					<div class="scroll-rod top"></div>
-					<div class="scroll-paper">
-						<v-icon size="80" class="scroll-icon pulse-glow" color="#ff5722">mdi-shield-crown</v-icon>
-						<h3 class="scroll-title">⚔️ Ancient Decree ⚔️</h3>
-						<p class="scroll-text">{{ aboutInfo.copyright }}</p>
-						<div class="magical-seal">✦</div>
-					</div>
-					<div class="scroll-rod bottom"></div>
-				</div>
-			</div>
-
-			<!-- Epic footer -->
-			<div class="realm-footer">
-				<div class="dragon-divider">
-					<span class="dragon">🐉</span>
-					<span class="fire">༄</span>
-					<span class="dragon mirror">🐉</span>
-				</div>
-				<p class="epic-quote">
-					"In the realm of BeeThere, meetings transcend time and space"
+			<!-- Cosmic footer -->
+			<div class="galaxy-footer">
+				<div class="supernova-line"></div>
+				<p class="cosmic-blessing">
+					✧ "Across infinite dimensions, we connect" ✧
 				</p>
-				<p class="blessed-text">
-					✧༺♥༻∞ May your reservations be blessed ∞༺♥༻✧
+				<p class="final-blessing">
+					⋆｡‧˚ʚ♡ɞ˚‧｡⋆ May your journey through the cosmos be enlightening ⋆｡‧˚ʚ♡ɞ˚‧｡⋆
 				</p>
-				<div class="final-runes">
-					<span>◈</span><span>❖</span><span>✦</span><span>☆</span><span>✧</span>
+				<div class="constellation-footer">
+					<span>✦</span><span>✧</span><span>⋆</span><span>✦</span><span>✧</span><span>⋆</span>
 				</div>
 			</div>
 		</div>
 
-		<div v-else class="error-realm">
-			<v-icon size="150" color="red" class="error-icon">mdi-skull</v-icon>
-			<p class="error-text">⚠️ The ancient magic has failed! ⚠️</p>
+		<div v-else class="error-galaxy">
+			<v-icon size="150" color="#ff0000" class="error-icon">mdi-black-hole</v-icon>
+			<p class="error-text">⚠️ Lost in a black hole! Navigation failed! ⚠️</p>
 		</div>
 	</div>
 </template>
@@ -160,47 +200,65 @@ const aboutInfo = ref(null)
 const loading = ref(true)
 const auth = useAuthStore()
 
-const mythicalSymbols = ['☯', '⚡', '🔮', '🌟', '⚔️', '🔱', '👁️', '🦅']
-const elements = ['Fire', 'Water', 'Earth', 'Air', 'Spirit', 'Light', 'Shadow', 'Ether']
-
-// Soul positions - scattered like stars
-const soulPositions = [
-	{ top: '10%', left: '15%' },
-	{ top: '25%', left: '45%' },
-	{ top: '15%', left: '75%' },
-	{ top: '45%', left: '20%' },
-	{ top: '50%', left: '55%' },
-	{ top: '55%', left: '85%' },
-	{ top: '75%', left: '30%' },
-	{ top: '80%', left: '65%' }
+const celestialSymbols = ['🌟', '🪐', '☄️', '�', '✨', '�', '⭐', '🌠']
+const constellations = ['Orion', 'Cassiopeia', 'Ursa Major', 'Phoenix', 'Draco', 'Andromeda', 'Pegasus', 'Lyra']
+const planetColors = [
+	'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+	'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+	'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
+	'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)',
+	'linear-gradient(135deg, #fa709a 0%, #fee140 100%)',
+	'linear-gradient(135deg, #30cfd0 0%, #330867 100%)',
+	'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)',
+	'linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%)'
 ]
 
-function getParticleStyle(n) {
-	const size = Math.random() * 3 + 1
+// Circular orbit positions (flowing around)
+function getPlanetOrbit(index) {
+	const total = 8
+	const angle = (index / total) * Math.PI * 2
+	const radius = 35 // percentage
+	const centerX = 50
+	const centerY = 50
+	
+	const x = centerX + radius * Math.cos(angle)
+	const y = centerY + radius * Math.sin(angle)
+	
+	return {
+		left: `${x}%`,
+		top: `${y}%`,
+		animationDelay: `${index * 0.5}s`
+	}
+}
+
+function getStarStyle(n) {
+	const size = Math.random() * 2 + 0.5
 	const left = Math.random() * 100
-	const animationDuration = Math.random() * 3 + 2
-	const delay = Math.random() * 2
+	const top = Math.random() * 100
+	const animationDuration = Math.random() * 4 + 2
+	const delay = Math.random() * 3
 	return {
 		width: `${size}px`,
 		height: `${size}px`,
 		left: `${left}%`,
-		top: `${Math.random() * 100}%`,
+		top: `${top}%`,
 		animationDuration: `${animationDuration}s`,
 		animationDelay: `${delay}s`
 	}
 }
 
-function getSoulPosition(index) {
-	const pos = soulPositions[index % soulPositions.length]
-	return pos
+function getCelestialSymbol(index) {
+	return celestialSymbols[index % celestialSymbols.length]
 }
 
-function getMythicalSymbol(index) {
-	return mythicalSymbols[index % mythicalSymbols.length]
+function getConstellation(index) {
+	return constellations[index % constellations.length]
 }
 
-function getElement(index) {
-	return elements[index % elements.length]
+function getPlanetColor(index) {
+	return {
+		background: planetColors[index % planetColors.length]
+	}
 }
 
 async function fetchAboutInfo() {
@@ -229,20 +287,24 @@ onMounted(() => {
 </script>
 
 <style scoped>
-/* MYTHICAL REALM CONTAINER */
-.mythical-realm {
+/* GALAXY REALM */
+.galaxy-realm {
 	min-height: 100vh;
 	max-height: 100vh;
 	overflow-y: auto;
 	overflow-x: hidden;
-	background: radial-gradient(ellipse at top, #1a0033 0%, #000000 50%, #0a0015 100%);
+	background: 
+		radial-gradient(ellipse at 20% 30%, rgba(138, 43, 226, 0.3) 0%, transparent 50%),
+		radial-gradient(ellipse at 80% 70%, rgba(255, 0, 255, 0.2) 0%, transparent 50%),
+		radial-gradient(ellipse at 50% 50%, rgba(0, 255, 255, 0.1) 0%, transparent 50%),
+		linear-gradient(180deg, #000428 0%, #004e92 50%, #000000 100%);
 	position: relative;
-	padding: 60px 20px;
+	padding: 40px 20px;
 	color: white;
 }
 
-/* COSMIC PARTICLES */
-.cosmic-particles {
+/* ANIMATED NEBULAS */
+.nebula-layer {
 	position: fixed;
 	top: 0;
 	left: 0;
@@ -250,145 +312,224 @@ onMounted(() => {
 	height: 100%;
 	pointer-events: none;
 	z-index: 0;
+	overflow: hidden;
 }
 
-.particle {
+.nebula {
 	position: absolute;
-	background: radial-gradient(circle, #ffffff 0%, transparent 70%);
 	border-radius: 50%;
-	animation: twinkle 3s ease-in-out infinite, float-particle 5s ease-in-out infinite;
-	opacity: 0.6;
+	filter: blur(80px);
+	opacity: 0.3;
+	animation: nebula-drift 20s ease-in-out infinite;
 }
 
-@keyframes twinkle {
-	0%, 100% { opacity: 0.3; }
-	50% { opacity: 1; }
+.nebula-1 {
+	width: 600px;
+	height: 600px;
+	background: radial-gradient(circle, #ff00ff, transparent);
+	top: -200px;
+	left: -200px;
 }
 
-@keyframes float-particle {
-	0%, 100% { transform: translateY(0px); }
-	50% { transform: translateY(-30px); }
+.nebula-2 {
+	width: 800px;
+	height: 800px;
+	background: radial-gradient(circle, #00ffff, transparent);
+	top: 30%;
+	right: -300px;
+	animation-delay: 5s;
 }
 
-/* ETHEREAL HEADER */
-.ethereal-header {
-	position: relative;
+.nebula-3 {
+	width: 500px;
+	height: 500px;
+	background: radial-gradient(circle, #ff1744, transparent);
+	bottom: 10%;
+	left: 20%;
+	animation-delay: 10s;
+}
+
+.nebula-4 {
+	width: 700px;
+	height: 700px;
+	background: radial-gradient(circle, #7c4dff, transparent);
+	bottom: -200px;
+	right: 10%;
+	animation-delay: 15s;
+}
+
+@keyframes nebula-drift {
+	0%, 100% { transform: translate(0, 0) scale(1); }
+	33% { transform: translate(50px, -50px) scale(1.1); }
+	66% { transform: translate(-30px, 30px) scale(0.9); }
+}
+
+/* STARFIELD */
+.starfield {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	pointer-events: none;
 	z-index: 1;
-	text-align: center;
-	margin-bottom: 100px;
 }
 
-.magic-circle {
-	position: relative;
-	display: inline-block;
-	margin-bottom: 30px;
-}
-
-.magic-circle::before {
-	content: '';
+.star {
 	position: absolute;
-	inset: -30px;
-	border: 3px solid;
-	border-color: #ffd700 transparent #ffd700 transparent;
+	background: white;
 	border-radius: 50%;
-	animation: rotate-circle 8s linear infinite;
+	animation: star-twinkle 3s ease-in-out infinite;
+	box-shadow: 0 0 4px white;
 }
 
-@keyframes rotate-circle {
-	to { transform: rotate(360deg); }
+@keyframes star-twinkle {
+	0%, 100% { opacity: 0.3; transform: scale(1); }
+	50% { opacity: 1; transform: scale(1.5); }
 }
 
-.divine-icon {
-	animation: pulse-divine 3s ease-in-out infinite, rotate-slow 10s linear infinite;
-	filter: drop-shadow(0 0 30px #ffd700);
+/* COMETS */
+.comet-trail {
+	position: fixed;
+	width: 200px;
+	height: 2px;
+	background: linear-gradient(90deg, transparent, #00ffff, transparent);
+	box-shadow: 0 0 10px #00ffff;
+	z-index: 1;
+	pointer-events: none;
 }
 
-@keyframes pulse-divine {
-	0%, 100% { transform: scale(1); opacity: 0.8; }
-	50% { transform: scale(1.2); opacity: 1; }
+.comet-1 {
+	top: 20%;
+	animation: comet-fly-1 8s linear infinite;
 }
 
-@keyframes rotate-slow {
-	to { transform: rotate(360deg); }
+.comet-2 {
+	top: 60%;
+	animation: comet-fly-2 12s linear infinite;
+	animation-delay: 4s;
 }
 
-.mythical-title {
+@keyframes comet-fly-1 {
+	0% { left: -200px; transform: rotate(-30deg); opacity: 0; }
+	10% { opacity: 1; }
+	90% { opacity: 1; }
+	100% { left: 100%; transform: rotate(-30deg); opacity: 0; }
+}
+
+@keyframes comet-fly-2 {
+	0% { left: -200px; transform: rotate(-20deg); opacity: 0; }
+	10% { opacity: 1; }
+	90% { opacity: 1; }
+	100% { left: 100%; transform: rotate(-20deg); opacity: 0; }
+}
+
+/* GALAXY TITLE */
+.galaxy-title {
+	position: relative;
+	z-index: 2;
+	text-align: center;
+	margin-bottom: 120px;
+	padding: 60px 20px;
+}
+
+.supernova-burst {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 300px;
+	height: 300px;
+	background: radial-gradient(circle, rgba(0, 255, 255, 0.4), transparent 70%);
+	border-radius: 50%;
+	animation: supernova-pulse 4s ease-in-out infinite;
+	filter: blur(40px);
+}
+
+@keyframes supernova-pulse {
+	0%, 100% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.3; }
+	50% { transform: translate(-50%, -50%) scale(1.5); opacity: 0.6; }
+}
+
+.cosmic-text {
 	font-family: 'Georgia', 'Palatino', serif;
-	font-size: 6rem;
+	font-size: 5rem;
 	font-weight: bold;
-	background: linear-gradient(45deg, #ffd700, #ff00ff, #00ffff, #ffd700);
+	background: linear-gradient(45deg, #00ffff, #ff00ff, #00ffff, #ff00ff);
 	background-size: 300% 300%;
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
 	background-clip: text;
-	animation: rainbow-flow 4s ease infinite;
-	text-shadow: 2px 2px 20px rgba(255, 215, 0, 0.5);
-	margin: 20px 0;
-	letter-spacing: 0.3em;
+	animation: cosmic-flow 5s ease infinite;
+	text-shadow: 0 0 40px rgba(0, 255, 255, 0.5);
+	margin: 0 0 20px 0;
+	letter-spacing: 0.2em;
+	position: relative;
+	z-index: 1;
 }
 
-@keyframes rainbow-flow {
+@keyframes cosmic-flow {
 	0%, 100% { background-position: 0% 50%; }
 	50% { background-position: 100% 50%; }
 }
 
-.subtitle-glow {
+.galaxy-subtitle {
 	font-family: 'Georgia', serif;
-	font-size: 2rem;
-	color: #e0b3ff;
-	text-shadow: 0 0 20px #b388ff, 0 0 40px #7c4dff;
+	font-size: 1.8rem;
+	color: #00ffff;
+	text-shadow: 0 0 20px #00ffff, 0 0 40px #00ffff;
 	font-style: italic;
-	animation: glow-pulse 2s ease-in-out infinite;
-}
-
-@keyframes glow-pulse {
-	0%, 100% { text-shadow: 0 0 20px #b388ff, 0 0 40px #7c4dff; }
-	50% { text-shadow: 0 0 40px #b388ff, 0 0 80px #7c4dff, 0 0 120px #651fff; }
-}
-
-.floating-runes {
-	margin-top: 30px;
-	font-size: 3rem;
-}
-
-.rune {
-	display: inline-block;
-	margin: 0 40px;
-	color: #ffd700;
-	animation: float-rune 3s ease-in-out infinite;
-	filter: drop-shadow(0 0 15px #ffd700);
-}
-
-.rune:nth-child(2) { animation-delay: 0.5s; }
-.rune:nth-child(3) { animation-delay: 1s; }
-
-@keyframes float-rune {
-	0%, 100% { transform: translateY(0px) rotate(0deg); }
-	50% { transform: translateY(-20px) rotate(180deg); }
-}
-
-/* LOADING REALM */
-.loading-realm {
+	animation: subtitle-glow 3s ease-in-out infinite;
 	position: relative;
 	z-index: 1;
+}
+
+@keyframes subtitle-glow {
+	0%, 100% { text-shadow: 0 0 20px #00ffff; }
+	50% { text-shadow: 0 0 40px #00ffff, 0 0 80px #00ffff; }
+}
+
+/* LOADING GALAXY */
+.loading-galaxy {
+	position: relative;
+	z-index: 2;
 	text-align: center;
-	padding: 150px 0;
+	padding: 200px 0;
 }
 
 .loading-text {
 	font-family: 'Georgia', serif;
-	font-size: 2rem;
-	color: #e0b3ff;
-	margin-top: 40px;
-	animation: glow-pulse 2s ease-in-out infinite;
+	font-size: 2.2rem;
+	color: #00ffff;
+	margin-top: 50px;
+	text-shadow: 0 0 20px #00ffff;
+	animation: subtitle-glow 2s ease-in-out infinite;
 }
 
-/* CONTENT FLOW */
-.content-flow {
+/* GALAXY MAP */
+.galaxy-map {
 	position: relative;
-	z-index: 1;
-	max-width: 1400px;
+	z-index: 2;
+	max-width: 1600px;
 	margin: 0 auto;
+	padding: 40px 20px;
+}
+
+/* COSMIC PATHS */
+.cosmic-paths {
+	position: absolute;
+	top: 0;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 100%;
+	height: 100%;
+	z-index: 0;
+	pointer-events: none;
+	opacity: 0.6;
+}
+
+.stardust-path {
+	animation: path-glow 4s ease-in-out infinite;
 }
 
 /* COSMIC RIVER */
