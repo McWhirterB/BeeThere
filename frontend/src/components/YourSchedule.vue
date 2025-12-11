@@ -536,8 +536,8 @@ const menu = ref(false);
 const roomsToAdd = ref([])
 const rsvps = ref ([])
 const rsvp = ref({
-				employeeId: 2,
-				employeeName: "Test User",
+				employeeId: auth.identity.employee_id,
+				employeeName: `${auth.identity.first_name} ${auth.identity.last_name}`,
 				startTime: "2025-12-10T15:00:00.000+00:00",
 				endTime: "2025-12-10T16:30:00.000+00:00",
 				rooms: [],
