@@ -650,399 +650,481 @@ onMounted(() => {
 	50% { transform: translateX(100%); }
 }
 
-/* CONSTELLATION MAP */
-.constellation-map {
+/* STAR SYSTEM - Team as planets in galaxy */
+.star-system {
 	position: relative;
-	margin: 150px 0;
 	min-height: 1000px;
+	margin: 150px auto;
+	padding: 100px 20px;
+	max-width: 1600px;
 }
 
-.constellation-title {
-	text-align: center;
+.system-title {
 	font-family: 'Georgia', serif;
-	font-size: 3.5rem;
-	color: #e1bee7;
-	text-shadow: 0 0 30px #ab47bc;
-	margin-bottom: 80px;
-	animation: glow-pulse 3s ease-in-out infinite;
+	font-size: 4rem;
+	color: #ff00ff;
+	text-align: center;
+	margin-bottom: 120px;
+	text-shadow: 0 0 40px #ff00ff, 0 0 80px #00ffff;
+	animation: title-shimmer 3s ease-in-out infinite;
 }
 
-.constellation-lines {
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	z-index: 0;
-	pointer-events: none;
-}
-
-.constellation-path {
-	animation: constellation-glow 3s ease-in-out infinite;
-}
-
-@keyframes constellation-glow {
-	0%, 100% { stroke-opacity: 0.3; }
-	50% { stroke-opacity: 0.8; }
-}
-
-.floating-souls {
+.celestial-bodies {
 	position: relative;
-	z-index: 1;
+	width: 100%;
+	height: 800px;
 }
 
-.soul-orb {
+.planet-orbit {
 	position: absolute;
+	transform: translate(-50%, -50%);
+	animation: float-in-space 8s ease-in-out infinite;
+}
+
+@keyframes float-in-space {
+	0%, 100% { transform: translate(-50%, -50%) translateY(0); }
+	50% { transform: translate(-50%, -50%) translateY(-30px); }
+}
+
+.planet {
+	position: relative;
 	width: 180px;
 	height: 180px;
-	animation: float-soul 6s ease-in-out infinite;
 	cursor: pointer;
-	transition: transform 0.3s ease;
+	transition: all 0.5s ease;
 }
 
-.soul-orb:nth-child(odd) { animation-delay: 1s; }
-.soul-orb:hover {
-	transform: scale(1.3) !important;
-	z-index: 100;
+.planet:hover {
+	transform: scale(1.3);
 }
 
-@keyframes float-soul {
-	0%, 100% { transform: translateY(0px); }
-	50% { transform: translateY(-30px); }
+.planet:hover .planet-info {
+	opacity: 1;
+	transform: translateY(-20px) scale(1);
 }
 
-.orb-glow {
+.atmosphere {
 	position: absolute;
 	inset: -20px;
+	background: radial-gradient(circle, rgba(255, 255, 255, 0.1), transparent 70%);
 	border-radius: 50%;
-	background: radial-gradient(circle, rgba(156, 39, 176, 0.4), transparent 70%);
-	animation: pulse-orb 2s ease-in-out infinite;
+	animation: atmosphere-glow 4s ease-in-out infinite;
 }
 
-@keyframes pulse-orb {
-	0%, 100% { transform: scale(0.8); opacity: 0.5; }
-	50% { transform: scale(1.2); opacity: 1; }
+@keyframes atmosphere-glow {
+	0%, 100% { opacity: 0.3; transform: scale(1); }
+	50% { opacity: 0.7; transform: scale(1.1); }
 }
 
-.orb-inner {
+.planet-surface {
 	position: relative;
-	width: 100%;
-	height: 100%;
+	width: 180px;
+	height: 180px;
 	border-radius: 50%;
-	background: radial-gradient(circle at 30% 30%, rgba(186, 104, 200, 0.9), rgba(74, 20, 140, 0.9));
-	border: 3px solid #ffd700;
-	box-shadow: 0 0 40px rgba(255, 215, 0, 0.6), inset 0 0 30px rgba(255, 215, 0, 0.3);
+	box-shadow: 
+		0 0 40px rgba(255, 255, 255, 0.5),
+		inset -20px -20px 60px rgba(0, 0, 0, 0.8),
+		inset 20px 20px 40px rgba(255, 255, 255, 0.2);
+	animation: planet-rotate 20s linear infinite;
 	display: flex;
-	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	padding: 15px;
 }
 
-.soul-symbol {
-	font-size: 3rem;
-	margin-bottom: 10px;
-	animation: rotate-slow 8s linear infinite;
-}
-
-.soul-name {
-	font-family: 'Georgia', serif;
-	font-size: 1.1rem;
-	font-weight: bold;
-	color: #fff;
-	text-shadow: 0 2px 10px rgba(0,0,0,0.8);
-	margin-bottom: 5px;
-	text-align: center;
-}
-
-.soul-role {
-	font-family: 'Georgia', serif;
-	font-size: 0.85rem;
-	color: #ffd700;
-	font-style: italic;
-	margin-bottom: 8px;
-	text-align: center;
-}
-
-.soul-element {
-	font-size: 0.75rem;
-	color: #e0b3ff;
-	text-transform: uppercase;
-	letter-spacing: 2px;
-}
-
-.orb-ring {
-	position: absolute;
-	inset: -15px;
-	border: 2px solid rgba(255, 215, 0, 0.3);
-	border-radius: 50%;
-	animation: rotate-ring 10s linear infinite;
-}
-
-@keyframes rotate-ring {
-	to { transform: rotate(-360deg); }
-}
-
-/* PORTAL SECTION */
-.portal-section {
-	position: relative;
-	text-align: center;
-	margin: 150px 0;
-	height: 300px;
-}
-
-.portal {
-	position: relative;
-	width: 250px;
-	height: 250px;
-	margin: 0 auto;
-}
-
-.portal-ring {
-	position: absolute;
-	inset: 0;
-	border: 3px solid;
-	border-color: #9c27b0 transparent #e91e63 transparent;
-	border-radius: 50%;
-	animation: rotate-portal 4s linear infinite;
-}
-
-.portal-ring:nth-child(2) {
-	inset: 20px;
-	animation-delay: 0.5s;
-	animation-direction: reverse;
-}
-
-.portal-ring:nth-child(3) {
-	inset: 40px;
-	animation-delay: 1s;
-}
-
-@keyframes rotate-portal {
+@keyframes planet-rotate {
 	to { transform: rotate(360deg); }
 }
 
-.portal-center {
+.planet-symbol {
+	font-size: 4rem;
+	filter: drop-shadow(0 0 20px white);
+	animation: symbol-glow 3s ease-in-out infinite;
+}
+
+@keyframes symbol-glow {
+	0%, 100% { transform: scale(1); opacity: 0.8; }
+	50% { transform: scale(1.2); opacity: 1; }
+}
+
+.planet-ring {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%) rotateX(75deg);
+	width: 280px;
+	height: 280px;
+	border: 3px solid;
+	border-color: rgba(255, 255, 255, 0.3) transparent rgba(255, 255, 255, 0.1) transparent;
+	border-radius: 50%;
+	animation: ring-rotate 15s linear infinite;
+}
+
+@keyframes ring-rotate {
+	to { transform: translate(-50%, -50%) rotateX(75deg) rotate(360deg); }
+}
+
+.orbit-trail {
 	position: absolute;
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
-	font-size: 5rem;
-	color: #ffd700;
-	text-shadow: 0 0 40px #ffd700;
-	animation: pulse-divine 2s ease-in-out infinite;
+	width: 300px;
+	height: 300px;
+	border: 1px dashed rgba(0, 255, 255, 0.2);
+	border-radius: 50%;
 }
 
-/* ANCIENT SCROLLS */
-.ancient-scrolls {
+.planet-info {
+	position: absolute;
+	top: -100px;
+	left: 50%;
+	transform: translateX(-50%) scale(0.8);
+	opacity: 0;
+	transition: all 0.4s ease;
+	z-index: 10;
+	pointer-events: none;
+}
+
+.info-bubble {
+	background: rgba(0, 0, 0, 0.9);
+	border: 2px solid;
+	border-image: linear-gradient(45deg, #00ffff, #ff00ff) 1;
+	padding: 20px 30px;
+	border-radius: 20px;
+	box-shadow: 0 0 30px rgba(0, 255, 255, 0.5);
+	text-align: center;
+	min-width: 200px;
+}
+
+.planet-name {
+	font-family: 'Georgia', serif;
+	font-size: 1.6rem;
+	font-weight: bold;
+	color: #00ffff;
+	text-shadow: 0 0 10px #00ffff;
+	margin-bottom: 10px;
+}
+
+.planet-role {
+	font-family: 'Georgia', serif;
+	font-size: 1.2rem;
+	color: #ff00ff;
+	margin-bottom: 8px;
+}
+
+.planet-constellation {
+	font-family: 'Georgia', serif;
+	font-size: 1rem;
+	color: #ffab00;
+	font-style: italic;
+}
+
+/* WORMHOLE DIVIDER */
+.wormhole-section {
 	display: flex;
 	justify-content: center;
-	gap: 100px;
-	flex-wrap: wrap;
+	align-items: center;
 	margin: 150px 0;
-	padding: 0 40px;
+	padding: 80px 0;
 }
 
-.scroll {
+.wormhole {
+	width: 400px;
+	height: 400px;
+}
+
+.wormhole-center {
+	animation: wormhole-spin 10s linear infinite;
+}
+
+.wormhole-ring {
+	animation: wormhole-ripple 3s ease-out infinite;
+}
+
+.ring-1 { animation-delay: 0s; }
+.ring-2 { animation-delay: 0.5s; }
+.ring-3 { animation-delay: 1s; }
+.ring-4 { animation-delay: 1.5s; }
+
+@keyframes wormhole-spin {
+	to { transform: rotate(360deg); }
+}
+
+@keyframes wormhole-ripple {
+	0% { r: 60; opacity: 1; }
+	100% { r: 200; opacity: 0; }
+}
+
+/* SPACE STATIONS */
+.space-stations {
 	position: relative;
-	animation: float-scroll 5s ease-in-out infinite;
+	margin: 150px auto;
+	padding: 80px 40px;
+	max-width: 1400px;
+	display: flex;
+	flex-direction: column;
+	gap: 120px;
 }
 
-.scroll-left { animation-delay: 0s; }
-.scroll-right { animation-delay: 1s; }
-
-@keyframes float-scroll {
-	0%, 100% { transform: translateY(0px) rotate(0deg); }
-	50% { transform: translateY(-20px) rotate(2deg); }
-}
-
-.scroll-rod {
-	width: 350px;
-	height: 15px;
-	background: linear-gradient(90deg, #3e2723, #5d4037, #3e2723);
-	border-radius: 10px;
-	box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+.station {
 	position: relative;
+	display: flex;
+	align-items: center;
+	gap: 60px;
+	padding: 50px;
+	background: rgba(0, 0, 0, 0.5);
+	border-radius: 40px;
+	border: 2px solid rgba(0, 255, 255, 0.3);
+	box-shadow: 0 0 50px rgba(0, 255, 255, 0.3);
+	backdrop-filter: blur(10px);
+	animation: station-float 6s ease-in-out infinite;
 }
 
-.scroll-rod.top::before,
-.scroll-rod.top::after,
-.scroll-rod.bottom::before,
-.scroll-rod.bottom::after {
-	content: '';
+.station-decree {
+	flex-direction: row-reverse;
+	border-color: rgba(255, 0, 255, 0.3);
+	box-shadow: 0 0 50px rgba(255, 0, 255, 0.3);
+	animation-delay: 3s;
+}
+
+@keyframes station-float {
+	0%, 100% { transform: translateY(0); }
+	50% { transform: translateY(-20px); }
+}
+
+.station-structure {
+	position: relative;
+	flex-shrink: 0;
+}
+
+.station-core {
+	width: 140px;
+	height: 140px;
+	background: radial-gradient(circle, rgba(0, 255, 255, 0.4), rgba(0, 100, 150, 0.6));
+	border-radius: 20px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	box-shadow: 0 0 40px rgba(0, 255, 255, 0.6);
+	border: 2px solid rgba(0, 255, 255, 0.5);
+}
+
+.station-decree .station-core {
+	background: radial-gradient(circle, rgba(255, 0, 255, 0.4), rgba(150, 0, 100, 0.6));
+	box-shadow: 0 0 40px rgba(255, 0, 255, 0.6);
+	border-color: rgba(255, 0, 255, 0.5);
+}
+
+.station-icon {
+	filter: drop-shadow(0 0 20px currentColor);
+}
+
+.rotating {
+	animation: station-rotate 8s linear infinite;
+}
+
+@keyframes station-rotate {
+	to { transform: rotate(360deg); }
+}
+
+.station-panels {
 	position: absolute;
-	width: 25px;
-	height: 25px;
-	background: radial-gradient(circle, #ffd700, #ff6f00);
-	border-radius: 50%;
 	top: 50%;
+	width: 80px;
+	height: 120px;
+	background: linear-gradient(135deg, rgba(0, 100, 200, 0.6), rgba(0, 255, 255, 0.3));
+	border: 1px solid rgba(0, 255, 255, 0.4);
 	transform: translateY(-50%);
+	box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
 }
 
-.scroll-rod.top::before { left: -10px; }
-.scroll-rod.top::after { right: -10px; }
-.scroll-rod.bottom::before { left: -10px; }
-.scroll-rod.bottom::after { right: -10px; }
+.panel-left {
+	right: 100%;
+	margin-right: 10px;
+	clip-path: polygon(0 0, 100% 10%, 100% 90%, 0 100%);
+}
 
-.scroll-paper {
-	width: 350px;
-	background: linear-gradient(180deg, #fff9e6, #f5e6d3);
-	padding: 40px 30px;
-	text-align: center;
-	box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+.panel-right {
+	left: 100%;
+	margin-left: 10px;
+	clip-path: polygon(0 10%, 100% 0, 100% 100%, 0 90%);
+}
+
+.transmission-beam {
+	position: absolute;
+	top: 0;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 4px;
+	height: 100px;
+	background: linear-gradient(to bottom, #00ffff, transparent);
+	box-shadow: 0 0 20px #00ffff;
+	animation: beam-pulse 2s ease-in-out infinite;
+}
+
+.beam-purple {
+	background: linear-gradient(to bottom, #ff00ff, transparent);
+	box-shadow: 0 0 20px #ff00ff;
+}
+
+@keyframes beam-pulse {
+	0%, 100% { opacity: 0.3; }
+	50% { opacity: 1; }
+}
+
+.station-data {
+	flex: 1;
+}
+
+.data-title {
+	font-family: 'Georgia', serif;
+	font-size: 2.5rem;
+	color: #00ffff;
+	text-shadow: 0 0 20px #00ffff;
+	margin-bottom: 25px;
+}
+
+.station-decree .data-title {
+	color: #ff00ff;
+	text-shadow: 0 0 20px #ff00ff;
+}
+
+.data-content {
+	font-family: 'Georgia', serif;
+	font-size: 1.5rem;
+	line-height: 2;
+	color: #ffffff;
+	text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+/* GALAXY FOOTER */
+.galaxy-footer {
 	position: relative;
-}
-
-.scroll-icon {
-	animation: pulse-glow 3s ease-in-out infinite;
-	margin-bottom: 20px;
-}
-
-.pulse-glow {
-	animation: pulse-glow 3s ease-in-out infinite !important;
-}
-
-@keyframes pulse-glow {
-	0%, 100% { filter: drop-shadow(0 0 10px currentColor); transform: scale(1); }
-	50% { filter: drop-shadow(0 0 30px currentColor); transform: scale(1.1); }
-}
-
-.scroll-title {
-	font-family: 'Georgia', serif;
-	font-size: 2rem;
-	color: #4a148c;
-	margin-bottom: 20px;
-}
-
-.scroll-text {
-	font-family: 'Georgia', serif;
-	font-size: 1.3rem;
-	color: #3e2723;
-	margin-bottom: 20px;
-	font-weight: 600;
-}
-
-.magical-seal {
-	font-size: 3rem;
-	color: #d32f2f;
-	animation: rotate-slow 6s linear infinite;
-}
-
-/* REALM FOOTER */
-.realm-footer {
+	z-index: 2;
 	text-align: center;
-	margin: 150px 0 80px;
+	margin: 150px auto 80px;
+	padding: 80px 40px;
+	max-width: 1200px;
 }
 
-.dragon-divider {
-	font-size: 4rem;
+.supernova-line {
+	width: 100%;
+	height: 3px;
+	background: linear-gradient(90deg, transparent, #00ffff 20%, #ff00ff 50%, #00ffff 80%, transparent);
+	box-shadow: 0 0 20px #00ffff, 0 0 40px #ff00ff;
+	margin-bottom: 50px;
+	animation: line-shimmer 3s ease-in-out infinite;
+}
+
+@keyframes line-shimmer {
+	0%, 100% { opacity: 0.5; }
+	50% { opacity: 1; }
+}
+
+.cosmic-blessing {
+	font-family: 'Georgia', serif;
+	font-size: 2.2rem;
+	color: #00ffff;
+	text-shadow: 0 0 30px #00ffff, 0 0 60px #ff00ff;
+	margin-bottom: 30px;
+	animation: subtitle-glow 3s ease-in-out infinite;
+}
+
+.final-blessing {
+	font-family: 'Georgia', serif;
+	font-size: 1.6rem;
+	color: #ff00ff;
+	text-shadow: 0 0 20px #ff00ff;
+	font-style: italic;
 	margin-bottom: 40px;
 }
 
-.dragon {
-	display: inline-block;
-	animation: dragon-float 4s ease-in-out infinite;
-	filter: drop-shadow(0 0 20px #ff5722);
-}
-
-.dragon.mirror {
-	transform: scaleX(-1);
-	animation-delay: 2s;
-}
-
-@keyframes dragon-float {
-	0%, 100% { transform: translateY(0px); }
-	50% { transform: translateY(-30px); }
-}
-
-.fire {
-	display: inline-block;
-	color: #ff5722;
-	margin: 0 50px;
-	animation: flicker 1s ease-in-out infinite;
-}
-
-@keyframes flicker {
-	0%, 100% { opacity: 1; text-shadow: 0 0 20px #ff5722; }
-	50% { opacity: 0.5; text-shadow: 0 0 40px #ff5722, 0 0 60px #ff9800; }
-}
-
-.epic-quote {
-	font-family: 'Georgia', serif;
-	font-size: 2rem;
-	color: #e0b3ff;
-	font-style: italic;
-	margin-bottom: 30px;
-	text-shadow: 0 0 20px #9c27b0;
-}
-
-.blessed-text {
-	font-family: 'Georgia', serif;
-	font-size: 1.8rem;
-	color: #ffd700;
-	margin-bottom: 30px;
-	animation: glow-pulse 2s ease-in-out infinite;
-}
-
-.final-runes {
+.constellation-footer {
 	font-size: 2.5rem;
+	display: flex;
+	justify-content: center;
+	gap: 30px;
+}
+
+.constellation-footer span {
 	color: #ffd700;
+	animation: star-twinkle 2s ease-in-out infinite;
+	filter: drop-shadow(0 0 15px #ffd700);
 }
 
-.final-runes span {
-	display: inline-block;
-	margin: 0 20px;
-	animation: float-rune 3s ease-in-out infinite;
-}
+.constellation-footer span:nth-child(2) { animation-delay: 0.3s; }
+.constellation-footer span:nth-child(3) { animation-delay: 0.6s; }
+.constellation-footer span:nth-child(4) { animation-delay: 0.9s; }
+.constellation-footer span:nth-child(5) { animation-delay: 1.2s; }
+.constellation-footer span:nth-child(6) { animation-delay: 1.5s; }
 
-.final-runes span:nth-child(1) { animation-delay: 0s; }
-.final-runes span:nth-child(2) { animation-delay: 0.3s; }
-.final-runes span:nth-child(3) { animation-delay: 0.6s; }
-.final-runes span:nth-child(4) { animation-delay: 0.9s; }
-.final-runes span:nth-child(5) { animation-delay: 1.2s; }
-
-/* ERROR REALM */
-.error-realm {
+/* ERROR GALAXY */
+.error-galaxy {
 	position: relative;
-	z-index: 1;
+	z-index: 2;
 	text-align: center;
-	padding: 150px 0;
+	padding: 200px 40px;
 }
 
 .error-icon {
-	animation: shake-error 0.5s ease-in-out infinite;
-	filter: drop-shadow(0 0 30px red);
+	animation: error-pulse 1.5s ease-in-out infinite;
+	filter: drop-shadow(0 0 40px #ff0000);
 }
 
-@keyframes shake-error {
-	0%, 100% { transform: rotate(0deg); }
-	25% { transform: rotate(-10deg); }
-	75% { transform: rotate(10deg); }
+@keyframes error-pulse {
+	0%, 100% { transform: scale(1) rotate(0deg); }
+	50% { transform: scale(1.2) rotate(10deg); }
 }
 
 .error-text {
 	font-family: 'Georgia', serif;
-	font-size: 2.5rem;
-	color: #ff1744;
+	font-size: 2rem;
+	color: #ff0000;
 	margin-top: 40px;
-	text-shadow: 0 0 30px #ff1744;
+	text-shadow: 0 0 30px #ff0000;
+	animation: shake-error 0.5s ease-in-out infinite;
 }
 
-/* Scrollbar styling */
-.mythical-realm::-webkit-scrollbar {
+@keyframes shake-error {
+	0%, 100% { transform: translateX(0); }
+	25% { transform: translateX(-10px); }
+	75% { transform: translateX(10px); }
+}
+
+/* SCROLLBAR */
+.galaxy-realm::-webkit-scrollbar {
 	width: 12px;
 }
 
-.mythical-realm::-webkit-scrollbar-track {
-	background: #1a0033;
+.galaxy-realm::-webkit-scrollbar-track {
+	background: #000428;
 }
 
-.mythical-realm::-webkit-scrollbar-thumb {
-	background: linear-gradient(180deg, #9c27b0, #e91e63);
+.galaxy-realm::-webkit-scrollbar-thumb {
+	background: linear-gradient(180deg, #00ffff, #ff00ff);
 	border-radius: 10px;
 }
 
-.mythical-realm::-webkit-scrollbar-thumb:hover {
-	background: linear-gradient(180deg, #e91e63, #ffd700);
+.galaxy-realm::-webkit-scrollbar-thumb:hover {
+	background: linear-gradient(180deg, #ff00ff, #00ffff);
+}
+
+/* RESPONSIVE */
+@keyframes float-rune {
+	0%, 100% { transform: translateY(0); }
+	50% { transform: translateY(-20px); }
+}
+
+@media (max-width: 768px) {
+	.cosmic-text { font-size: 3rem; }
+	.galaxy-subtitle { font-size: 1.3rem; }
+	.nebula-title { font-size: 2.5rem; }
+	.mission-prophecy { font-size: 1.3rem; }
+	.system-title { font-size: 2.8rem; }
+	.planet-surface { width: 120px; height: 120px; }
+	.planet-symbol { font-size: 2.5rem; }
+	.station { flex-direction: column !important; gap: 40px; }
+	.data-title { font-size: 2rem; }
+	.data-content { font-size: 1.2rem; }
 }
 </style>
